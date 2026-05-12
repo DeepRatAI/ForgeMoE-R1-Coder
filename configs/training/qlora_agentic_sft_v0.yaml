@@ -1,0 +1,24 @@
+training:
+  method: qlora_agentic_sft
+  base_model: Qwen/Qwen3-Coder-30B-A3B-Instruct
+  precision:
+    base_load: 4bit
+    compute: bf16
+  sequence_length: 8192
+  max_steps: 500
+  gradient_checkpointing: true
+  save_steps: 100
+  eval_steps: 100
+
+data:
+  curriculum:
+    - code_unit_tasks
+    - bugfix_tasks
+    - multi_file_patch_tasks
+    - terminal_trace_tasks
+    - fullstack_e2e_tasks
+
+safety_budget:
+  require_max_runtime: true
+  require_s3_checkpointing: true
+  require_manifest: true

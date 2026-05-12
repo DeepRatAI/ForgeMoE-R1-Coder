@@ -1,0 +1,27 @@
+evaluation:
+  short_code:
+    - humaneval_plus
+    - mbpp_plus
+    - livecodebench_subset
+    - bigcodebench_subset
+
+  repo_agentic:
+    - swebench_lite_or_verified_subset
+    - terminal_bench_subset
+    - private_fullstack_e2e_tasks
+
+metrics:
+  - pass_at_1
+  - pass_at_k
+  - repair_at_k
+  - regression_free_patch_rate
+  - ci_green_rate
+  - cost_per_resolved_task
+  - latency_end_to_end_seconds
+
+agent_loop:
+  max_iterations: 5
+  allow_tests: true
+  allow_lint: true
+  allow_file_edits: true
+  require_patch_diff: true

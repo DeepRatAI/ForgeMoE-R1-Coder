@@ -1,0 +1,13 @@
+aws:
+  region: us-west-2
+  s3_bucket: forgemoe-coder-568844635400-us-west-2-an
+  s3_uri: s3://forgemoe-coder-568844635400-us-west-2-an
+
+s3_prefixes:
+  datasets: s3://forgemoe-coder-568844635400-us-west-2-an/datasets/
+  checkpoints: s3://forgemoe-coder-568844635400-us-west-2-an/checkpoints/
+  results: s3://forgemoe-coder-568844635400-us-west-2-an/results/
+  reports: s3://forgemoe-coder-568844635400-us-west-2-an/reports/
+  logs: s3://forgemoe-coder-568844635400-us-west-2-an/logs/
+  configs: s3://forgemoe-coder-568844635400-us-west-2-an/configs/
+  models: s3://forgemoe-coder-568844635400-us-west-2-an/models/

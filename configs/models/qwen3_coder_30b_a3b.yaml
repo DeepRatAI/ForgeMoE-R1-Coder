@@ -1,0 +1,23 @@
+model:
+  id: Qwen/Qwen3-Coder-30B-A3B-Instruct
+  role: primary_base_model
+  architecture_class: sparse_moe
+  intended_usage:
+    - baseline_eval
+    - qlora_adaptation
+    - agentic_trajectory_sft
+    - verifier_guided_generation
+    - self_repair_loop
+
+adaptation:
+  preferred_method: qlora
+  full_finetune: false
+  trainable_components:
+    - selected_attention_lora
+    - selected_mlp_lora
+    - selected_router_or_adapter_modules_if_supported
+
+constraints:
+  gpu: NVIDIA H100 80GB
+  budget_usd: 200
+  no_h100_before_pipeline_ready: true

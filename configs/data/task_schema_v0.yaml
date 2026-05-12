@@ -1,0 +1,32 @@
+schema:
+  name: forgeagent_task
+  version: v0
+
+required_fields:
+  - schema_version
+  - task_id
+  - title
+  - repo_dir
+  - test_command
+  - timeout_seconds
+
+task_types:
+  - unit_bugfix
+  - multi_file_bugfix
+  - fullstack_e2e
+  - terminal_task
+  - repo_issue_patch
+
+evaluation_contract:
+  pre_patch_tests:
+    expected: fail_or_partial
+  post_patch_tests:
+    expected: pass
+  patch_format:
+    type: unified_diff
+  metrics:
+    - pre_tests_passed
+    - patch_applied
+    - post_tests_passed
+    - elapsed_seconds
+    - reward

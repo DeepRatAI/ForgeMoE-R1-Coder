@@ -1,0 +1,27 @@
+agent_loop:
+  name: self_repair_loop_v0
+  max_iterations: 5
+  candidate_patches_per_iteration: 1
+  allow_shell_commands: true
+  allow_test_execution: true
+  allow_file_reads: true
+  allow_file_writes: true
+
+stopping_conditions:
+  - tests_passed
+  - max_iterations_reached
+  - unrecoverable_patch_error
+  - timeout
+
+signals:
+  - test_stdout
+  - test_stderr
+  - exit_code
+  - patch_diff
+  - changed_files
+  - elapsed_seconds
+
+future_model_hooks:
+  generator: open_weight_code_model
+  verifier: patch_reranker
+  reward: executable_test_reward

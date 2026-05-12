@@ -1,0 +1,38 @@
+{
+  "task_id": "toy-python-add-bugfix",
+  "run_id": "toy-python-add-bugfix-ed4636a0",
+  "work_dir": "/home/cloudshell-user/ForgeMoE-R1-Agent-Coder/tmp/toy_runs/toy-python-add-bugfix-ed4636a0",
+  "pre_test": {
+    "command": "python3 -B -m unittest discover -s tests",
+    "cwd": "/home/cloudshell-user/ForgeMoE-R1-Agent-Coder/tmp/toy_runs/toy-python-add-bugfix-ed4636a0",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "FF\n======================================================================\nFAIL: test_add_negative_numbers (test_math_utils.TestMathUtils.test_add_negative_numbers)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/cloudshell-user/ForgeMoE-R1-Agent-Coder/tmp/toy_runs/toy-python-add-bugfix-ed4636a0/tests/test_math_utils.py\", line 11, in test_add_negative_numbers\n    self.assertEqual(add(-2, -3), -5)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\nAssertionError: 1 != -5\n\n======================================================================\nFAIL: test_add_positive_numbers (test_math_utils.TestMathUtils.test_add_positive_numbers)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/cloudshell-user/ForgeMoE-R1-Agent-Coder/tmp/toy_runs/toy-python-add-bugfix-ed4636a0/tests/test_math_utils.py\", line 8, in test_add_positive_numbers\n    self.assertEqual(add(2, 3), 5)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^\nAssertionError: -1 != 5\n\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nFAILED (failures=2)\n",
+    "elapsed_seconds": 0.04877,
+    "timed_out": false,
+    "passed": false
+  },
+  "patch_applied": true,
+  "patch_apply_result": {
+    "command": "git apply /home/cloudshell-user/ForgeMoE-R1-Agent-Coder/tmp/toy_tasks/toy_python_add/patches/gold.patch",
+    "cwd": "/home/cloudshell-user/ForgeMoE-R1-Agent-Coder/tmp/toy_runs/toy-python-add-bugfix-ed4636a0",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "elapsed_seconds": 0.002619,
+    "timed_out": false,
+    "passed": true
+  },
+  "post_test": {
+    "command": "python3 -B -m unittest discover -s tests",
+    "cwd": "/home/cloudshell-user/ForgeMoE-R1-Agent-Coder/tmp/toy_runs/toy-python-add-bugfix-ed4636a0",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+    "elapsed_seconds": 0.04723,
+    "timed_out": false,
+    "passed": true
+  },
+  "reward": 1.25,
+  "elapsed_seconds": 0.115965
+}

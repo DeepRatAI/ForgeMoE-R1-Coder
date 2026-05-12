@@ -1,0 +1,10 @@
+{
+  "schema_version": "forgeagent.task.v0",
+  "task_id": "toy-python-add-bugfix",
+  "task_type": "unit_bugfix",
+  "title": "Fix incorrect add implementation",
+  "description": "The add function subtracts instead of adding. Fix it without changing tests.",
+  "repo_dir": "../repo",
+  "test_command": "python3 -B -m unittest discover -s tests",
+  "timeout_seconds": 30
+}

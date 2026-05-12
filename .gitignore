@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test/cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local virtualenvs
+.venv/
+venv/
+env/
+
+# Generated local experiment artifacts
+tmp/
+results/local/
+
+# Archives
+*.tar.gz
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/

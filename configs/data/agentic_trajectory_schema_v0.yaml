@@ -1,0 +1,51 @@
+schema:
+  name: forgeagent_agentic_trajectory_dataset
+  version: v0
+
+artifacts:
+  patch_attempts_jsonl:
+    description: All patch attempts, including failed and successful attempts.
+    usage:
+      - verifier_training
+      - reward_model_training
+      - failure_analysis
+      - rejection_sampling
+
+  sft_positive_jsonl:
+    description: Only successful patch attempts formatted as chat-style SFT examples.
+    usage:
+      - supervised_finetuning
+      - positive_demonstrations
+      - agentic_patch_generation
+
+fields:
+  patch_attempt:
+    - schema_version
+    - example_id
+    - task_id
+    - iteration
+    - patch_id
+    - patch_applied
+    - post_tests_passed
+    - reward
+    - label
+    - input
+    - output
+    - metadata
+
+  sft_positive:
+    - schema_version
+    - example_id
+    - task_id
+    - messages
+    - reward
+    - metadata
+
+labels:
+  positive: post_tests_passed == true
+  negative: post_tests_passed == false
+
+notes:
+  - This v0 exporter is model-free.
+  - It converts self-repair trajectories into training-ready JSONL.
+  - Later versions will include repo snapshots, file context, hidden tests, and model-generated patches.

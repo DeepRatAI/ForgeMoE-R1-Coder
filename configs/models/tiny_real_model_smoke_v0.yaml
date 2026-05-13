@@ -1,0 +1,37 @@
+tiny_real_model_smoke:
+  name: tiny_real_model_smoke_v0
+  purpose:
+    - validate_local_transformers_model_adapter_with_real_model_runtime
+    - verify_real_model_generation_contract
+    - record_generated_response_metadata
+    - measure_patch_parse_failure_behavior_for_non_coding_tiny_model
+
+model:
+  default_model_id: sshleifer/tiny-gpt2
+  runtime: local_transformers
+  device: cpu
+  dtype: auto
+  trust_remote_code: false
+  quality_expectation: none
+  reason: runtime_smoke_only
+
+generation:
+  max_new_tokens: 64
+  temperature: 0.0
+  top_p: 1.0
+  do_sample: false
+  num_return_sequences: 1
+  seed: 19
+
+expected_outcome:
+  model_load_ok: true
+  real_generation_ok: true
+  parse_success_required: false
+  solve_required: false
+  gpu_required: false
+  h100_purchase_required: false
+
+notes:
+  - This step intentionally uses a tiny model for runtime validation, not quality.
+  - A parse failure is acceptable and informative.
+  - Step 20 will define the first useful real-model baseline.

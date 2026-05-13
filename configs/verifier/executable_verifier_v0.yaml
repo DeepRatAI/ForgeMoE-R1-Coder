@@ -1,0 +1,30 @@
+verifier:
+  name: executable_verifier_v0
+  type: oracle_execution_reranker
+
+purpose:
+  - evaluate_multiple_patch_candidates
+  - rank_by_executable_reward
+  - select_best_patch
+  - generate_training_data_for_future_learned_verifier
+
+ranking:
+  primary_key: reward
+  tie_breakers:
+    - post_tests_passed
+    - patch_applied
+    - lower_elapsed_seconds
+
+execution:
+  isolate_each_candidate: true
+  run_tests_per_candidate: true
+  require_unified_diff: true
+
+outputs:
+  - verification.json
+
+future_extensions:
+  - learned_patch_verifier
+  - static_patch_quality_model
+  - hybrid_static_plus_execution_reranker
+  - best_of_n_model_sampling

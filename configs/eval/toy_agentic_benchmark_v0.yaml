@@ -1,0 +1,24 @@
+benchmark:
+  name: toy_agentic_patch_benchmark_v0
+  description: Minimal executable benchmark for validating batch patch evaluation.
+  task_count: 3
+
+contract:
+  input:
+    - task_json
+    - candidate_patch
+  output:
+    - per_task_result_jsonl
+    - summary_json
+
+metrics:
+  - total_tasks
+  - solved_tasks
+  - pass_rate
+  - average_reward
+  - failed_task_ids
+
+notes:
+  - This benchmark is synthetic and intentionally small.
+  - It validates the evaluator, not model capability.
+  - Real benchmarks will later include SWE-style repo tasks and Terminal-Bench-style terminal tasks.

@@ -1,0 +1,33 @@
+experiment_runner:
+  name: agentic_experiment_runner_v0
+  purpose:
+    - run_multiple_agentic_candidate_generation_tasks
+    - aggregate_solve_rate
+    - aggregate_parse_failure_rate
+    - aggregate_selected_rewards
+    - produce_reproducible_experiment_artifacts
+
+metrics:
+  task_level:
+    - solved
+    - selected_patch_id
+    - selected_reward
+    - raw_response_count
+    - parsed_candidate_count
+    - parse_failure_count
+
+  experiment_level:
+    - total_tasks
+    - solved_tasks
+    - solve_rate
+    - average_selected_reward
+    - total_parse_failures
+    - average_parsed_candidates
+
+future_extensions:
+  - pass_at_k
+  - cost_per_solved_task
+  - latency_per_task
+  - model_name
+  - decoding_params
+  - gpu_runtime_seconds

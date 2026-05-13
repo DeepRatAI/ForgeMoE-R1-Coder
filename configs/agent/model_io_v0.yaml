@@ -1,0 +1,28 @@
+model_io:
+  name: model_io_v0
+  purpose:
+    - build_agentic_patch_generation_prompts
+    - parse_model_responses_into_unified_diffs
+    - validate_patch_shape_before_execution
+
+prompting:
+  output_contract: unified_diff_only
+  include_repo_tree: true
+  include_file_context: true
+  include_pre_test_failure: true
+  include_previous_failure_feedback: true
+  max_files: 20
+  max_file_chars: 4000
+
+parsing:
+  accept_markdown_fenced_diff: true
+  accept_raw_unified_diff: true
+  require_diff_git_header: true
+  require_hunks: true
+
+future_extensions:
+  - qwen_chat_template_adapter
+  - vllm_generation_adapter
+  - sagemaker_endpoint_adapter
+  - multi_candidate_sampling
+  - tool_calling_transcript_formatter

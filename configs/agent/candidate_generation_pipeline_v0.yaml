@@ -1,0 +1,32 @@
+candidate_generation_pipeline:
+  name: candidate_generation_pipeline_v0
+  purpose:
+    - connect_model_io_to_executable_verifier
+    - parse_multiple_model_responses
+    - discard_invalid_patch_outputs
+    - rank_valid_patch_candidates
+    - select_best_executable_patch
+
+generation:
+  mode: mock_model_responses_for_v0
+  candidate_count: 3
+  allow_invalid_model_outputs: true
+
+parsing:
+  parser: forgeagentcoder.agent.patch_parser.extract_unified_diff
+  invalid_outputs_are_recorded: true
+  invalid_outputs_do_not_crash_pipeline: true
+
+verification:
+  verifier: forgeagentcoder.verifier.executable_verifier
+  ranking_primary_key: executable_reward
+
+outputs:
+  - generation_pipeline_result.json
+
+future_extensions:
+  - real_huggingface_transformers_adapter
+  - vllm_sampling_adapter
+  - sagemaker_training_or_endpoint_adapter
+  - pass_at_k_metrics
+  - learned_verifier_prefilter

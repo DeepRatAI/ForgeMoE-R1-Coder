@@ -1,0 +1,863 @@
+# ForgeMoE-R1-Agent-Coder — Engineering Decision Record
+
+Status date: 2026-05-13  
+Visibility: public-safe engineering record.  
+Sensitive data policy: do not include AWS account IDs, private keys, access tokens, support-case private correspondence, or secrets.
+
+This document records the architectural decisions, tradeoffs, bugs, fixes, and senior-engineering reasoning behind ForgeMoE-R1-Agent-Coder.
+
+It complements the private project state document. The private document may contain operational identifiers. This document should remain safe to commit to the public repository.
+
+---
+
+## 1. Final project concept
+
+ForgeMoE-R1-Agent-Coder is an evaluation-driven AI Engineering project for building, adapting, and evaluating an open-weight coding model as a fullstack software engineering agent.
+
+The project is not merely a chatbot wrapper and not merely a fine-tuning notebook. It is a reproducible agentic model-improvement system.
+
+Core loop:
+
+```text
+repository task
+  -> prompt/model I/O
+  -> model-generated patch candidates
+  -> patch parser
+  -> executable verifier/reranker
+  -> selected patch
+  -> metrics
+  -> trajectories
+  -> training/evaluation data
+  -> future SFT/RL/verifier/model adaptation
+```
+
+The long-term goal is to take the strongest code model that fits within our compute envelope and improve its fullstack agentic development behavior through measurable, reproducible, execution-based training and evaluation.
+
+---
+
+## 2. Engineering philosophy
+
+### 2.1 Evaluation before optimization
+
+We deliberately built the evaluation and experiment harness before touching model weights.
+
+Rationale:
+
+```text
+Without a reliable executable evaluator, any model tuning result is anecdotal.
+```
+
+This prevents the classic failure mode:
+
+```text
+train model -> generate appealing responses -> no objective evidence of improvement
+```
+
+The chosen strategy is:
+
+```text
+define task -> run tests -> apply patch -> run tests -> compute reward -> aggregate metrics
+```
+
+### 2.2 Executable reward over subjective preference
+
+For code tasks, execution is a strong objective signal.
+
+Primary signal:
+
+```text
+post-patch tests passed
+```
+
+Secondary signals:
+
+```text
+patch applied
+reward
+parse validity
+candidate rank
+self-repair success
+```
+
+This does not eliminate the need for hidden tests, static analysis, style checks, or human review later. It gives us the correct foundation.
+
+### 2.3 Artifact-first reproducibility
+
+Every meaningful step produces:
+
+```text
+source commit
+local doctor
+S3 output artifact
+S3 manifest
+run registry entry
+```
+
+This means a future engineer or agent can reconstruct what happened.
+
+---
+
+## 3. Architecture planes
+
+### Plane A — Task and evaluation plane
+
+Responsible for:
+
+```text
+task schema
+repo isolation
+test execution
+patch application
+reward calculation
+batch evaluation
+```
+
+Implemented by:
+
+```text
+forgeagentcoder.data.task_schema
+forgeagentcoder.eval.command_runner
+forgeagentcoder.eval.patch_task_eval
+forgeagentcoder.eval.batch_eval
+forgeagentcoder.rewards.code_rewards
+```
+
+### Plane B — Agent loop plane
+
+Responsible for:
+
+```text
+self-repair attempts
+candidate patches
+iteration state
+trajectory output
+```
+
+Implemented by:
+
+```text
+forgeagentcoder.agent.patch_provider
+forgeagentcoder.agent.self_repair
+forgeagentcoder.agent.loop_state
+```
+
+### Plane C — Model I/O plane
+
+Responsible for:
+
+```text
+repo context collection
+prompt construction
+raw model response handling
+unified diff extraction
+patch-shape validation
+```
+
+Implemented by:
+
+```text
+forgeagentcoder.agent.prompt_builder
+forgeagentcoder.agent.patch_parser
+forgeagentcoder.agent.mock_model
+```
+
+### Plane D — Verification and selection plane
+
+Responsible for:
+
+```text
+candidate evaluation
+executable reranking
+best-of-N patch selection
+parse failure tracking
+```
+
+Implemented by:
+
+```text
+forgeagentcoder.verifier.executable_verifier
+forgeagentcoder.agent.candidate_pipeline
+```
+
+### Plane E — Experiment control plane
+
+Responsible for:
+
+```text
+multi-task experiments
+aggregate metrics
+run registry
+artifact lineage
+```
+
+Implemented by:
+
+```text
+forgeagentcoder.eval.experiment_runner
+forgeagentcoder.utils.run_registry
+```
+
+### Plane F — Future model adaptation plane
+
+Not fully implemented yet.
+
+Planned components:
+
+```text
+ModelAdapter protocol
+LocalTransformersModelAdapter
+SageMakerModelAdapter
+vLLMModelAdapter
+training recipes
+SFT datasets
+preference/reward datasets
+QLoRA/LoRA training
+base-vs-tuned evaluation
+```
+
+---
+
+## 4. ADRs
+
+### ADR-0001 — Use code tasks because execution gives objective feedback
+
+Decision:
+
+```text
+Specialize the project around coding-agent tasks instead of generic chat quality.
+```
+
+Reasoning:
+
+```text
+Code can be tested. A patch can be applied. A result can be measured.
+```
+
+Tradeoff:
+
+```text
+The project becomes more engineering-heavy and less demo-friendly, but the results are more defensible.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0002 — Use unified diff as the model output contract
+
+Decision:
+
+```text
+Require model outputs to resolve to unified diff patches.
+```
+
+Reasoning:
+
+```text
+Unified diff is compatible with git apply, repo-level editing, and executable evaluation.
+```
+
+Tradeoff:
+
+```text
+Some models may prefer prose or complete files. We reject or parse those outputs unless they contain a valid patch.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0003 — Build model-free infrastructure before using GPU
+
+Decision:
+
+```text
+Build evaluator, verifier, pipeline, experiment runner, and registry before downloading or tuning a large model.
+```
+
+Reasoning:
+
+```text
+GPU time is expensive. Training without a measurement harness is low-signal.
+```
+
+Tradeoff:
+
+```text
+Initial progress feels slower because no model is being trained yet. The resulting system is far more reliable.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0004 — Separate source code from generated artifacts
+
+Decision:
+
+```text
+Use GitHub for source code and S3 for generated artifacts, results, manifests, and tar snapshots.
+```
+
+Reasoning:
+
+```text
+Large/generated artifacts should not pollute the repository.
+```
+
+Tradeoff:
+
+```text
+Requires S3 discipline and registry tracking.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0005 — Use executable verifier before learned verifier
+
+Decision:
+
+```text
+Start with an oracle executable verifier that actually runs tests.
+```
+
+Reasoning:
+
+```text
+A learned verifier needs labels. Executable verification generates reliable labels and ranking data.
+```
+
+Tradeoff:
+
+```text
+Execution is slower than static scoring, but it is more trustworthy at this stage.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0006 — Support invalid model outputs explicitly
+
+Decision:
+
+```text
+Track parse failures instead of crashing when a model response is not a valid patch.
+```
+
+Reasoning:
+
+```text
+Real models often return prose, markdown, malformed diffs, or partial code. The pipeline must measure that.
+```
+
+Tradeoff:
+
+```text
+The pipeline becomes more complex, but experiments become more realistic.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0007 — Use best-of-N candidate selection
+
+Decision:
+
+```text
+Generate multiple patch candidates and use a verifier/reranker to select the best one.
+```
+
+Reasoning:
+
+```text
+Agentic coding performance can improve with test-time compute and candidate selection.
+```
+
+Tradeoff:
+
+```text
+More candidates cost more inference and execution time.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0008 — Export trajectories as future training data
+
+Decision:
+
+```text
+Convert self-repair attempts into patch_attempts.jsonl and sft_positive.jsonl.
+```
+
+Reasoning:
+
+```text
+Failed attempts are useful for verifier/reward learning. Successful attempts are useful for SFT.
+```
+
+Tradeoff:
+
+```text
+Toy data is not enough for training, but it validates the data contract.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0009 — Create run registry before real model integration
+
+Decision:
+
+```text
+Create a central registry of runs, metrics, manifests, and S3 artifacts before using real models.
+```
+
+Reasoning:
+
+```text
+Real model experiments introduce many variables. Without a registry, lineage is lost.
+```
+
+Tradeoff:
+
+```text
+Adds bookkeeping before visible model progress, but avoids confusion later.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0010 — Keep private operational state separate from public engineering records
+
+Decision:
+
+```text
+Maintain a private handoff document outside the repo and a public-safe engineering decision record inside the repo.
+```
+
+Reasoning:
+
+```text
+The project needs complete context, but credentials and operational identifiers must not be public.
+```
+
+Tradeoff:
+
+```text
+Two documents must be maintained.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0011 — ModelAdapter must be introduced before real model baseline
+
+Decision:
+
+```text
+Step 18 introduces a model adapter abstraction before running any real model.
+```
+
+Reasoning:
+
+```text
+The pipeline should not depend on a specific runtime such as local Transformers, SageMaker, or vLLM.
+```
+
+Tradeoff:
+
+```text
+One more abstraction layer, but future portability is much better.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+### ADR-0012 — MoE is not the first implementation milestone
+
+Decision:
+
+```text
+Keep MoE as a possible advanced model-side path, but do not start there.
+```
+
+Reasoning:
+
+```text
+MoE architecture work is expensive and not useful until we have baselines, datasets, and evaluation. The current higher-leverage route is agentic adaptation around executable feedback.
+```
+
+Tradeoff:
+
+```text
+The project name references MoE/R1 ambition, but the first serious engineering milestone is reproducible agentic coding improvement.
+```
+
+Status:
+
+```text
+Accepted
+```
+
+---
+
+## 5. Bugs, failures, and fixes
+
+### BUG-0001 — Python bytecode cache caused stale post-patch test results
+
+Symptom:
+
+```text
+Patch applied successfully, but post-patch tests still behaved like the old code.
+```
+
+Root cause:
+
+```text
+Python reused stale bytecode/cache after fast file modification.
+```
+
+Fix:
+
+```text
+Use python3 -B for tests.
+Remove __pycache__ and .pyc files before tests.
+```
+
+Lesson:
+
+```text
+Evaluation harnesses must control language runtime caches.
+```
+
+---
+
+### BUG-0002 — Generated artifacts were accidentally committed
+
+Symptom:
+
+```text
+tmp/, results/local/, __pycache__, and embedded toy .git directories entered git index.
+```
+
+Root cause:
+
+```text
+git add . was used before .gitignore was mature.
+```
+
+Fix:
+
+```text
+Add .gitignore rules.
+Remove generated files from git index.
+Use git archive for clean release tarballs.
+```
+
+Lesson:
+
+```text
+Generated local execution artifacts must never become source artifacts.
+```
+
+---
+
+### BUG-0003 — Pasted terminal output created garbage files
+
+Symptom:
+
+```text
+Files named BASH, HEAD, main, --output, aws, git, if, etc. appeared in the repo.
+```
+
+Root cause:
+
+```text
+Terminal output or partial scripts were pasted into CloudShell as commands.
+```
+
+Fix:
+
+```text
+Use smaller command blocks.
+Use downloadable shell scripts for long operations.
+Use git clean -fd only after dry-run review.
+```
+
+Lesson:
+
+```text
+Operational ergonomics matter. Agent instructions must be copy-safe.
+```
+
+---
+
+### BUG-0004 — EC2 P instance quota was denied
+
+Symptom:
+
+```text
+AWS did not approve On-Demand P instance quota at first request.
+```
+
+Root cause:
+
+```text
+New/low-activity AWS accounts often need gradual quota ramp-up and detailed use case justification.
+```
+
+Fix:
+
+```text
+Continue model-free development.
+Prepare appeal text.
+Avoid depending on H100 access before the software stack is ready.
+```
+
+Lesson:
+
+```text
+Compute availability is a project risk. Architecture must degrade gracefully.
+```
+
+---
+
+### BUG-0005 — Raw model response may contain prose instead of patch
+
+Symptom:
+
+```text
+Candidate response contains explanation but no unified diff.
+```
+
+Root cause:
+
+```text
+Language models do not always follow output contracts.
+```
+
+Fix:
+
+```text
+Patch parser raises structured parse failure.
+Candidate pipeline records invalid outputs and continues with valid candidates.
+```
+
+Lesson:
+
+```text
+Real model integration must treat malformed outputs as a measurable outcome, not an exceptional surprise.
+```
+
+---
+
+## 6. Interview-grade design answers
+
+### Why did we build the evaluator before training?
+
+Because model improvement must be measurable. Without executable evaluation, training changes can only be judged subjectively.
+
+### Why use patches instead of free-form answers?
+
+Because patches are actionable, testable, and compatible with real engineering workflows.
+
+### Why use an executable verifier?
+
+Because a verifier that runs tests gives us trustworthy labels and ranking signals. Learned verifiers can come later.
+
+### Why not start directly with MoE?
+
+Because MoE architecture work is costly and hard to evaluate without a baseline, dataset, and execution harness. The project first builds the system needed to prove improvement.
+
+### How do we avoid wasting GPU budget?
+
+By validating the full model-free pipeline first, recording every run, and only launching GPU work when experiments are designed and measurable.
+
+### How does this become training data?
+
+Self-repair and candidate-generation trajectories produce positive and negative patch attempts. These can feed SFT, verifier training, rejection sampling, and future execution-feedback optimization.
+
+### What makes this senior-level?
+
+The project separates concerns, records tradeoffs, validates assumptions with doctors, preserves reproducibility, tracks artifacts, handles failure modes, and delays expensive optimization until measurement exists.
+
+---
+
+## 7. Current state summary
+
+Completed foundation:
+
+```text
+Step 8  — AWS-native scaffold
+Step 9  — patch evaluator
+Step 10 — batch benchmark
+Step 11 — self-repair loop
+Step 12 — trajectory dataset exporter
+Step 13 — executable verifier
+Step 14 — model I/O layer
+Step 15 — candidate generation pipeline
+Step 16 — experiment runner
+Step 17 — run registry
+Step 17.5 — private project state document
+Step 17.6 — public-safe engineering decision record
+```
+
+Current latest source commit before this document:
+
+```text
+39b2773 Add run registry index
+```
+
+This document should be committed as the next source commit.
+
+---
+
+## 8. Next engineering phase
+
+### Step 18 — Real model adapter v0
+
+Planned components:
+
+```text
+ModelAdapter protocol
+GenerationConfig
+GeneratedResponse
+MockModelAdapter migration
+LocalTransformersModelAdapter skeleton
+runtime metadata
+generation parameter tracking
+```
+
+### Step 19 — Tiny real model smoke test
+
+Goal:
+
+```text
+Run a very small model through the existing pipeline without H100.
+```
+
+### Step 20 — Real model baseline
+
+Goal:
+
+```text
+Run the selected baseline model through toy and early real agentic tasks.
+```
+
+### Step 21+ — Dataset and training
+
+Goal:
+
+```text
+Move from toy tasks to real repo tasks, then prepare QLoRA/SFT and future RL-style optimization.
+```
+
+---
+
+## 9. SOTA-oriented target design
+
+The system should evolve toward:
+
+```text
+evaluation-driven coding agent improvement
+best-of-N generation
+executable verification
+trajectory mining
+positive/negative sample export
+SFT on successful patches
+verifier training on ranked candidates
+preference/reward optimization from execution outcomes
+self-repair with feedback
+base-vs-tuned reproducible evaluation
+```
+
+MoE remains a possible later path. It should be considered only after we establish:
+
+```text
+real baseline
+real task dataset
+real evaluation suite
+first tuning loop
+clear bottleneck that routing/specialization would solve
+```
+
+---
+
+## 10. Maintenance policy
+
+Update this document when:
+
+```text
+a major architecture decision is made
+a meaningful bug/failure is found
+a model/runtime path is selected
+a training approach is selected
+AWS/GPU strategy changes
+a benchmark result changes the project direction
+```
+
+Do not include:
+
+```text
+AWS access keys
+GitHub tokens
+SSH private keys
+passwords
+MFA codes
+private support correspondence
+raw credentials
+```

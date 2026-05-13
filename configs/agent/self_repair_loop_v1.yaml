@@ -1,0 +1,31 @@
+agent_loop:
+  name: self_repair_loop_v1
+  max_iterations: 3
+  candidate_patches_per_iteration: 1
+
+execution:
+  isolate_each_attempt: true
+  run_pre_tests_each_attempt: true
+  run_post_tests_each_attempt: true
+  timeout_seconds_default: 30
+
+stopping_conditions:
+  - tests_passed
+  - max_iterations_reached
+  - patch_apply_failure_exhausted
+
+trajectory_fields:
+  - task_id
+  - iteration
+  - patch_id
+  - patch_applied
+  - post_tests_passed
+  - reward
+  - stdout
+  - stderr
+
+future_model_hooks:
+  patch_generator: model_generate_unified_diff
+  verifier: rank_candidate_patches
+  reward_model: executable_test_reward
+  memory: prior_failure_summary

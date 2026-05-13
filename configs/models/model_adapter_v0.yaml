@@ -1,0 +1,61 @@
+model_adapter:
+  name: model_adapter_v0
+  purpose:
+    - create_runtime_independent_model_generation_contract
+    - support_mock_local_transformers_sagemaker_and_vllm_future_runtimes
+    - preserve_generation_metadata_for_reproducible_agentic_experiments
+    - decouple_agent_pipeline_from_specific_model_backends
+
+contracts:
+  input:
+    type: chat_messages
+    schema:
+      - role
+      - content
+
+  output:
+    type: generated_responses
+    required_fields:
+      - response_id
+      - text
+      - model_id
+      - adapter_name
+      - generation_config
+      - metadata
+      - latency_seconds
+
+generation_config:
+  tracked_fields:
+    - max_new_tokens
+    - temperature
+    - top_p
+    - top_k
+    - do_sample
+    - num_return_sequences
+    - stop_sequences
+    - seed
+    - repetition_penalty
+
+adapters:
+  implemented:
+    - DeterministicMockModelAdapter
+    - LocalTransformersModelAdapter_skeleton
+
+  future:
+    - SageMakerModelAdapter
+    - VLLMHTTPModelAdapter
+    - OpenAICompatibleModelAdapter
+    - BedrockModelAdapter
+
+design_rules:
+  - candidate_pipeline_must_not_depend_on_a_specific_runtime
+  - malformed_model_outputs_must_be_measured
+  - generation_parameters_must_be_recorded
+  - model_metadata_must_be_attached_to_outputs
+  - large_model_loading_must_not_happen_in_doctors
+
+step18_scope:
+  real_model_download: false
+  gpu_required: false
+  h100_purchase_required: false
+  purpose: adapter_contract_and_mock_compatibility

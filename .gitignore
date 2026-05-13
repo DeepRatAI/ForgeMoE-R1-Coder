@@ -26,3 +26,6 @@ results/local/
 .DS_Store
 .vscode/
 .idea/
+
+# Generated local reports
+reports/local/

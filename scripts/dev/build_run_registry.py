@@ -47,8 +47,8 @@ def main() -> None:
 
     print(json.dumps(summary, indent=2))
 
-    if len(registry.entries) != 8:
-        raise SystemExit("Expected 8 registry entries for steps 9-16")
+    if len(registry.entries) != 11:
+        raise SystemExit("Expected 11 registry entries for steps 9-18 including Step 17.6")
 
     print("RUN_REGISTRY_BUILD_OK")
 

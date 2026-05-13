@@ -144,3 +144,61 @@ Long-term:
 ```text
 open-weight code model behaves as a stronger fullstack development agent after targeted adaptation
 ```
+
+---
+
+## 8. Post-Step-18 recap
+
+### Step 18 — Real Model Adapter v0: completed
+
+Step 18 introduced the runtime-independent model boundary.
+
+Implemented:
+
+```text
+GenerationConfig
+ModelMetadata
+GeneratedResponse
+ModelAdapter protocol
+DeterministicMockModelAdapter
+LocalTransformersModelAdapter skeleton
+GeneratedResponse -> RawModelResponse bridge
+ADR-0013 model runtime boundary
+```
+
+Validated behavior:
+
+```text
+generated_response_count = 3
+parse_failure_count = 1
+selected_patch_id = mock_good_max2_candidate_2
+solved = true
+reward = 1.25
+```
+
+### Strategic interpretation
+
+The project is now positioned as a portable agentic model-improvement platform.
+
+The system should be able to move across:
+
+```text
+AWS
+SageMaker
+EC2
+GCP / Vertex AI
+vLLM servers
+RunPod-like GPU providers
+local development environments
+```
+
+without changing the core evaluator or experiment semantics.
+
+### Immediate next step
+
+```text
+Step 19 — Tiny real model smoke test
+```
+
+The objective is not quality. The objective is proving that real model generation flows through the same contract as mock generation.
+

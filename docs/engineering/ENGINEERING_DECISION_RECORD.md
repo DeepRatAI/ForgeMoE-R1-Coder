@@ -861,3 +861,121 @@ MFA codes
 private support correspondence
 raw credentials
 ```
+
+---
+
+## 11. Post-Step-18 engineering update
+
+### ADR-0014 — Backend portability and evaluation-invariant design
+
+Status: Accepted  
+Date: 2026-05-13
+
+#### Context
+
+After Step 18, the project crossed from model-free infrastructure into the model-runtime boundary. The risk at this point is accidentally coupling the agentic improvement system to a single provider, GPU type, model runtime, or cloud environment.
+
+#### Decision
+
+ForgeMoE-R1-Agent-Coder must remain backend-portable, model-runtime-portable, artifact-reproducible, and evaluation-invariant.
+
+The stable core is:
+
+```text
+task schema
+prompt/model I/O
+candidate generation
+patch parser
+executable verifier
+experiment runner
+trajectory exporter
+run registry
+```
+
+The replaceable execution layer is:
+
+```text
+local Transformers
+SageMaker
+EC2
+vLLM
+Google Vertex AI
+RunPod/Lambda/Paperspace
+OpenAI-compatible endpoints
+future custom clusters
+```
+
+#### Rationale
+
+The project needs GPU resources, but GPU access must not define the architecture. Cloud quotas and provider availability are operational variables, not core assumptions.
+
+#### Tradeoff
+
+This requires additional adapters and metadata discipline. The benefit is that model experiments can migrate across runtimes without rewriting the evaluator, verifier, registry, or data pipeline.
+
+#### Consequences
+
+Every real model experiment must record:
+
+```text
+model_id
+adapter_name
+runtime
+generation_config
+raw outputs
+parsed candidates
+verification results
+experiment metrics
+artifact URIs
+source commit
+```
+
+#### Senior-level implication
+
+The system is designed as an agentic model-improvement factory, not a one-off fine-tuning notebook.
+
+---
+
+### ADR-0015 — Step 19 should validate real generation, not quality
+
+Status: Accepted  
+Date: 2026-05-13
+
+#### Context
+
+Step 18 introduced the ModelAdapter contract and validated it with deterministic generation. The next engineering step is to cross the boundary into real model generation.
+
+#### Decision
+
+Step 19 will use a tiny real model smoke test. Its goal is runtime validation, not agentic quality.
+
+Step 19 success criteria:
+
+```text
+install/load minimal model dependencies
+load a tiny model or controlled real runtime
+generate text through ModelAdapter
+save GeneratedResponse records
+bridge into candidate pipeline
+record parse failures if output is malformed
+upload artifacts
+create manifest
+avoid H100 spend
+```
+
+#### Rationale
+
+A tiny model is not expected to solve fullstack coding tasks. The purpose is to validate the adapter boundary against a real runtime before scaling to larger models.
+
+#### Consequences
+
+Step 20 should be the first real baseline step. Step 19 is only a runtime smoke test.
+
+---
+
+### Current project definition after Step 18
+
+ForgeMoE-R1-Agent-Coder is a reproducible and portable AI Engineering system for transforming open-weight coding models into specialized fullstack agentic development models through executable evaluation, candidate generation, verification, trajectory mining, SFT/verifier/reward data generation, and future tuning.
+
+The model is an output of the system. The system itself is the higher-value artifact.
+

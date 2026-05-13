@@ -209,6 +209,71 @@ def build_run_registry(*, bucket: str, git_commit: str) -> RunRegistry:
             gpu_required=False,
             h100_purchase_required=False,
         ),
+        RunRegistryEntry(
+            step=17,
+            name="run_registry_index",
+            status="ok",
+            category="experiment_control",
+            git_commit=git_commit,
+            manifest_s3=s3(bucket, "reports/step17_run_registry_manifest.json"),
+            artifact_s3=s3(bucket, "configs/project_scaffold/forgemoe_r1_agent_coder_step17_run_registry_v0.tar.gz"),
+            primary_results_s3=[
+                s3(bucket, "reports/run_registry.json"),
+                s3(bucket, "reports/run_registry.md"),
+            ],
+            metrics={
+                "registry_version": "v0",
+                "entry_count_at_creation": 8,
+                "covered_steps_at_creation": "9-16",
+            },
+            gpu_required=False,
+            h100_purchase_required=False,
+        ),
+        RunRegistryEntry(
+            step=176,
+            name="engineering_decision_records",
+            status="ok",
+            category="engineering_documentation",
+            git_commit=git_commit,
+            manifest_s3=s3(bucket, "reports/step17_6_engineering_records_manifest.json"),
+            artifact_s3=s3(bucket, "configs/project_scaffold/forgemoe_r1_agent_coder_step17_6_engineering_records_v0.tar.gz"),
+            primary_results_s3=[
+                s3(bucket, "reports/step17_6_engineering_records_manifest.json"),
+            ],
+            metrics={
+                "adr_min_count": 12,
+                "bug_min_count": 5,
+                "commit": "6611e43",
+            },
+            gpu_required=False,
+            h100_purchase_required=False,
+        ),
+        RunRegistryEntry(
+            step=18,
+            name="real_model_adapter_contract",
+            status="ok",
+            category="model_runtime_boundary",
+            git_commit=git_commit,
+            manifest_s3=s3(bucket, "reports/step18_model_adapter_manifest.json"),
+            artifact_s3=s3(bucket, "configs/project_scaffold/forgemoe_r1_agent_coder_step18_model_adapter_v0.tar.gz"),
+            primary_results_s3=[
+                s3(bucket, "results/18_model_adapter/toy_model_adapter_v0/prompt_messages.json"),
+                s3(bucket, "results/18_model_adapter/toy_model_adapter_v0/generated_responses.jsonl"),
+                s3(bucket, "results/18_model_adapter/toy_model_adapter_v0/candidate_pipeline_result.json"),
+                s3(bucket, "results/18_model_adapter/toy_model_adapter_v0/model_adapter_result.json"),
+            ],
+            metrics={
+                "generated_response_count": 3,
+                "parse_failure_count": 1,
+                "selected_patch_id": "mock_good_max2_candidate_2",
+                "solved": True,
+                "reward": 1.25,
+                "real_model_downloaded": False,
+            },
+            gpu_required=False,
+            h100_purchase_required=False,
+        ),
+
     ]
 
     return RunRegistry(

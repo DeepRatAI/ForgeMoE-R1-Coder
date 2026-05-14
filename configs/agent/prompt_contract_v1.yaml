@@ -1,0 +1,42 @@
+prompt_contract_v1:
+  name: strict_unified_diff_patch_contract_v1
+  purpose:
+    - improve_patch_applicability
+    - reduce_wrong_file_edits
+    - reduce_hallucinated_context
+    - establish_prompt_interface_before_training
+
+  hard_rules:
+    - output_only_unified_diff
+    - no_markdown_fences
+    - no_prose
+    - edit_only_allowed_files
+    - preserve_existing_paths
+    - do_not_create_new_files_unless_explicitly_required
+    - every_hunk_must_modify_existing_context
+    - every_hunk_should_include_minus_and_plus_lines
+    - prefer_minimal_patch
+
+  target_baseline:
+    previous_step: step20_qwen_code_model_baseline_v0
+    previous_model: Qwen/Qwen2.5-Coder-0.5B-Instruct
+    previous_total_tasks: 3
+    previous_parsed_candidate_count: 3
+    previous_parse_failure_count: 0
+    previous_patch_apply_success_count: 0
+    previous_solved_tasks: 0
+
+  success_criteria:
+    required_for_step_success:
+      - model_load_ok
+      - real_generation_ok
+      - total_tasks_eq_3
+      - artifacts_written
+    measured_not_required:
+      - patch_apply_success_count
+      - solved_tasks
+      - solve_rate
+      - improvement_vs_step20
+
+gpu_required: false
+h100_purchase_required: false

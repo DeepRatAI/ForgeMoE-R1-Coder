@@ -1,0 +1,18 @@
+patch_hygiene_v0:
+  name: patch_hygiene_diff_validity_layer_v0
+  source_step: 21
+  source_experiment: qwen2_5_coder_0_5b_prompt_contract_v1
+  purpose:
+    - classify_model_patch_outputs_before_git_apply
+    - detect_markdown_fence_leakage
+    - detect_prose_leakage
+    - detect_no_change_hunks
+    - prepare_structured_edit_intent_contract
+  success_criteria:
+    required:
+      - classify_all_step21_outputs
+      - emit_json_report
+      - emit_markdown_report
+      - emit_manifest
+  gpu_required: false
+  h100_purchase_required: false

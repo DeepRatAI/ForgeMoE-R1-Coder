@@ -202,3 +202,39 @@ Step 19 — Tiny real model smoke test
 
 The objective is not quality. The objective is proving that real model generation flows through the same contract as mock generation.
 
+
+---
+
+## Post-Step 19 status
+
+The project has now crossed the first real-runtime boundary.
+
+Completed real model smoke:
+
+```text
+model_id = sshleifer/tiny-gpt2
+runtime = local_transformers
+device = cpu
+model_load_ok = true
+real_generation_ok = true
+generated_response_count = 1
+parsed_candidate_count = 0
+parse_failure_count = 1
+solve_required = false
+```
+
+This validates the model adapter layer with a real Transformers model. It does not establish coding quality.
+
+The next phase is Step 20: first useful real code-model baseline.
+
+Step 20 should select a real code model that can run under current constraints, produce reproducible outputs, and establish baseline metrics for:
+
+```text
+parse_validity_rate
+solve_rate
+reward
+latency
+generated_response_count
+candidate_pipeline_attempted
+candidate_pipeline_solved
+```

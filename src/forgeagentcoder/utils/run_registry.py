@@ -274,6 +274,35 @@ def build_run_registry(*, bucket: str, git_commit: str) -> RunRegistry:
             h100_purchase_required=False,
         ),
 
+
+        RunRegistryEntry(
+            step=19,
+            name="tiny_real_model_smoke",
+            status="ok",
+            category="real_model_runtime",
+            git_commit=git_commit,
+            manifest_s3=s3(bucket, "reports/step19_tiny_real_model_smoke_manifest.json"),
+            artifact_s3=s3(bucket, "configs/project_scaffold/forgemoe_r1_agent_coder_step19_tiny_real_model_smoke_v0.tar.gz"),
+            primary_results_s3=[
+                s3(bucket, "results/19_tiny_real_model_smoke/sshleifer_tiny-gpt2/prompt_messages.json"),
+                s3(bucket, "results/19_tiny_real_model_smoke/sshleifer_tiny-gpt2/generated_responses.jsonl"),
+                s3(bucket, "results/19_tiny_real_model_smoke/sshleifer_tiny-gpt2/parse_failures.json"),
+                s3(bucket, "results/19_tiny_real_model_smoke/sshleifer_tiny-gpt2/tiny_real_model_smoke_result.json"),
+            ],
+            metrics={
+                "model_id": "sshleifer/tiny-gpt2",
+                "runtime": "local_transformers",
+                "device": "cpu",
+                "model_load_ok": True,
+                "real_generation_ok": True,
+                "generated_response_count": 1,
+                "parsed_candidate_count": 0,
+                "parse_failure_count": 1,
+                "solve_required": False,
+            },
+            gpu_required=False,
+            h100_purchase_required=False,
+        ),
     ]
 
     return RunRegistry(

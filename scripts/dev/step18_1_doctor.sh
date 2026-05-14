@@ -32,8 +32,8 @@ data = json.loads(Path("reports/local/run_registry.json").read_text())
 entries = data["entries"]
 steps = [entry["step"] for entry in entries]
 
-assert len(entries) == 11, entries
-assert steps == [9, 10, 11, 12, 13, 14, 15, 16, 17, 176, 18], steps
+assert len(entries) == 12, entries
+assert steps == [9, 10, 11, 12, 13, 14, 15, 16, 17, 176, 18, 19], steps
 
 by_step = {entry["step"]: entry for entry in entries}
 assert by_step[18]["name"] == "real_model_adapter_contract", by_step[18]

@@ -979,3 +979,37 @@ ForgeMoE-R1-Agent-Coder is a reproducible and portable AI Engineering system for
 
 The model is an output of the system. The system itself is the higher-value artifact.
 
+
+---
+
+## Step 19 transition — first real model runtime
+
+Step 19 completed the first real model runtime smoke test through `LocalTransformersModelAdapter`.
+
+This was intentionally not a quality benchmark. The selected model, `sshleifer/tiny-gpt2`, is a tiny text-generation model used only to validate runtime mechanics.
+
+Observed result:
+
+```text
+model_load_ok = true
+real_generation_ok = true
+generated_response_count = 1
+parsed_candidate_count = 0
+parse_failure_count = 1
+candidate_pipeline_attempted = false
+solve_required = false
+```
+
+Engineering interpretation:
+
+```text
+The project crossed from deterministic mock generation to real model generation.
+The adapter boundary is now proven with an actual Transformers runtime.
+The next phase must use a meaningful code model and evaluate patch validity and solve rate.
+```
+
+Related ADR:
+
+```text
+ADR-0017 — First Real Model Runtime Before Useful Baseline
+```

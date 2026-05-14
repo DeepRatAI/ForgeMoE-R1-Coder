@@ -1,0 +1,49 @@
+qwen2_5_coder_0_5b_baseline:
+  name: qwen2_5_coder_0_5b_baseline_v0
+  purpose:
+    - first_useful_real_code_model_baseline
+    - measure_patch_parseability
+    - measure_candidate_pipeline_behavior
+    - establish_base_model_reference_before_tuning
+
+model:
+  model_id: Qwen/Qwen2.5-Coder-0.5B-Instruct
+  runtime: local_transformers
+  device: cpu
+  dtype: auto
+  trust_remote_code: false
+  model_family: Qwen2.5-Coder
+  size_class: 0.5B
+  quality_expectation: modest
+  reason:
+    - smallest_practical_code_instruct_model_for_cpu_bound_baseline
+    - validates_code_model_behavior_before_large_gpu_runs
+
+generation:
+  max_new_tokens: 192
+  temperature: 0.0
+  top_p: 1.0
+  do_sample: false
+  num_return_sequences: 1
+  seed: 20
+
+tasks:
+  suite_name: toy_patch_baseline_v0
+  count: 3
+  task_types:
+    - unit_bugfix
+  solve_required_for_step_success: false
+
+metrics:
+  required:
+    - total_tasks
+    - generated_response_count
+    - parsed_candidate_count
+    - parse_failure_count
+    - candidate_pipeline_attempted_count
+    - solved_tasks
+    - solve_rate
+    - elapsed_seconds
+
+gpu_required: false
+h100_purchase_required: false

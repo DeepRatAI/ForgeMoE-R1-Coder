@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VENV="${FORGEMOE_STEP24_VENV:-/tmp/forgemoe-step20-venv}"
+
+echo "=== Step 24 doctor ==="
+"${VENV}/bin/python" --version
+echo
+
+echo "=== Dependency check ==="
+"${VENV}/bin/python" - <<'PY'
+import torch
+import transformers
+print("torch:", torch.__version__)
+print("transformers:", transformers.__version__)
+print("cuda_available:", torch.cuda.is_available())
+PY
+echo
+
+echo "=== Compile source ==="
+"${VENV}/bin/python" -m compileall -q \
+  src/forgeagentcoder/agent/edit_intent.py \
+  src/forgeagentcoder/models/local_transformers_adapter.py \
+  scripts/dev/run_qwen2_5_coder_structured_intent.py
+echo "compileall: OK"
+echo
+
+echo "=== Run Qwen structured intent baseline ==="
+PYTHONPATH=src \
+HF_HOME="${HF_HOME:-/tmp/forgemoe-hf-cache}" \
+HF_HUB_CACHE="${HF_HUB_CACHE:-/tmp/forgemoe-hf-cache/hub}" \
+FORGEMOE_STEP24_MODEL_ID="${FORGEMOE_STEP24_MODEL_ID:-Qwen/Qwen2.5-Coder-0.5B-Instruct}" \
+"${VENV}/bin/python" scripts/dev/run_qwen2_5_coder_structured_intent.py
+echo
+
+RESULT_DIR="results/local/qwen2_5_coder_0_5b_structured_intent_v0"
+
+test -f "${RESULT_DIR}/summary.json"
+test -f "${RESULT_DIR}/task_results.jsonl"
+test -f "${RESULT_DIR}/all_generated_responses.jsonl"
+
+"${VENV}/bin/python" - <<'PY'
+import json
+from pathlib import Path
+
+root = Path("results/local/qwen2_5_coder_0_5b_structured_intent_v0")
+summary = json.loads((root / "summary.json").read_text())
+rows = [json.loads(line) for line in (root / "task_results.jsonl").read_text().strip().splitlines()]
+
+assert summary["schema_version"] == "forgeagent.qwen_structured_intent_baseline.v0", summary
+assert summary["model_id"] == "Qwen/Qwen2.5-Coder-0.5B-Instruct", summary
+assert summary["model_load_ok"] is True, summary
+assert summary["real_generation_ok"] is True, summary
+assert summary["total_tasks"] == 3, summary
+assert summary["generated_response_count"] == 3, summary
+assert len(rows) == 3, rows
+assert 0.0 <= summary["solve_rate"] <= 1.0, summary
+
+print("qwen_structured_intent_summary: OK")
+print("total_tasks:", summary["total_tasks"])
+print("generated_response_count:", summary["generated_response_count"])
+print("json_parse_success_count:", summary["json_parse_success_count"])
+print("valid_intent_count:", summary["valid_intent_count"])
+print("canonical_patch_count:", summary["canonical_patch_count"])
+print("patch_apply_success_count:", summary["patch_apply_success_count"])
+print("solved_tasks:", summary["solved_tasks"])
+print("solve_rate:", summary["solve_rate"])
+print("elapsed_seconds:", summary["elapsed_seconds"])
+PY
+
+echo
+echo "STEP24_DOCTOR_OK"

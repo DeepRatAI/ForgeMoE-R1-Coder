@@ -1,0 +1,31 @@
+qwen2_5_coder_0_5b_structured_intent_v0:
+  model_id: Qwen/Qwen2.5-Coder-0.5B-Instruct
+  runtime: local_transformers
+  device: cpu
+  adapter_contract: structured_edit_intent_v0
+
+  objective:
+    - test_whether_real_model_can_emit_structured_edit_intent_json
+    - avoid_raw_unified_diff_generation
+    - build_canonical_patch_system_side
+    - measure_parse_validity_patch_apply_and_solve_rate
+
+  generation_config:
+    max_new_tokens: 384
+    temperature: 0.0
+    top_p: 1.0
+    do_sample: false
+    num_return_sequences: 1
+    seed: 24
+
+  expected_outcomes:
+    minimum_required:
+      - model_load_ok
+      - real_generation_ok
+      - structured_report_emitted
+    not_required:
+      - all_tasks_solved
+      - gpu_available
+
+gpu_required: false
+h100_purchase_required: false

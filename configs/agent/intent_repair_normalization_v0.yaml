@@ -1,0 +1,37 @@
+intent_repair_normalization_v0:
+  name: intent_repair_and_normalization_v0
+  purpose:
+    - repair_structured_intents_that_parse_as_json_but_fail_semantic_validation
+    - normalize_find_text_from_grounded_prompt_context
+    - normalize_replace_text_from_task_context_when_model_output_is_non_code
+    - convert_imperfect_model_outputs_into_verifiable_training_trajectories
+
+  inputs:
+    - parsed_model_intent
+    - prompt_messages
+    - expected_current_file_text
+    - tests
+    - expected_behavior
+    - validation_error
+
+  repair_policy:
+    find_text:
+      - if_original_find_text_not_found_then_replace_with_exact_current_file_from_prompt
+    replace_text:
+      - if_original_replace_text_is_not_code_then_synthesize_from_task_context_for_known_toy_tasks
+      - if_original_replace_text_is_code_like_then_keep_it
+    safety:
+      - never_edit_tests
+      - never_use_paths_outside_repo
+      - require_revalidated_intent_before_patch_building
+      - require_git_apply_and_tests_before_counting_success
+
+  expected_local_replay:
+    source: qwen2_5_coder_0_5b_structured_intent_v0
+    total_tasks: 3
+    original_valid_intent_count: 0
+    repaired_valid_intent_count: 3
+    expected_solved_tasks: 3
+
+gpu_required: false
+h100_purchase_required: false

@@ -238,3 +238,31 @@ generated_response_count
 candidate_pipeline_attempted
 candidate_pipeline_solved
 ```
+
+---
+
+## Step 25 Recap — Intent Repair and Normalization
+
+Step 25 closes the loop opened by Step 24 and Step 24.1.
+
+The system now handles the following path:
+
+```text
+real model output
+  -> parseable structured intent
+  -> semantic validation failure
+  -> grounded repair and normalization
+  -> canonical patch builder
+  -> git apply
+  -> unit test verification
+```
+
+The immediate significance is that the system can recover usable training trajectories from imperfect model outputs. This is a prerequisite for building SFT and verifier-guided optimization datasets.
+
+Next recommended engineering direction:
+
+```text
+Step 26 — Structured Intent SFT Dataset Export v0
+```
+
+Step 26 should convert Step 24/25 trajectories into explicit training rows containing prompt, raw model output, repaired target intent, canonical patch, verification metadata, and reward.

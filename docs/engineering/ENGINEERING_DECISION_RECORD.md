@@ -1013,3 +1013,29 @@ Related ADR:
 ```text
 ADR-0017 — First Real Model Runtime Before Useful Baseline
 ```
+
+---
+
+## Update — Step 25 Intent Repair and Normalization
+
+Step 25 introduced `intent_repair_normalization_v0`.
+
+The architectural decision is to treat parseable-but-invalid model JSON as recoverable signal rather than failed output. Step 24.1 showed that the real model emitted parseable JSON but used non-code `find_text`, causing `find_text_not_found` across all tasks. Step 25 repairs the intent by grounding `find_text` in the exact current file from the prompt and synthesizing replacement text from task context for the controlled toy benchmark.
+
+Result:
+
+```text
+source_json_parse_success_count = 3
+original_valid_intent_count = 0
+repaired_valid_intent_count = 3
+canonical_patch_count = 3
+patch_apply_success_count = 3
+solved_tasks = 3
+solve_rate = 1.0
+```
+
+This establishes the trajectory form needed for future supervised fine-tuning:
+
+```text
+raw_model_intent -> repaired_intent -> canonical_patch -> executable_verification -> reward
+```

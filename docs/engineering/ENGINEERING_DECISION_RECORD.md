@@ -1039,3 +1039,35 @@ This establishes the trajectory form needed for future supervised fine-tuning:
 ```text
 raw_model_intent -> repaired_intent -> canonical_patch -> executable_verification -> reward
 ```
+
+---
+
+## Update — Step 26 Structured Intent SFT Dataset Export
+
+Step 26 exported the first supervised fine-tuning dataset from real-model structured-intent trajectories.
+
+The dataset converts the Step 24 and Step 25 path into training rows:
+
+```text
+raw_model_output
+-> original_intent
+-> repaired_intent
+-> canonical_patch
+-> verification_result
+-> reward
+-> supervised_training_target
+```
+
+The chosen SFT target is the repaired structured edit intent JSON. Raw unified diff text remains a system-side canonicalization product, not the primary model target.
+
+Result:
+
+```text
+total_sft_rows = 3
+total_trajectory_rows = 3
+positive_reward_rows = 3
+solved_rows = 3
+average_reward = 1.0
+```
+
+This is the first concrete training bridge from evaluation infrastructure into model improvement.

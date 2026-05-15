@@ -266,3 +266,19 @@ Step 26 — Structured Intent SFT Dataset Export v0
 ```
 
 Step 26 should convert Step 24/25 trajectories into explicit training rows containing prompt, raw model output, repaired target intent, canonical patch, verification metadata, and reward.
+
+---
+
+## Step 26 Recap — First SFT Dataset Export
+
+Step 26 created the first dataset suitable for adapter or LoRA supervised fine-tuning.
+
+The immediate next engineering target is no longer only evaluation. The project can now start building a training loop around structured edit intent prediction.
+
+Recommended next direction:
+
+```text
+Step 27 — Local Adapter Training Plan and Dataset Loader v0
+```
+
+Step 27 should define and validate the training data loader, tokenization contract, train/eval split, and adapter training configuration before launching an actual fine-tuning job.

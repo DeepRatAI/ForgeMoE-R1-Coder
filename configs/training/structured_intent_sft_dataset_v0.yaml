@@ -1,0 +1,50 @@
+structured_intent_sft_dataset_v0:
+  name: structured_intent_sft_dataset_v0
+  purpose:
+    - export_first_supervised_training_dataset_from_real_model_trajectories
+    - convert_raw_model_outputs_and_repaired_intents_into_sft_rows
+    - preserve_verification_metadata_for_future_rl_or_rejection_sampling
+    - establish_dataset_schema_for_training_code_agent_models
+
+  source_experiments:
+    raw_model_generation: qwen2_5_coder_0_5b_structured_intent_v0
+    repair_replay: intent_repair_normalization_v0
+
+  dataset_files:
+    - sft_structured_intent.jsonl
+    - trajectory_records.jsonl
+    - dataset_card.md
+    - summary.json
+
+  row_contract:
+    sft_row:
+      fields:
+        - schema_version
+        - task_id
+        - source_model_id
+        - training_objective
+        - messages
+        - target
+        - metadata
+    trajectory_record:
+      fields:
+        - raw_model_output
+        - original_intent
+        - original_validation
+        - repaired_intent
+        - repaired_validation
+        - canonical_patch
+        - patch_apply_passed
+        - post_test_passed
+        - reward
+
+  target:
+    assistant_output: repaired_structured_edit_intent_json
+
+  reward_policy:
+    solved: 1.0
+    patch_applied_but_tests_failed: -0.25
+    invalid_or_unapplied_patch: -1.0
+
+gpu_required: false
+h100_purchase_required: false

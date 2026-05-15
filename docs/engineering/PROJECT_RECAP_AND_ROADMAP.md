@@ -348,3 +348,22 @@ Current state:
 Next action after approval:
 
 Step 29.1 or Step 30 - Launch real GPU LoRA SFT training job.
+
+---
+
+## Step 29.1 Recap - Registry Refresh After GPU Training Preflight
+
+The registry and continuity docs now include Step 29.0.
+
+The next technical step is no longer another dry run. The next boundary is a decision checkpoint:
+
+- approve a real GPU training launch, or
+- first expand the dataset before spending GPU budget.
+
+Recommended next step if approved:
+
+Step 30 - Launch real GPU LoRA SFT training job.
+
+Recommended next step if not approved yet:
+
+Step 29.2 - Expand structured-intent SFT dataset before first training job.

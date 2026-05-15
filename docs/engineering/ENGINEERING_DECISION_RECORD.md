@@ -1140,3 +1140,18 @@ Step 29.0 introduced a hard cost gate before real GPU training.
 The project validated AWS identity, S3 training inputs, SageMaker API access, SageMaker role presence, Step 27 dataset artifacts, and Step 28 LoRA training specifications.
 
 No training job was launched in this step. This is intentional. The next launch step requires explicit approval because it can incur AWS charges.
+
+---
+
+## Update - Step 29.1 Registry Refresh After GPU Training Preflight
+
+Step 29.1 registered the GPU training preflight into the manifest-derived run registry.
+
+The project state now explicitly records:
+
+- Step 29.0 validated AWS identity, S3 inputs, SageMaker role, SageMaker API access, launch plan, and risk register.
+- Training launch remains blocked by an explicit cost gate.
+- CloudShell remains control plane only.
+- Real model training belongs to SageMaker, EC2 GPU, AWS Batch GPU, or an equivalent GPU compute plane.
+
+This preserves the SOTA target while preventing accidental paid GPU jobs.

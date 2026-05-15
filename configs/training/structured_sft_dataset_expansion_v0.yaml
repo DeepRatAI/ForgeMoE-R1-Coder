@@ -1,0 +1,41 @@
+structured_sft_dataset_expansion_v0:
+  name: structured_sft_dataset_expansion_v0
+  purpose:
+    - expand_structured_intent_sft_dataset_before_gpu_spend
+    - cover_agentic_code_edit_failure_modes
+    - create_verified_training_rows_for_lora_sft
+    - avoid_launching_gpu_training_with_microscopic_dataset
+
+  output_schema:
+    row_format:
+      - schema_version
+      - task_id
+      - split
+      - category
+      - difficulty
+      - messages
+      - target_text
+      - metadata
+
+  categories:
+    - localized_bugfix
+    - wrong_file_guard
+    - missing_test_addition
+    - small_multifile_edit
+    - safe_refactor
+    - import_typing_fix
+    - invalid_patch_repair
+    - semantic_patch_repair
+
+  split:
+    train_rows: 40
+    eval_rows: 8
+    total_rows: 48
+
+  cost_boundary:
+    launches_training_job: false
+    gpu_required: false
+    reason: dataset_expansion_only
+
+gpu_required_for_this_step: false
+h100_purchase_required_for_this_step: false

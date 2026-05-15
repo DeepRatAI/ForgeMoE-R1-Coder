@@ -1155,3 +1155,22 @@ The project state now explicitly records:
 - Real model training belongs to SageMaker, EC2 GPU, AWS Batch GPU, or an equivalent GPU compute plane.
 
 This preserves the SOTA target while preventing accidental paid GPU jobs.
+
+---
+
+## Update - Step 29.2 Structured SFT Dataset Expansion
+
+Step 29.2 expanded the structured intent SFT dataset before GPU spend.
+
+The dataset now contains 48 synthetic verified-intent rows across 8 categories:
+
+- localized bugfix
+- wrong file guard
+- missing test addition
+- small multi-file edit
+- safe refactor
+- import and typing fix
+- invalid patch repair
+- semantic patch repair
+
+The decision is to improve training signal before launching paid GPU training.

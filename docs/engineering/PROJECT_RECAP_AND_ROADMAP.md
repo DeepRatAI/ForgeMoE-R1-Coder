@@ -367,3 +367,21 @@ Step 30 - Launch real GPU LoRA SFT training job.
 Recommended next step if not approved yet:
 
 Step 29.2 - Expand structured-intent SFT dataset before first training job.
+
+---
+
+## Step 29.2 Recap - Structured SFT Dataset Expansion
+
+The project now has a larger structured-intent SFT seed dataset.
+
+Current state:
+
+- Step 29.0 GPU preflight completed.
+- Step 29.1 registry refresh completed.
+- Step 29.2 expanded structured SFT data to 48 rows.
+- Cost gate remains active.
+- No paid training job has been launched.
+
+Recommended next step:
+
+Step 29.3 - Validate and tokenize expanded dataset for the target model before GPU training.

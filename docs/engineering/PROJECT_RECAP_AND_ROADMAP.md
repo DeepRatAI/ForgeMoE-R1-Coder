@@ -310,3 +310,22 @@ Recommended next direction:
 Step 29 — GPU LoRA SFT Job Spec and Launcher v0
 
 Step 29 should move real full-weight loading and LoRA training to a GPU runtime.
+
+---
+
+## Step 28.1 Recap - Registry Refresh and Runtime Boundary
+
+The project is ready to move from local dry-runs into GPU-backed execution.
+
+Current boundary:
+
+- CloudShell: control plane
+- S3: artifact and dataset plane
+- GitHub: source plane
+- SageMaker or GPU runtime: compute plane
+
+Recommended next step:
+
+Step 29 - GPU LoRA SFT Job Spec and Launcher v0
+
+Step 29 should create the real GPU training launcher for the Qwen2.5-Coder structured-intent LoRA adapter.

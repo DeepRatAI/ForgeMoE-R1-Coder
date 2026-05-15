@@ -1120,3 +1120,13 @@ The revised boundary validates:
 - GPU training job specification
 
 This avoids treating CloudShell memory limits as model or adapter failures.
+
+---
+
+## Update - Step 28.1 Manifest-Derived Registry and CloudShell Boundary
+
+Step 28.1 refreshed the run registry from S3 manifests and formalized a runtime boundary: CloudShell is the control plane, not the compute plane.
+
+The project now treats manifests as the source of truth for historical execution state. This is more robust than manually maintaining registry entries.
+
+The CloudShell boundary is explicit: lightweight orchestration remains in CloudShell, while full model loading, LoRA training, QLoRA training, and evaluation-heavy loops move to SageMaker, EC2 GPU, AWS Batch GPU, or a portable GPU runner.

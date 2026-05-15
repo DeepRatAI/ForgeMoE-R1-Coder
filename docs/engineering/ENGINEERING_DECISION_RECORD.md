@@ -1102,3 +1102,21 @@ this_step_trains_model = false
 ```
 
 The next major boundary is a real adapter training dry run.
+
+---
+
+## Update — Step 28 Memory-Safe Local LoRA SFT Dry Run
+
+Step 28 introduced a memory-safe LoRA trainability dry run after CloudShell killed the full Qwen2.5-Coder 0.5B CPU weight load.
+
+The revised boundary validates:
+
+- real Qwen config
+- tiny Qwen2-compatible architecture
+- inferred LoRA target modules
+- PEFT adapter attachment
+- trainable parameter count
+- Step 27 train/eval tokenization
+- GPU training job specification
+
+This avoids treating CloudShell memory limits as model or adapter failures.

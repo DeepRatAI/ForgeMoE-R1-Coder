@@ -298,3 +298,15 @@ Step 28 — Local LoRA SFT Dry Run v0
 ```
 
 Step 28 should attempt a minimal adapter training dry run if local CPU memory allows, or otherwise generate the exact GPU training job spec for SageMaker or a portable cloud runner.
+
+---
+
+## Step 28 Recap — Memory-Safe Local LoRA SFT Dry Run
+
+Step 28 validates the adapter architecture boundary without loading full Qwen 0.5B weights in CloudShell.
+
+Recommended next direction:
+
+Step 29 — GPU LoRA SFT Job Spec and Launcher v0
+
+Step 29 should move real full-weight loading and LoRA training to a GPU runtime.

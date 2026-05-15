@@ -1,0 +1,38 @@
+structured_sft_tokenization_refresh_v0:
+  name: structured_sft_tokenization_refresh_v0
+  purpose:
+    - validate_expanded_structured_sft_dataset_against_target_tokenizer
+    - render_chat_sft_text
+    - measure_token_lengths
+    - create_training_manifest_for_gpu_lora_sft
+    - avoid_gpu_spend_before_tokenization_gate
+
+  base_model:
+    model_id: Qwen/Qwen2.5-Coder-0.5B-Instruct
+    tokenizer_only: true
+    full_weight_load: false
+
+  source_dataset:
+    all_jsonl: results/local/structured_sft_dataset_expansion_v0/all.jsonl
+    train_jsonl: results/local/structured_sft_dataset_expansion_v0/train.jsonl
+    eval_jsonl: results/local/structured_sft_dataset_expansion_v0/eval.jsonl
+
+  output_dataset:
+    rendered_all_jsonl: results/local/structured_sft_tokenization_refresh_v0/rendered_all.jsonl
+    rendered_train_jsonl: results/local/structured_sft_tokenization_refresh_v0/rendered_train.jsonl
+    rendered_eval_jsonl: results/local/structured_sft_tokenization_refresh_v0/rendered_eval.jsonl
+    tokenization_report: results/local/structured_sft_tokenization_refresh_v0/tokenization_report.json
+    training_manifest: results/local/structured_sft_tokenization_refresh_v0/training_manifest.json
+
+  tokenization_gate:
+    max_seq_length: 2048
+    require_no_truncation: true
+    require_non_empty_targets: true
+    require_valid_structured_intent_json: true
+
+  cost_boundary:
+    launches_training_job: false
+    gpu_required: false
+
+gpu_required_for_this_step: false
+h100_purchase_required_for_this_step: false

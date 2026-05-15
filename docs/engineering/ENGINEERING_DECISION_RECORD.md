@@ -1174,3 +1174,13 @@ The dataset now contains 48 synthetic verified-intent rows across 8 categories:
 - semantic patch repair
 
 The decision is to improve training signal before launching paid GPU training.
+
+---
+
+## Update - Step 29.3 Structured SFT Tokenization Refresh
+
+Step 29.3 validated the expanded structured-intent SFT dataset against the target Qwen tokenizer.
+
+The step rendered chat-style SFT text, measured token lengths, confirmed structured-intent JSON validity, checked truncation risk, and generated a refreshed training manifest.
+
+No model weights were loaded and no training job was launched.

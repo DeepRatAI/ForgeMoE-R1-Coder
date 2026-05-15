@@ -385,3 +385,23 @@ Current state:
 Recommended next step:
 
 Step 29.3 - Validate and tokenize expanded dataset for the target model before GPU training.
+
+---
+
+## Step 29.3 Recap - Structured SFT Tokenization Refresh
+
+The expanded structured SFT dataset is now tokenizer-validated and rendered for training.
+
+Current state:
+
+- Step 29.2 produced 48 structured-intent SFT rows.
+- Step 29.3 generated rendered train/eval JSONL files.
+- Tokenization gate passed.
+- Cost gate remains active.
+- No paid GPU job has been launched.
+
+Recommended next step:
+
+Step 29.4 - Registry and docs refresh after tokenization gate.
+
+After that, the project can either expand further or request explicit approval for Step 30 GPU training.

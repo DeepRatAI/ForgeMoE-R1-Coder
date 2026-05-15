@@ -426,3 +426,23 @@ Next decision point:
 
 - Step 30: launch first real GPU LoRA SFT job after explicit approval, or
 - Step 29.5: expand data further before spending GPU budget.
+
+---
+
+## Step 29.5 Recap - Structured SFT Curriculum Expansion
+
+The structured-intent SFT curriculum has been expanded from 48 rows to 192 rows.
+
+Current state:
+
+- 192 total structured SFT rows.
+- 160 train rows.
+- 32 eval rows.
+- 12 categories.
+- 16 implementation cases.
+- Cost gate remains active.
+- No paid GPU job has been launched.
+
+Recommended next step:
+
+Step 29.6 - Tokenize the v1 curriculum and refresh the training manifest before deciding on Step 30 GPU training.

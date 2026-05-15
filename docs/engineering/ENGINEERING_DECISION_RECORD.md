@@ -1201,3 +1201,13 @@ The project now records:
 - Cost gate remains active before Step 30.
 
 This keeps the training path reproducible and prevents launching GPU jobs before the data plane is validated.
+
+---
+
+## Update - Step 29.5 Structured SFT Curriculum Expansion
+
+Step 29.5 expanded the structured-intent SFT curriculum to 192 rows.
+
+The curriculum now covers 12 edit-intent categories and 16 implementation cases, with 160 train rows and 32 eval rows.
+
+This step intentionally did not launch training. It improves the data plane before spending GPU budget.

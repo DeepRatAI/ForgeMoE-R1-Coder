@@ -1,0 +1,47 @@
+structured_sft_curriculum_expansion_v1:
+  name: structured_sft_curriculum_expansion_v1
+  purpose:
+    - expand_structured_intent_sft_curriculum_before_paid_gpu_training
+    - increase_task_diversity
+    - increase_category_coverage
+    - preserve_json_structured_intent_target_format
+    - produce_train_eval_split_for_next_tokenization_gate
+
+  source_boundary:
+    previous_dataset: structured_sft_dataset_expansion_v0
+    previous_rows: 48
+    previous_tokenization_gate: passed
+
+  output_schema:
+    row_schema_version: forgeagent.sft_row.v1
+    target_schema_version: forgeagent.structured_intent.v1
+
+  curriculum:
+    total_rows: 192
+    train_rows: 160
+    eval_rows: 32
+    case_count: 16
+    category_count: 12
+    examples_per_category: 16
+
+  categories:
+    - localized_bugfix
+    - wrong_file_guard
+    - missing_test_addition
+    - small_multifile_edit
+    - safe_refactor
+    - import_typing_fix
+    - invalid_patch_repair
+    - semantic_patch_repair
+    - boundary_condition_fix
+    - data_validation_fix
+    - config_behavior_fix
+    - dependency_api_migration
+
+  cost_boundary:
+    launches_training_job: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true
+
+gpu_required_for_this_step: false
+h100_purchase_required_for_this_step: false

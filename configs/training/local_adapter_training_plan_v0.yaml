@@ -1,0 +1,44 @@
+local_adapter_training_plan_v0:
+  name: local_adapter_training_plan_v0
+  purpose:
+    - define_first_adapter_training_contract
+    - validate_structured_intent_sft_dataset_loader
+    - validate_tokenization_against_qwen_tokenizer
+    - create_deterministic_train_eval_split
+    - prepare_for_future_lora_or_qlora_training
+
+  source_dataset:
+    name: structured_intent_sft_dataset_v0
+    path: results/local/structured_intent_sft_dataset_v0/sft_structured_intent.jsonl
+    trajectory_path: results/local/structured_intent_sft_dataset_v0/trajectory_records.jsonl
+
+  base_model:
+    model_id: Qwen/Qwen2.5-Coder-0.5B-Instruct
+    tokenizer_source: huggingface
+    runtime: local_transformers
+
+  split:
+    method: deterministic_sorted_task_id
+    eval_rows: 1
+    train_rows_expected: 2
+    eval_rows_expected: 1
+
+  training_target:
+    objective: predict_repaired_structured_edit_intent_json
+    assistant_target: repaired_intent_json
+    patch_generation: deterministic_system_side_canonical_patch_builder
+
+  future_training:
+    first_pass:
+      method: lora_sft
+      train_base_model: false
+      train_adapters: true
+      gpu_required_for_real_training: true
+    later_passes:
+      - qlora_on_larger_code_model
+      - rejection_sampling_from_verified_trajectories
+      - dpo_or_orpo_from_preference_pairs
+      - verifier_guided_rl
+
+gpu_required_for_this_step: false
+h100_purchase_required_for_this_step: false

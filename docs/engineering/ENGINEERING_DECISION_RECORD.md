@@ -1071,3 +1071,34 @@ average_reward = 1.0
 ```
 
 This is the first concrete training bridge from evaluation infrastructure into model improvement.
+
+---
+
+## Update — Step 27 Local Adapter Training Plan and Dataset Loader
+
+Step 27 introduced the first training-data preparation layer.
+
+The project now has:
+
+```text
+structured_intent_sft_dataset_v0
+-> validated SFT examples
+-> deterministic train/eval split
+-> Qwen tokenizer rendering
+-> tokenization report
+-> local adapter training manifest
+```
+
+This step intentionally does not train the model. It validates that the first training dataset is structurally usable before consuming GPU time.
+
+Result:
+
+```text
+total_rows = 3
+train_rows = 2
+eval_rows = 1
+validation_issue_count = 0
+this_step_trains_model = false
+```
+
+The next major boundary is a real adapter training dry run.

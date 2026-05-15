@@ -282,3 +282,19 @@ Step 27 — Local Adapter Training Plan and Dataset Loader v0
 ```
 
 Step 27 should define and validate the training data loader, tokenization contract, train/eval split, and adapter training configuration before launching an actual fine-tuning job.
+
+---
+
+## Step 27 Recap — Training Data Loader and Adapter Plan
+
+Step 27 prepared the first adapter-training contract.
+
+The project can now consume the Step 26 SFT dataset through a validated loader and produce train/eval splits plus tokenizer statistics for Qwen2.5-Coder.
+
+Recommended next direction:
+
+```text
+Step 28 — Local LoRA SFT Dry Run v0
+```
+
+Step 28 should attempt a minimal adapter training dry run if local CPU memory allows, or otherwise generate the exact GPU training job spec for SageMaker or a portable cloud runner.

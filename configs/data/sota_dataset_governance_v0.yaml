@@ -1,0 +1,66 @@
+sota_dataset_governance_v0:
+  name: sota_dataset_governance_v0
+  status: accepted
+  date: 2026-05-15
+
+  north_star:
+    objective: >
+      Build an AI Engineering system capable of transforming approximately
+      7B, 9B, and 14B code models into autonomous fullstack e2e coding agents
+      that can compete codo a codo with frontier/titan models.
+    success_unit: verified_agentic_e2e_software_engineering_capability
+    not_success:
+      - training_job_completed
+      - loss_decreased_without_evals
+      - benchmark_only_win
+      - demo_only_result
+      - fine_tune_without_reproducible_improvement
+
+  current_dataset_classification:
+    step29_2_dataset: scaffold_plumbing_format_validation
+    step29_5_dataset: scaffold_plumbing_format_validation
+    final_training_grade: false
+
+  required_data_layers:
+    - source_code_corpus
+    - instruction_code_tasks
+    - repository_level_issue_tasks
+    - synthetic_executable_tasks
+    - agentic_trajectories
+    - patch_attempt_negatives
+    - chosen_rejected_preference_pairs
+    - hidden_eval_tasks
+    - contamination_control_metadata
+    - license_provenance_metadata
+
+  gates_before_paid_training:
+    - dataset_lineage_gate
+    - license_and_terms_gate
+    - pii_secret_malware_filter_gate
+    - deduplication_gate
+    - benchmark_contamination_gate
+    - tokenization_gate
+    - quality_scoring_gate
+    - eval_holdout_gate
+    - training_mixture_manifest_gate
+    - explicit_cost_approval_gate
+
+  training_sequence:
+    - scaffold_validation
+    - training_grade_dataset_acquisition
+    - dataset_quality_filtering
+    - structured_intent_sft
+    - patch_generation_sft
+    - trajectory_sft
+    - preference_pair_generation
+    - dpo_or_equivalent_preference_optimization
+    - executable_reward_rl_after_eval_maturity
+    - adapter_moe_after_specialist_signal
+
+  cost_boundary:
+    launches_training_job: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true
+
+gpu_required_for_this_step: false
+h100_purchase_required_for_this_step: false

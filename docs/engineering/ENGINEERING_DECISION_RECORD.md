@@ -1211,3 +1211,13 @@ Step 29.5 expanded the structured-intent SFT curriculum to 192 rows.
 The curriculum now covers 12 edit-intent categories and 16 implementation cases, with 160 train rows and 32 eval rows.
 
 This step intentionally did not launch training. It improves the data plane before spending GPU budget.
+
+---
+
+## Update - Step 29.6 SOTA Dataset Governance
+
+Step 29.6 fixed the project North Star and formalized the dataset governance strategy before training-grade GPU runs.
+
+The current Step 29.2 and Step 29.5 datasets are explicitly classified as scaffold/plumbing/format-validation data, not final training-grade data.
+
+The project now requires dataset lineage, license review, deduplication, contamination control, quality scoring, heldout design and training mixture manifests before serious paid training.

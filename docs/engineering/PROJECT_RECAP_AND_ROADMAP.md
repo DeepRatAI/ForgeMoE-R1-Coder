@@ -446,3 +446,21 @@ Current state:
 Recommended next step:
 
 Step 29.6 - Tokenize the v1 curriculum and refresh the training manifest before deciding on Step 30 GPU training.
+
+---
+
+## Step 29.6 Recap - SOTA Dataset Governance
+
+The project North Star is now fixed in documentation.
+
+Current state:
+
+- Step 29.5 produced 192 scaffold rows.
+- The scaffold is useful but not training-grade.
+- Dataset governance is now a formal engineering boundary.
+- Step 30 training remains deferred.
+- The next recommended step is a dataset source matrix and acquisition gate.
+
+Recommended next step:
+
+Step 29.7 - Dataset source matrix, legal/provenance gate and acquisition plan.

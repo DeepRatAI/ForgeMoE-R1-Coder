@@ -405,3 +405,24 @@ Recommended next step:
 Step 29.4 - Registry and docs refresh after tokenization gate.
 
 After that, the project can either expand further or request explicit approval for Step 30 GPU training.
+
+---
+
+## Step 29.4 Recap - Registry Refresh After Tokenization Gate
+
+The registry and continuity documentation now include the structured SFT dataset expansion and tokenizer validation.
+
+Current state:
+
+- Dataset: 48 structured-intent SFT rows.
+- Rendered train rows: 40.
+- Rendered eval rows: 8.
+- Target tokenizer: Qwen/Qwen2.5-Coder-0.5B-Instruct.
+- Tokenization gate: passed.
+- Truncation count: 0.
+- Cost gate: active.
+
+Next decision point:
+
+- Step 30: launch first real GPU LoRA SFT job after explicit approval, or
+- Step 29.5: expand data further before spending GPU budget.

@@ -1184,3 +1184,20 @@ Step 29.3 validated the expanded structured-intent SFT dataset against the targe
 The step rendered chat-style SFT text, measured token lengths, confirmed structured-intent JSON validity, checked truncation risk, and generated a refreshed training manifest.
 
 No model weights were loaded and no training job was launched.
+
+---
+
+## Update - Step 29.4 Registry Refresh After Tokenization Gate
+
+Step 29.4 registered the expanded structured SFT dataset and tokenizer validation gate into the manifest-derived run registry.
+
+The project now records:
+
+- Step 29.2 expanded structured-intent SFT data to 48 rows.
+- Step 29.3 rendered and tokenized the dataset against Qwen/Qwen2.5-Coder-0.5B-Instruct.
+- Tokenization gate passed with zero truncation risk at max sequence length 2048.
+- No full model weights were loaded.
+- No paid GPU training job was launched.
+- Cost gate remains active before Step 30.
+
+This keeps the training path reproducible and prevents launching GPU jobs before the data plane is validated.

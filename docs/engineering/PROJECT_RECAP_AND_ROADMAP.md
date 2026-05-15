@@ -329,3 +329,22 @@ Recommended next step:
 Step 29 - GPU LoRA SFT Job Spec and Launcher v0
 
 Step 29 should create the real GPU training launcher for the Qwen2.5-Coder structured-intent LoRA adapter.
+
+---
+
+## Step 29.0 Recap - GPU Training Preflight
+
+The project is now ready to launch the first real GPU LoRA SFT job after explicit approval.
+
+Current state:
+
+- CloudShell remains control plane only.
+- SageMaker or equivalent GPU runtime is compute plane.
+- Step 27 dataset is available in S3.
+- Step 28 LoRA module boundary is validated.
+- Step 29.0 launch plan is generated.
+- Cost gate is active.
+
+Next action after approval:
+
+Step 29.1 or Step 30 - Launch real GPU LoRA SFT training job.

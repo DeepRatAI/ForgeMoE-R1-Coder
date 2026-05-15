@@ -1,0 +1,31 @@
+gpu_lora_sft_preflight_v0:
+  name: gpu_lora_sft_preflight_v0
+  purpose:
+    - validate_gpu_training_inputs_before_launch
+    - enforce_cost_gate_before_sagemaker_training_job
+    - convert_step28_training_spec_into_launch_plan
+    - keep_cloudshell_as_control_plane
+
+  source_artifacts:
+    train_s3: s3://${S3_BUCKET}/results/27_local_adapter_training_plan/v0/train.jsonl
+    eval_s3: s3://${S3_BUCKET}/results/27_local_adapter_training_plan/v0/eval.jsonl
+    dry_run_report_s3: s3://${S3_BUCKET}/results/28_local_lora_sft_dry_run/v0/dry_run_report.json
+    training_spec_s3: s3://${S3_BUCKET}/results/28_local_lora_sft_dry_run/v0/training_job_spec_sagemaker.json
+
+  runtime_boundary:
+    cloudshell: control_plane_only
+    gpu_runtime: sagemaker_training_or_equivalent
+    launch_training_in_this_step: false
+
+  default_training_target:
+    base_model_id: Qwen/Qwen2.5-Coder-0.5B-Instruct
+    adapter_type: LoRA
+    objective: structured_intent_sft
+    expected_next_step: step29_1_or_step30_launch_real_gpu_training
+
+  cost_gate:
+    requires_explicit_user_approval_before_launch: true
+    reason: creating a SageMaker training job can incur AWS charges
+
+gpu_required_for_this_step: false
+h100_purchase_required_for_this_step: false

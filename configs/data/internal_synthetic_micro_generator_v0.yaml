@@ -1,0 +1,45 @@
+internal_synthetic_micro_generator_v0:
+  name: internal_synthetic_micro_generator_v0
+  status: scaffold_accepted
+  date: 2026-05-17
+
+  purpose:
+    - implement_first_deterministic_executable_task_generator
+    - validate_task_schema
+    - validate_oracle_and_hidden_tests
+    - validate_train_eval_private_heldout_split_export
+    - produce_seed_rows_for_sft_trajectory_and_preference_data
+
+  task_family:
+    - single_file_bugfix
+
+  generated_splits:
+    train:
+      task_count: 1
+      may_export_patch_sft: true
+      may_export_preference_pairs: true
+      may_export_trajectory_seed: true
+    eval:
+      task_count: 1
+      may_export_patch_sft: false
+      may_export_preference_pairs: false
+      may_export_trajectory_seed: false
+    private_heldout:
+      task_count: 1
+      may_export_patch_sft: false
+      may_export_preference_pairs: false
+      may_export_trajectory_seed: false
+      never_train_on: true
+
+  verification_contract:
+    pre_public_tests_must_fail: true
+    golden_patch_must_apply: true
+    post_public_tests_must_pass: true
+    post_hidden_tests_must_pass: true
+    rejected_patch_must_fail_or_be_lower_reward: true
+
+  cost_boundary:
+    launches_training_job: false
+    downloads_large_dataset: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true

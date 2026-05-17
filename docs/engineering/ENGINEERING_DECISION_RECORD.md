@@ -1241,3 +1241,13 @@ Step 29.8 designed the internal synthetic executable task generator and private 
 The central decision is that ForgeMoE needs its own data engine for executable repository-level tasks, trajectories, negative patch records, preference pairs and private heldout tasks.
 
 Step 30 remains blocked until generator, oracle, hidden-test, contamination and split-isolation gates exist.
+
+---
+
+## Update - Step 29.9 Deterministic Synthetic Micro-Generator
+
+Step 29.9 implemented the first deterministic executable micro-generator scaffold.
+
+The generator creates train, eval and private heldout tasks with public tests, hidden tests, golden patches, rejected patches and verification artifacts.
+
+The private heldout split is marked never-train-on and is not exported into training rows.

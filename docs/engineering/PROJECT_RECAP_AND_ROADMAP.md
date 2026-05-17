@@ -500,3 +500,22 @@ Current state:
 Recommended next step:
 
 Step 29.9 - Task schema and deterministic micro-generator scaffold.
+
+---
+
+## Step 29.9 Recap - Deterministic Synthetic Micro-Generator
+
+ForgeMoE now has its first executable internal data-generation scaffold.
+
+Current state:
+
+- Three deterministic synthetic tasks are generated.
+- All tasks are verified with pre-fail, patch-apply, post-public and post-hidden checks.
+- Training exports are produced only for the train split.
+- Private heldout is protected from training exports.
+- No GPU job is launched.
+- No large external dataset is downloaded.
+
+Recommended next step:
+
+Step 29.10 - Oracle and hidden-test gate hardening.

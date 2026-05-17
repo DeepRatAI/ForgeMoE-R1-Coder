@@ -1,0 +1,42 @@
+dataset_source_matrix_gate_v0:
+  name: dataset_source_matrix_gate_v0
+  status: accepted
+  date: 2026-05-15
+
+  purpose:
+    - convert_dataset_strategy_into_operational_source_matrix
+    - block_unsafe_or_unreviewed_ingestion
+    - classify_sources_by_training_phase
+    - preserve_cost_gate_before_training
+
+  source_statuses:
+    - approved_for_reference_only
+    - candidate_blocked_pending_review
+    - candidate_internal_build
+    - candidate_external_methodology_reference
+    - rejected_for_training_until_further_notice
+
+  required_gate_categories:
+    - legal_terms
+    - license
+    - provenance
+    - pii_secret_security
+    - malware
+    - deduplication
+    - contamination
+    - execution_oracle
+    - quality_scoring
+    - split_and_holdout
+
+  allowed_decisions:
+    - allow_reference_only
+    - allow_internal_build
+    - block_ingestion_pending_review
+    - block_training_use
+    - promote_to_next_gate_after_review
+
+  cost_boundary:
+    launches_training_job: false
+    downloads_large_dataset: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true

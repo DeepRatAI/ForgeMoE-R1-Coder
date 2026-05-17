@@ -1221,3 +1221,13 @@ Step 29.6 fixed the project North Star and formalized the dataset governance str
 The current Step 29.2 and Step 29.5 datasets are explicitly classified as scaffold/plumbing/format-validation data, not final training-grade data.
 
 The project now requires dataset lineage, license review, deduplication, contamination control, quality scoring, heldout design and training mixture manifests before serious paid training.
+
+---
+
+## Update - Step 29.7 Dataset Source Matrix and Acquisition Gate
+
+Step 29.7 converted the SOTA dataset strategy into an operational source matrix.
+
+The source matrix classifies candidate sources by role, training phase fit, decision status, blocking gates and non-negotiable constraints.
+
+The key decision is that public benchmarks remain reference or evaluation sources by default, while serious training-grade data must come from gated code corpora, internal synthetic executable tasks, agentic trajectories and private heldout infrastructure.

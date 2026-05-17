@@ -464,3 +464,21 @@ Current state:
 Recommended next step:
 
 Step 29.7 - Dataset source matrix, legal/provenance gate and acquisition plan.
+
+---
+
+## Step 29.7 Recap - Dataset Source Matrix and Acquisition Gate
+
+The project now has an operational dataset source matrix.
+
+Current state:
+
+- Large code corpora are blocked pending legal, provenance, safety, deduplication and contamination review.
+- SWE-bench family, LiveCodeBench and BigCodeBench are reference or evaluation sources, not default training data.
+- SWE-smith is a critical methodology reference.
+- Forge synthetic executable tasks, Forge agentic trajectories and Forge private heldout eval are critical internal build targets.
+- Step 30 training remains blocked.
+
+Recommended next step:
+
+Step 29.8 - Internal synthetic executable task generator and private heldout protocol design.

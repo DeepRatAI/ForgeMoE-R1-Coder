@@ -1231,3 +1231,13 @@ Step 29.7 converted the SOTA dataset strategy into an operational source matrix.
 The source matrix classifies candidate sources by role, training phase fit, decision status, blocking gates and non-negotiable constraints.
 
 The key decision is that public benchmarks remain reference or evaluation sources by default, while serious training-grade data must come from gated code corpora, internal synthetic executable tasks, agentic trajectories and private heldout infrastructure.
+
+---
+
+## Update - Step 29.8 Internal Synthetic Generator and Heldout Design
+
+Step 29.8 designed the internal synthetic executable task generator and private heldout protocol.
+
+The central decision is that ForgeMoE needs its own data engine for executable repository-level tasks, trajectories, negative patch records, preference pairs and private heldout tasks.
+
+Step 30 remains blocked until generator, oracle, hidden-test, contamination and split-isolation gates exist.

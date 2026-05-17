@@ -482,3 +482,21 @@ Current state:
 Recommended next step:
 
 Step 29.8 - Internal synthetic executable task generator and private heldout protocol design.
+
+---
+
+## Step 29.8 Recap - Internal Synthetic Generator and Private Heldout
+
+The project now has a formal design for the internal data engine.
+
+Current state:
+
+- External datasets remain gated.
+- Public benchmarks remain reference or evaluation sources by default.
+- Internal executable task generation is the critical path.
+- Private heldout eval is now a formal promotion boundary.
+- Step 30 training remains blocked.
+
+Recommended next step:
+
+Step 29.9 - Task schema and deterministic micro-generator scaffold.

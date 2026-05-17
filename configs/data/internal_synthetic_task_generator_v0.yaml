@@ -1,0 +1,82 @@
+internal_synthetic_task_generator_v0:
+  name: internal_synthetic_task_generator_v0
+  status: design_accepted
+  date: 2026-05-17
+
+  purpose:
+    - generate_training_grade_executable_repo_level_tasks
+    - generate_agentic_trajectories
+    - generate_chosen_rejected_pairs
+    - protect_private_heldout_eval
+    - avoid_public_benchmark_overfitting
+
+  generator_modules:
+    - seed_repo_registry
+    - repo_snapshotter
+    - task_mutation_engine
+    - oracle_builder
+    - hidden_test_builder
+    - difficulty_estimator
+    - patch_verifier
+    - negative_patch_miner
+    - trajectory_recorder
+    - split_and_holdout_allocator
+    - contamination_scanner
+    - provenance_manifest_writer
+    - quality_scorer
+
+  task_families:
+    - single_file_bugfix
+    - multi_file_bugfix
+    - regression_test_creation
+    - api_migration
+    - refactor_with_behavior_preservation
+    - dependency_upgrade
+    - typing_or_static_analysis_repair
+    - security_hardening
+    - performance_micro_optimization
+    - configuration_or_packaging_fix
+    - integration_edge_case_fix
+    - fullstack_vertical_slice_change
+
+  output_dataset_types:
+    - patch_sft_rows
+    - structured_intent_rows
+    - trajectory_sft_rows
+    - preference_pairs
+    - verifier_training_rows
+    - private_eval_tasks
+
+  gates:
+    - repo_license_gate
+    - task_execution_gate
+    - oracle_strength_gate
+    - hidden_test_gate
+    - contamination_gate
+    - dedup_gate
+    - quality_score_gate
+    - split_isolation_gate
+    - no_secret_gate
+    - cost_gate
+
+  split_policy:
+    train:
+      allowed: true
+      may_include_synthetic_tasks: true
+      may_include_agentic_trajectories: true
+    eval:
+      allowed: true
+      isolated_from_train: true
+      may_include_public_reference_style_tasks: true
+    private_heldout:
+      allowed: true
+      isolated_from_train: true
+      never_train_on: true
+      access: restricted
+      purpose: north_star_agentic_e2e_promotion_gate
+
+  cost_boundary:
+    launches_training_job: false
+    downloads_large_dataset: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true

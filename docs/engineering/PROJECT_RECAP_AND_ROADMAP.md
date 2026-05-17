@@ -510,7 +510,8 @@ ForgeMoE now has its first executable internal data-generation scaffold.
 Current state:
 
 - Three deterministic synthetic tasks are generated.
-- All tasks are verified with pre-fail, patch-apply, post-public and post-hidden checks.
+- Golden and rejected patches are generated with `git diff` inside temporary repos with committed baselines.
+- All tasks are verified with pre-fail, `git apply --check`, patch-apply, post-public and post-hidden checks.
 - Training exports are produced only for the train split.
 - Private heldout is protected from training exports.
 - No GPU job is launched.

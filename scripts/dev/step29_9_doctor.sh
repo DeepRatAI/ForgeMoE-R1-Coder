@@ -29,6 +29,7 @@ import json
 from pathlib import Path
 
 root = Path("results/local/internal_synthetic_micro_generator_v0")
+run_root = Path("tmp/internal_synthetic_micro_generator_runs")
 summary = json.loads((root / "summary.json").read_text())
 task_rows = [json.loads(line) for line in (root / "task_results.jsonl").read_text().splitlines() if line.strip()]
 
@@ -58,6 +59,16 @@ for row in task_rows:
     assert row["golden_patch_applied"] is True, row
     assert row["post_public_passed"] is True, row
     assert row["post_hidden_passed"] is True, row
+    task_dir = root / "tasks" / row["task_id"]
+    for patch_name in ("golden.patch", "rejected.patch"):
+        patch_text = (task_dir / patch_name).read_text()
+        assert patch_text.startswith("diff --git a/app/utils.py b/app/utils.py\n"), patch_text
+        assert "\nindex " in patch_text, patch_text
+        assert "\n--- a/app/utils.py\n" in patch_text, patch_text
+        assert "\n+++ b/app/utils.py\n" in patch_text, patch_text
+
+patch_build_repos = sorted((run_root / "patch_build_repos").glob("*/.git"))
+assert len(patch_build_repos) == 6, patch_build_repos
 
 private_rows = [row for row in task_rows if row["split"] == "private_heldout"]
 assert len(private_rows) == 1, private_rows

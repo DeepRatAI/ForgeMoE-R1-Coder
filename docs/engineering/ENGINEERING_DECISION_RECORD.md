@@ -1250,4 +1250,6 @@ Step 29.9 implemented the first deterministic executable micro-generator scaffol
 
 The generator creates train, eval and private heldout tasks with public tests, hidden tests, golden patches, rejected patches and verification artifacts.
 
+The patch generation contract now uses Git-generated diffs from temporary repositories with committed baselines. The doctor validates `git apply --check`, pre-test failure, post-public pass and post-hidden pass for all three tasks.
+
 The private heldout split is marked never-train-on and is not exported into training rows.

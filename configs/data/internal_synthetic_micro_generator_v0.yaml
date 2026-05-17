@@ -32,6 +32,8 @@ internal_synthetic_micro_generator_v0:
       never_train_on: true
 
   verification_contract:
+    patches_generated_with_git_diff_in_temporary_repos: true
+    git_apply_check_must_pass: true
     pre_public_tests_must_fail: true
     golden_patch_must_apply: true
     post_public_tests_must_pass: true

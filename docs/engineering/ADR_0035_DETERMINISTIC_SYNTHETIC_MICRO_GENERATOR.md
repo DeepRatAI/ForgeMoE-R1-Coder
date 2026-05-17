@@ -13,7 +13,11 @@ The next required step is to turn that design into executable machinery without 
 
 Implement a deterministic micro-generator that creates a minimal set of executable repository-level tasks.
 
-The scaffold generates train, eval and private heldout splits. It verifies that public tests fail before the golden patch, that the golden patch applies, and that public and hidden tests pass after the patch.
+The scaffold generates train, eval and private heldout splits. It builds golden
+and rejected patches through `git diff` inside temporary repositories with a
+committed baseline, then verifies that public tests fail before the golden
+patch, `git apply --check` passes, the golden patch applies, and public and
+hidden tests pass after the patch.
 
 The private heldout task is marked never-train-on and is not exported into training rows.
 

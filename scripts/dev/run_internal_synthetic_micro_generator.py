@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-import difflib
 import hashlib
 import json
 import shutil
@@ -84,35 +83,65 @@ def normalize_py(text: str) -> str:
     return text.strip() + "\n"
 
 
-def make_patch(relative_path: str, before_text: str, after_text: str) -> str:
-    before_lines = normalize_py(before_text).splitlines(keepends=False)
-    after_lines = normalize_py(after_text).splitlines(keepends=False)
+def ensure_passed(result: dict[str, Any], context: str) -> None:
+    if result["passed"]:
+        return
 
-    diff_lines = list(
-        difflib.unified_diff(
-            before_lines,
-            after_lines,
-            fromfile=f"a/{relative_path}",
-            tofile=f"b/{relative_path}",
-            lineterm="",
-        )
+    raise RuntimeError(
+        f"{context} failed with exit code {result['exit_code']}\n"
+        f"command: {' '.join(result['command'])}\n"
+        f"cwd: {result['cwd']}\n"
+        f"stdout:\n{result.get('stdout') or ''}\n"
+        f"stderr:\n{result.get('stderr') or ''}"
     )
 
+
+def make_patch(relative_path: str, before_text: str, after_text: str) -> str:
+    patch_seed = hashlib.sha256(
+        f"{relative_path}\n---before---\n{normalize_py(before_text)}\n---after---\n{normalize_py(after_text)}".encode(
+            "utf-8"
+        )
+    ).hexdigest()[:16]
+    patch_repo = RUN_DIR / "patch_build_repos" / patch_seed
+
+    if patch_repo.exists():
+        shutil.rmtree(patch_repo)
+
+    write_text(patch_repo / relative_path, normalize_py(before_text))
+
+    ensure_passed(run_command(["git", "init", "-q"], cwd=patch_repo), "patch repo git init")
+    ensure_passed(
+        run_command(["git", "config", "user.email", "forge@example.invalid"], cwd=patch_repo),
+        "patch repo git config user.email",
+    )
+    ensure_passed(
+        run_command(["git", "config", "user.name", "Forge Synthetic Generator"], cwd=patch_repo),
+        "patch repo git config user.name",
+    )
+    ensure_passed(run_command(["git", "add", "."], cwd=patch_repo), "patch repo git add")
+    ensure_passed(
+        run_command(["git", "commit", "-q", "-m", "baseline"], cwd=patch_repo),
+        "patch repo git commit baseline",
+    )
+
+    write_text(patch_repo / relative_path, normalize_py(after_text))
+    diff_result = run_command(["git", "diff", "--", relative_path], cwd=patch_repo)
+    ensure_passed(diff_result, "patch repo git diff")
+
+    patch = diff_result["stdout"]
     has_real_change = any(
         (line.startswith("+") or line.startswith("-"))
         and not line.startswith("+++")
         and not line.startswith("---")
-        for line in diff_lines
+        for line in patch.splitlines()
     )
 
-    if not diff_lines or not has_real_change:
-        raise RuntimeError(f"empty or non-actionable patch generated for {relative_path}")
+    if not patch or not has_real_change:
+        raise RuntimeError(f"empty or non-actionable git patch generated for {relative_path}")
 
-    payload = "\n".join(diff_lines)
-    if not payload.endswith("\n"):
-        payload += "\n"
-
-    return f"diff --git a/{relative_path} b/{relative_path}\n" + payload
+    if not patch.endswith("\n"):
+        patch += "\n"
+    return patch
 
 
 def create_repo(repo_dir: Path, task: MicroTaskDefinition, body: str) -> None:

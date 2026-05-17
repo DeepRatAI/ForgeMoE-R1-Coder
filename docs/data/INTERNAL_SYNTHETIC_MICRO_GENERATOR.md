@@ -19,6 +19,12 @@ Each task includes:
 - provenance metadata;
 - split metadata.
 
+Patches are generated through Git itself, not hand-rolled text diffs. For each
+candidate body, the generator creates a temporary repository, commits the
+baseline file, writes the changed file and captures `git diff -- app/utils.py`.
+The resulting patch is then validated with `git apply --check` before it is
+applied.
+
 The train split exports seed rows for:
 
 - patch SFT;

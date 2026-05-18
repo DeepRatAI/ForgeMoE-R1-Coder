@@ -1263,3 +1263,15 @@ Step 29.10 hardens the Step 29.9 executable micro-tasks with a formal oracle-qua
 The gate evaluates each task against golden, rejected, semantic no-op, empty, wrong-file and public-overfit patches. A task passes only when the golden patch solves the task, weak patches fail, wrong-file edits are rejected by edit-scope scoring, and a public-overfit patch passes public tests but fails hidden tests.
 
 This is the first explicit transition from "task executes" to "task discriminates useful and weak model behavior." It keeps training blocked until generated tasks demonstrate oracle strength, hidden-test signal and private heldout isolation.
+
+---
+
+## Update - Step 29.11 Agentic Trajectory Recorder v1
+
+Step 29.11 records deterministic agentic repair trajectories from Step 29.10 gated tasks.
+
+Each trajectory captures the agent loop from task reading, file inspection and public-test execution through a public-overfit failed attempt, hidden-test failure observation, repair, final validation and selected patch.
+
+Training exports are produced only for the train split. Eval and private heldout trajectories remain isolated. The recorder runs a privacy scan and stores hidden-test hashes and outcomes instead of hidden-test contents.
+
+This creates the first oracle-gated trajectory layer for future trajectory SFT, repair-trace learning, preference optimization and verifier-guided training.

@@ -539,3 +539,24 @@ Current state:
 Recommended next step:
 
 Step 29.11 - Agentic trajectory recorder v1.
+
+---
+
+## Step 29.11 Recap - Agentic Trajectory Recorder v1
+
+ForgeMoE now records agentic repair trajectories from oracle-gated synthetic tasks.
+
+Current state:
+
+- Each Step 29.10-passing task emits a trajectory with read, inspect, plan, patch, validate, failure observation, repair and final-answer events.
+- Public-overfit attempts are recorded as negative attempts that pass public tests and fail hidden tests.
+- Golden repairs are recorded as positive attempts that pass public and hidden tests.
+- Train split exports trajectory SFT, repair trace and trajectory preference rows.
+- Eval and private heldout trajectories are exported separately and not used as training rows.
+- Generated trajectory outputs pass local secret and hidden-test leakage scans.
+- No GPU job is launched.
+- No large external dataset is downloaded.
+
+Recommended next step:
+
+Step 29.12 - Private heldout seed set.

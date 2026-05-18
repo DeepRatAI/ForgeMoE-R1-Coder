@@ -1,0 +1,55 @@
+agentic_trajectory_recorder_v1:
+  name: agentic_trajectory_recorder_v1
+  status: scaffold_gate
+  date: 2026-05-18
+
+  purpose:
+    - record_agentic_repair_trajectories_from_gated_tasks
+    - convert_public_overfit_failures_into_repair_traces
+    - export_train_only_trajectory_sft_seed_rows
+    - preserve_eval_and_private_heldout_isolation
+    - run_privacy_and_secret_scan_before_export
+
+  source_artifacts:
+    task_source_step: step29_9_internal_synthetic_micro_generator_v0
+    oracle_gate_step: step29_10_oracle_hidden_test_gate_v0
+    task_root: results/local/internal_synthetic_micro_generator_v0/tasks
+    oracle_gate_root: results/local/oracle_hidden_test_gate_v0
+
+  required_event_types:
+    - read_task
+    - list_files
+    - read_file
+    - inspect_public_tests
+    - run_public_tests
+    - plan
+    - generate_patch
+    - git_apply_check
+    - apply_patch
+    - run_hidden_tests
+    - observe_failure
+    - repair
+    - final_answer
+
+  export_contract:
+    train_exports:
+      - trajectory_sft_train.jsonl
+      - repair_trace_train.jsonl
+      - trajectory_preference_train.jsonl
+    eval_exports:
+      - eval_trajectories.jsonl
+    private_heldout_exports:
+      - private_heldout_trajectories.jsonl
+    private_heldout_exported_to_training: false
+
+  privacy_contract:
+    secret_scan_required: true
+    hidden_test_content_must_not_appear_in_exports: true
+    private_heldout_must_not_appear_in_train_exports: true
+    hidden_test_hashes_allowed: true
+
+  cost_boundary:
+    training_launch_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true

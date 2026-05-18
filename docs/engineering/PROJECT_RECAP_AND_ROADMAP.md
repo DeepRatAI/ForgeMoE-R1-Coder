@@ -520,3 +520,22 @@ Current state:
 Recommended next step:
 
 Step 29.10 - Oracle and hidden-test gate hardening.
+
+---
+
+## Step 29.10 Recap - Oracle and Hidden-Test Gate
+
+ForgeMoE now treats executable generated tasks as candidates that must pass an oracle-quality gate before they are considered training-grade.
+
+Current state:
+
+- Step 29.9 tasks are challenged with golden, rejected, semantic no-op, empty, wrong-file and public-overfit patches.
+- Public-overfit patches must pass public tests and fail hidden tests.
+- Wrong-file patches must violate edit scope and fail the oracle.
+- Hidden tests and private heldout patches are checked for training-export isolation.
+- No GPU job is launched.
+- No large external dataset is downloaded.
+
+Recommended next step:
+
+Step 29.11 - Agentic trajectory recorder v1.

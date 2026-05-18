@@ -1,0 +1,48 @@
+oracle_hidden_test_gate_v0:
+  name: oracle_hidden_test_gate_v0
+  status: scaffold_gate
+  date: 2026-05-18
+
+  purpose:
+    - harden_executable_task_oracle_quality
+    - prove_hidden_tests_add_behavioral_signal
+    - reject_weak_or_overfittable_synthetic_tasks
+    - preserve_private_heldout_and_hidden_test_isolation
+    - block_training_until_task_quality_gates_pass
+
+  source_artifacts:
+    step: step29_9_internal_synthetic_micro_generator_v0
+    task_root: results/local/internal_synthetic_micro_generator_v0/tasks
+    dataset_exports: results/local/internal_synthetic_micro_generator_v0/dataset_exports
+
+  required_patch_challenges:
+    golden:
+      expected: applies_and_passes_public_and_hidden
+    rejected:
+      expected: applies_when_possible_but_fails_public_or_hidden
+    semantic_noop:
+      expected: applies_but_fails_public_or_hidden
+    empty:
+      expected: rejected_by_git_apply_check_and_fails_oracle
+    wrong_file:
+      expected: applies_but_violates_edit_scope_and_fails_oracle
+    public_overfit:
+      expected: passes_public_but_fails_hidden
+
+  scoring:
+    minimum_oracle_strength_score: 0.95
+    minimum_hidden_coverage_score: 1.0
+    minimum_anti_overfit_score: 1.0
+    minimum_edit_scope_score: 1.0
+
+  isolation_contract:
+    hidden_tests_must_not_appear_in_training_exports: true
+    private_heldout_golden_patch_must_not_appear_in_training_exports: true
+    private_heldout_task_id_must_not_appear_in_training_exports: true
+    private_heldout_export_must_withhold_patch_path: true
+
+  cost_boundary:
+    training_launch_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true

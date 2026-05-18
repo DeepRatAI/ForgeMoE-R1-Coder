@@ -1253,3 +1253,13 @@ The generator creates train, eval and private heldout tasks with public tests, h
 The patch generation contract now uses Git-generated diffs from temporary repositories with committed baselines. The doctor validates `git apply --check`, pre-test failure, post-public pass and post-hidden pass for all three tasks.
 
 The private heldout split is marked never-train-on and is not exported into training rows.
+
+---
+
+## Update - Step 29.10 Oracle and Hidden-Test Gate
+
+Step 29.10 hardens the Step 29.9 executable micro-tasks with a formal oracle-quality gate.
+
+The gate evaluates each task against golden, rejected, semantic no-op, empty, wrong-file and public-overfit patches. A task passes only when the golden patch solves the task, weak patches fail, wrong-file edits are rejected by edit-scope scoring, and a public-overfit patch passes public tests but fails hidden tests.
+
+This is the first explicit transition from "task executes" to "task discriminates useful and weak model behavior." It keeps training blocked until generated tasks demonstrate oracle strength, hidden-test signal and private heldout isolation.

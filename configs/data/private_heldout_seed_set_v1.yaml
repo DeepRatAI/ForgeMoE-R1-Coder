@@ -1,0 +1,46 @@
+private_heldout_seed_set_v1:
+  name: private_heldout_seed_set_v1
+  status: scaffold_gate
+  date: 2026-05-28
+
+  purpose:
+    - create_private_heldout_seed_tasks_before_training
+    - validate_private_tasks_with_executable_public_and_hidden_tests
+    - prove_public_overfit_patches_are_caught_by_hidden_tests
+    - export_public_safe_private_manifest_without_patch_or_hidden_content
+    - scan_existing_training_exports_for_private_leakage
+
+  generated_split:
+    private_heldout:
+      task_count: 3
+      may_export_to_training: false
+      never_train_on: true
+
+  task_families:
+    - boundary_condition_bugfix
+    - string_normalization_bugfix
+    - collection_semantics_bugfix
+
+  verification_contract:
+    patches_generated_with_git_diff_in_temporary_repos: true
+    git_apply_check_must_pass: true
+    pre_public_tests_must_fail: true
+    golden_patch_must_pass_public_and_hidden: true
+    rejected_patch_must_fail_or_be_lower_reward: true
+    public_overfit_patch_must_pass_public_and_fail_hidden: true
+    expected_edit_scope_must_hold: true
+
+  isolation_contract:
+    training_export_rows: 0
+    private_seed_exported_to_training: false
+    hidden_test_content_exported_to_training: false
+    patch_content_exported_to_training: false
+    public_safe_manifest_contains_patch_content: false
+    public_safe_manifest_contains_hidden_content: false
+    scan_step29_9_and_step29_11_training_exports: true
+
+  cost_boundary:
+    training_launch_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true

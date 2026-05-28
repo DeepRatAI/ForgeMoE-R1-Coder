@@ -560,3 +560,27 @@ Current state:
 Recommended next step:
 
 Step 29.12 - Private heldout seed set.
+
+---
+
+## Step 29.12 Recap - Private Heldout Seed Set v1
+
+ForgeMoE now has a dedicated private heldout seed layer before training scale-up.
+
+Current state:
+
+- Three private-only executable tasks are generated deterministically.
+- The seed set covers boundary condition, string normalization and collection semantics.
+- Golden, rejected and public-overfit patches are generated via real `git diff` from temporary git repositories.
+- Public tests fail before the patch.
+- Golden patches pass public and hidden tests.
+- Rejected patches fail the oracle.
+- Public-overfit patches pass public tests but fail hidden tests.
+- The public-safe manifest exports hashes and metadata only.
+- Existing training exports are scanned for private task id, private patch and hidden-test leakage.
+- No GPU job is launched.
+- No large external dataset is downloaded.
+
+Recommended next step:
+
+Step 29.13 - Heldout-aware eval protocol.

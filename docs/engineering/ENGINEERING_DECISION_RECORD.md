@@ -1275,3 +1275,15 @@ Each trajectory captures the agent loop from task reading, file inspection and p
 Training exports are produced only for the train split. Eval and private heldout trajectories remain isolated. The recorder runs a privacy scan and stores hidden-test hashes and outcomes instead of hidden-test contents.
 
 This creates the first oracle-gated trajectory layer for future trajectory SFT, repair-trace learning, preference optimization and verifier-guided training.
+
+---
+
+## Update - Step 29.12 Private Heldout Seed Set v1
+
+Step 29.12 creates a dedicated private heldout seed set before any training scale-up.
+
+The seed set contains three private-only executable tasks across boundary condition, string normalization and collection semantics. Each task includes a golden patch, rejected patch and public-overfit patch generated from real temporary git repositories.
+
+The doctor requires pre-public failure, `git apply --check`, golden public and hidden pass, rejected patch failure, public-overfit public pass plus hidden fail, edit-scope conformance and isolation from existing training exports.
+
+The exported manifest is public-safe: it contains hashes and metadata only, not hidden-test contents or patch contents. Training remains blocked.

@@ -1,0 +1,68 @@
+model_candidate_eval_contract_v1:
+  name: model_candidate_eval_contract_v1
+  status: scaffold_gate
+  date: 2026-05-29
+
+  purpose:
+    - define_required_model_candidate_evaluation_package
+    - validate_reproducibility_and_generation_metadata
+    - enforce_heldout_aware_split_policy
+    - reject_private_heldout_leakage
+    - reject_weak_candidate_metrics_before_release
+    - block_training_and_release_until_real_candidate_eval_exists
+
+  required_candidate_sections:
+    - candidate_identity
+    - model_metadata
+    - run_provenance
+    - generation_config
+    - eval_scope
+    - aggregate_metrics
+    - privacy_attestation
+    - cost_profile
+
+  required_metrics:
+    - raw_response_count
+    - parsed_candidate_count
+    - parse_failure_count
+    - parse_validity_rate
+    - public_eval_task_count
+    - public_eval_solve_rate
+    - private_heldout_task_count
+    - private_heldout_pass_rate
+    - public_overfit_detection_rate
+    - regression_free_patch_rate
+
+  release_gate_thresholds:
+    parse_validity_rate_min: 0.95
+    public_eval_solve_rate_min: 0.80
+    private_heldout_pass_rate_min: 0.80
+    public_overfit_detection_rate_min: 1.0
+    regression_free_patch_rate_min: 0.95
+
+  privacy_requirements:
+    private_heldout_used_for_training: false
+    private_heldout_used_for_prompt_iteration: false
+    private_task_ids_in_public_report: false
+    private_patch_content_in_public_report: false
+    private_hidden_test_content_in_public_report: false
+
+  accepted_runtime_classes:
+    - local_transformers
+    - vllm_http
+    - sagemaker_batch
+    - sagemaker_endpoint
+
+  accepted_model_size_classes:
+    - tiny_smoke
+    - 7b
+    - 9b
+    - 14b
+    - 30b_a3b_reference
+
+  cost_boundary:
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true

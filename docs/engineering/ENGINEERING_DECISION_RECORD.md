@@ -1299,3 +1299,15 @@ The protocol consumes Step 29.12 private heldout artifacts and Step 29.11 trajec
 Reference candidates prove the gate behavior before real model candidate evaluation: golden passes, public-overfit fails private hidden validation, and rejected fails.
 
 Private heldout can block training or release, but cannot be used as training data, prompt-iteration feedback or public task-level reporting. Training remains blocked.
+
+---
+
+## Update - Step 29.14 Model Candidate Eval Contract v1
+
+Step 29.14 defines the package contract a future real model candidate must satisfy before evaluation can be accepted.
+
+The contract requires candidate identity, model metadata, run provenance, generation config, eval scope, aggregate metrics, privacy attestation and cost profile.
+
+The doctor validates the contract with fixtures: a structurally valid fixture passes but remains release-ineligible because it is not a real model candidate; private leakage, weak metrics and missing provenance fixtures are rejected.
+
+This creates the boundary needed before running real candidate evals. Training and model release remain blocked.

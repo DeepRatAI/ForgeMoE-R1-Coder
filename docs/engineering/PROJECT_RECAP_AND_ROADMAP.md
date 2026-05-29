@@ -607,3 +607,25 @@ Current state:
 Recommended next step:
 
 Step 29.14 - Model candidate eval contract.
+
+---
+
+## Step 29.14 Recap - Model Candidate Eval Contract v1
+
+ForgeMoE now has a formal candidate evaluation package contract.
+
+Current state:
+
+- Candidate packages must include identity, model metadata, provenance, generation config, eval scope, aggregate metrics, privacy attestation and cost profile.
+- Required metrics include parse validity, public eval solve rate, private heldout pass rate, public-overfit detection rate and regression-free patch rate.
+- Candidate package validation rejects private heldout leakage.
+- Candidate package validation rejects weak metrics.
+- Candidate package validation rejects missing provenance.
+- A structurally valid fixture can pass the contract but is not release-eligible because it is not a real model candidate.
+- No training job is launched.
+- No model release is allowed.
+- No large external dataset is downloaded.
+
+Recommended next step:
+
+Step 29.15 - Candidate eval runner dry run.

@@ -1287,3 +1287,15 @@ The seed set contains three private-only executable tasks across boundary condit
 The doctor requires pre-public failure, `git apply --check`, golden public and hidden pass, rejected patch failure, public-overfit public pass plus hidden fail, edit-scope conformance and isolation from existing training exports.
 
 The exported manifest is public-safe: it contains hashes and metadata only, not hidden-test contents or patch contents. Training remains blocked.
+
+---
+
+## Update - Step 29.13 Heldout-Aware Eval Protocol v1
+
+Step 29.13 formalizes the boundary between train, eval and private heldout signals.
+
+The protocol consumes Step 29.12 private heldout artifacts and Step 29.11 trajectory split metadata. It emits a split policy, reference candidate scorecards, a gate decision, a public-safe aggregate report and a privacy report.
+
+Reference candidates prove the gate behavior before real model candidate evaluation: golden passes, public-overfit fails private hidden validation, and rejected fails.
+
+Private heldout can block training or release, but cannot be used as training data, prompt-iteration feedback or public task-level reporting. Training remains blocked.

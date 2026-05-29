@@ -1,0 +1,52 @@
+heldout_aware_eval_protocol_v1:
+  name: heldout_aware_eval_protocol_v1
+  status: scaffold_gate
+  date: 2026-05-29
+
+  purpose:
+    - define_train_eval_private_heldout_boundaries
+    - prevent_private_heldout_optimization_leakage
+    - provide_public_safe_aggregate_reporting
+    - reject_public_overfit_candidates_at_private_gate
+    - block_training_and_release_until_real_candidate_contract_exists
+
+  split_policy:
+    train:
+      source_step: step29_11_agentic_trajectory_recorder_v1
+      may_use_for_training: true
+      may_use_for_prompt_iteration: true
+      may_inspect_patch_content: true
+    eval:
+      source_step: step29_11_agentic_trajectory_recorder_v1
+      may_use_for_training: false
+      may_use_for_prompt_iteration: false
+      may_inspect_patch_content: false
+    private_heldout:
+      source_step: step29_12_private_heldout_seed_set_v1
+      may_use_for_training: false
+      may_use_for_prompt_iteration: false
+      may_inspect_patch_content: false
+      may_report_task_level_details_publicly: false
+      aggregate_metrics_only: true
+
+  reference_candidates:
+    - oracle_reference_golden
+    - oracle_reference_public_overfit
+    - oracle_reference_rejected
+
+  gate_contract:
+    private_seed_verified: true
+    private_isolation_passed: true
+    golden_reference_must_pass: true
+    public_overfit_reference_must_fail_private: true
+    rejected_reference_must_fail_private: true
+    public_safe_report_must_exclude_private_task_ids: true
+    public_safe_report_must_exclude_patch_content: true
+    public_safe_report_must_exclude_hidden_test_content: true
+
+  cost_boundary:
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true

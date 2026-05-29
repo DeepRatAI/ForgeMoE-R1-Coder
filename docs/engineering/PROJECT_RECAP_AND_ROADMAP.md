@@ -584,3 +584,26 @@ Current state:
 Recommended next step:
 
 Step 29.13 - Heldout-aware eval protocol.
+
+---
+
+## Step 29.13 Recap - Heldout-Aware Eval Protocol v1
+
+ForgeMoE now has an explicit heldout-aware evaluation boundary.
+
+Current state:
+
+- Train, eval and private heldout usage rules are encoded in a split policy.
+- Private heldout may be used only as aggregate final-gate signal.
+- Private task ids, patches, hidden tests and task-level private results are excluded from the public-safe report.
+- Golden, public-overfit and rejected reference candidates are scored against private heldout artifacts.
+- Golden reference passes private heldout.
+- Public-overfit reference passes public tests but fails private hidden tests.
+- Rejected reference fails the private gate.
+- The protocol emits a gate decision and privacy report.
+- No GPU job is launched.
+- No large external dataset is downloaded.
+
+Recommended next step:
+
+Step 29.14 - Model candidate eval contract.

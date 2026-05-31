@@ -19,8 +19,22 @@ SECRET_PATTERNS = {
     "aws_secret_assignment": re.compile(r"(?i)aws_secret_access_key\\s*[:=]"),
 }
 
-ALLOWED_MODEL_SIZE_CLASSES = {"tiny_smoke", "7b", "9b", "14b", "30b_a3b_reference"}
-ALLOWED_RUNTIMES = {"local_transformers", "vllm_http", "sagemaker_batch", "sagemaker_endpoint"}
+ALLOWED_MODEL_SIZE_CLASSES = {
+    "tiny_smoke",
+    "3b_smoke",
+    "7b",
+    "9b",
+    "14b",
+    "30b_a3b_reference",
+}
+RELEASE_ELIGIBLE_MODEL_SIZE_CLASSES = {"7b", "9b", "14b"}
+ALLOWED_RUNTIMES = {
+    "local_transformers",
+    "bedrock_on_demand",
+    "vllm_http",
+    "sagemaker_batch",
+    "sagemaker_endpoint",
+}
 
 
 def write_json(path: Path, data: object) -> None:
@@ -122,6 +136,7 @@ def build_contract(heldout_summary: dict[str, Any]) -> dict[str, Any]:
             "public_overfit_detection_rate_min": 1.0,
             "regression_free_patch_rate_min": 0.95,
         },
+        "release_eligible_model_size_classes": sorted(RELEASE_ELIGIBLE_MODEL_SIZE_CLASSES),
         "cost_boundary": {
             "training_launch_allowed": False,
             "model_release_allowed": False,
@@ -143,6 +158,7 @@ def build_candidate_schema(contract: dict[str, Any]) -> dict[str, Any]:
             "aggregate_metrics": contract["required_metric_fields"],
         },
         "allowed_model_size_classes": sorted(ALLOWED_MODEL_SIZE_CLASSES),
+        "release_eligible_model_size_classes": sorted(RELEASE_ELIGIBLE_MODEL_SIZE_CLASSES),
         "allowed_runtimes": sorted(ALLOWED_RUNTIMES),
         "privacy_requirements": contract["privacy_requirements"],
         "release_gate_thresholds": contract["release_gate_thresholds"],
@@ -300,9 +316,12 @@ def validate_candidate_package(
     is_real_model_candidate = bool((package.get("candidate_identity") or {}).get("is_real_model_candidate"))
     if not is_real_model_candidate:
         warnings.append("fixture_candidate_not_release_eligible")
+    release_size_eligible = model_metadata.get("model_size_class") in RELEASE_ELIGIBLE_MODEL_SIZE_CLASSES
+    if is_real_model_candidate and not release_size_eligible:
+        warnings.append("model_size_class_not_release_eligible")
 
     contract_valid = not errors
-    release_gate_passed = contract_valid and is_real_model_candidate
+    release_gate_passed = contract_valid and is_real_model_candidate and release_size_eligible
 
     return {
         "schema_version": "forgeagent.model_candidate_validation_result.v1",

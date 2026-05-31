@@ -58,7 +58,7 @@ assert summary["training_launch_allowed"] is False, summary
 assert summary["model_release_allowed"] is False, summary
 assert summary["downloads_large_dataset"] is False, summary
 assert summary["gpu_required"] is False, summary
-assert summary["next_recommended_step"] == "step29_16_real_candidate_smoke_package", summary
+assert summary["next_recommended_step"] == "step29_16_remote_candidate_smoke_preflight", summary
 
 assert package["candidate_identity"]["candidate_id"] == "candidate-eval-runner-dry-run-reference", package
 assert package["candidate_identity"]["is_real_model_candidate"] is False, package

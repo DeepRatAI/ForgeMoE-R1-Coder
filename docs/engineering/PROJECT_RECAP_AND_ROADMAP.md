@@ -650,4 +650,31 @@ Current state:
 
 Recommended next step:
 
-Step 29.16 - Real candidate smoke package.
+Step 29.16 - Remote candidate smoke preflight.
+
+---
+
+## Step 29.16 Recap - Remote Candidate Smoke Preflight v1
+
+ForgeMoE now has a remote candidate evaluation preflight path that respects the no-local-model-execution constraint.
+
+Current state:
+
+- The runner verifies AWS identity and S3 access.
+- The runner verifies SageMaker inventory access.
+- The runner verifies Bedrock foundation-model inventory access.
+- Local model execution is explicitly disallowed.
+- Remote inference is not invoked in this step.
+- The emitted preflight package is not marked as an evaluated real model candidate.
+- The candidate package is validated against the Step 29.14 model candidate contract.
+- The runner emits cloud preflight, remote execution plan, validation result, gate decision, public-safe report and privacy report.
+- Private heldout remains aggregate-only and is not evaluated by the smoke candidate.
+- Public reports exclude private task ids, private patches, hidden-test contents and raw candidate outputs.
+- Training remains blocked.
+- Model release remains blocked.
+- No GPU job is launched.
+- No large external dataset is downloaded.
+
+Recommended next step:
+
+Step 29.17 - Remote code-model candidate smoke eval.

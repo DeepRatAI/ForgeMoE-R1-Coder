@@ -1323,3 +1323,15 @@ The runner emits a dry-run reference candidate package, validates it against the
 The candidate package is contract-valid but release-blocked because it is explicitly not a real model candidate. Private heldout remains aggregate-only and public reports exclude private ids, patches and hidden-test contents.
 
 This creates the first end-to-end candidate evaluation runner surface. Training and model release remain blocked.
+
+---
+
+## Update - Step 29.16 Remote Candidate Smoke Preflight v1
+
+Step 29.16 prepares the remote candidate evaluation path without executing models on local hardware.
+
+The runner verifies AWS identity, S3 access, SageMaker inventory access and Bedrock foundation-model inventory access. It records a remote execution plan, a blocked preflight candidate package, validation result, gate decision, public-safe report and privacy report.
+
+The package is not marked as an evaluated real model candidate because no inference was invoked. It remains release-blocked because there is no candidate quality evidence yet and remote inference requires explicit approval.
+
+The model candidate contract now recognizes `bedrock_on_demand` as a remote inference runtime while keeping release eligibility limited to the intended 7B/9B/14B target classes.

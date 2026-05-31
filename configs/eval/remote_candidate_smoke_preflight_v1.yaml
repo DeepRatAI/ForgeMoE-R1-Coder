@@ -1,0 +1,59 @@
+remote_candidate_smoke_preflight_v1:
+  name: remote_candidate_smoke_preflight_v1
+  status: scaffold_gate
+  date: 2026-05-31
+
+  purpose:
+    - prepare_remote_model_candidate_eval_without_local_model_execution
+    - verify_aws_identity_s3_and_remote_inference_inventory
+    - validate_blocked_preflight_package_against_model_candidate_eval_contract
+    - preserve_private_heldout_aggregate_only_boundary
+    - block_training_release_and_paid_inference_until_explicit_approval
+
+  source_contracts:
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    candidate_eval_runner_dry_run: step29_15_candidate_eval_runner_dry_run_v1
+    heldout_aware_eval_protocol: step29_13_heldout_aware_eval_protocol_v1
+
+  execution_policy:
+    local_model_execution_allowed: false
+    remote_inference_invoked: false
+    training_job_launched: false
+    explicit_approval_required_before_remote_inference: true
+
+  allowed_remote_surfaces:
+    - bedrock_on_demand_text_model
+    - sagemaker_endpoint
+    - sagemaker_batch_transform
+    - vllm_http_remote
+
+  disallowed_surfaces:
+    - local_transformers
+    - ollama_local
+    - local_gpu
+    - local_cpu_model_load
+
+  outputs:
+    - cloud_preflight
+    - remote_execution_plan
+    - candidate_package
+    - candidate_validation_result
+    - remote_candidate_smoke_preflight_gate_decision
+    - public_safe_remote_candidate_smoke_preflight_report
+    - remote_candidate_smoke_preflight_privacy_report
+
+  privacy_contract:
+    private_heldout_used_for_training: false
+    private_heldout_used_for_prompt_iteration: false
+    private_task_ids_in_public_report: false
+    private_patch_content_in_public_report: false
+    private_hidden_test_content_in_public_report: false
+    candidate_raw_outputs_in_public_report: false
+
+  cost_boundary:
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    remote_inference_invoked: false
+    requires_explicit_approval_before_training: true

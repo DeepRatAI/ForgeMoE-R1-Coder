@@ -299,7 +299,7 @@ def main() -> None:
         "model_release_allowed": False,
         "downloads_large_dataset": False,
         "gpu_required": False,
-        "next_recommended_step": "step29_16_real_candidate_smoke_package",
+        "next_recommended_step": "step29_16_remote_candidate_smoke_preflight",
         "artifacts": {
             "summary": str(OUT_DIR / "summary.json"),
             "candidate_package": str(package_path),

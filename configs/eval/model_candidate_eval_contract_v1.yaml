@@ -49,16 +49,23 @@ model_candidate_eval_contract_v1:
 
   accepted_runtime_classes:
     - local_transformers
+    - bedrock_on_demand
     - vllm_http
     - sagemaker_batch
     - sagemaker_endpoint
 
   accepted_model_size_classes:
     - tiny_smoke
+    - 3b_smoke
     - 7b
     - 9b
     - 14b
     - 30b_a3b_reference
+
+  release_eligible_model_size_classes:
+    - 7b
+    - 9b
+    - 14b
 
   cost_boundary:
     training_launch_allowed: false

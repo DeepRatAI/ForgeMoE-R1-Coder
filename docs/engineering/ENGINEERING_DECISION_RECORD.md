@@ -1311,3 +1311,15 @@ The contract requires candidate identity, model metadata, run provenance, genera
 The doctor validates the contract with fixtures: a structurally valid fixture passes but remains release-ineligible because it is not a real model candidate; private leakage, weak metrics and missing provenance fixtures are rejected.
 
 This creates the boundary needed before running real candidate evals. Training and model release remain blocked.
+
+---
+
+## Update - Step 29.15 Candidate Eval Runner Dry Run v1
+
+Step 29.15 proves the candidate evaluation package path without evaluating a real model.
+
+The runner emits a dry-run reference candidate package, validates it against the Step 29.14 contract, writes an eval trace, gate decision, public-safe report and privacy report.
+
+The candidate package is contract-valid but release-blocked because it is explicitly not a real model candidate. Private heldout remains aggregate-only and public reports exclude private ids, patches and hidden-test contents.
+
+This creates the first end-to-end candidate evaluation runner surface. Training and model release remain blocked.

@@ -1,0 +1,43 @@
+candidate_eval_runner_dry_run_v1:
+  name: candidate_eval_runner_dry_run_v1
+  status: scaffold_gate
+  date: 2026-05-31
+
+  purpose:
+    - emit_first_candidate_eval_package_from_contract
+    - validate_package_against_model_candidate_eval_contract
+    - produce_public_safe_candidate_eval_report
+    - preserve_private_heldout_aggregate_only_boundary
+    - block_training_and_release_for_non_real_candidate
+
+  source_contracts:
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    heldout_aware_eval_protocol: step29_13_heldout_aware_eval_protocol_v1
+
+  dry_run_candidate:
+    candidate_kind: dry_run_reference
+    is_real_model_candidate: false
+    expected_contract_valid: true
+    expected_release_gate_passed: false
+
+  outputs:
+    - candidate_package
+    - candidate_validation_result
+    - candidate_eval_trace
+    - candidate_eval_runner_gate_decision
+    - public_safe_candidate_eval_report
+    - runner_privacy_report
+
+  privacy_contract:
+    private_heldout_used_for_training: false
+    private_heldout_used_for_prompt_iteration: false
+    private_task_ids_in_public_report: false
+    private_patch_content_in_public_report: false
+    private_hidden_test_content_in_public_report: false
+
+  cost_boundary:
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    requires_explicit_approval_before_training: true

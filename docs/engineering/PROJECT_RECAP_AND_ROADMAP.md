@@ -629,3 +629,25 @@ Current state:
 Recommended next step:
 
 Step 29.15 - Candidate eval runner dry run.
+
+---
+
+## Step 29.15 Recap - Candidate Eval Runner Dry Run v1
+
+ForgeMoE now has a dry-run candidate evaluation runner.
+
+Current state:
+
+- The runner emits a candidate package using the Step 29.14 contract.
+- The emitted candidate package is contract-valid.
+- The candidate is explicitly not a real model candidate and remains release-blocked.
+- The runner emits a validation result, eval trace, gate decision, public-safe report and privacy report.
+- Private heldout remains aggregate-only.
+- Public reports exclude private task ids, private patches and hidden-test contents.
+- No training job is launched.
+- No model release is allowed.
+- No large external dataset is downloaded.
+
+Recommended next step:
+
+Step 29.16 - Real candidate smoke package.

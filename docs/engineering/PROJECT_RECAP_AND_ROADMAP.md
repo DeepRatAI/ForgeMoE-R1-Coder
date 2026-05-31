@@ -678,3 +678,28 @@ Current state:
 Recommended next step:
 
 Step 29.17 - Remote code-model candidate smoke eval.
+
+---
+
+## Step 29.17 Recap - Remote Code-Model Candidate Smoke Eval v1
+
+ForgeMoE now has a prepared remote code-model smoke eval request path.
+
+Current state:
+
+- A public executable clamp bugfix smoke task is generated.
+- Public tests fail before any candidate patch.
+- Patch-generation messages are built from the repo context and pre-test failure.
+- A Bedrock on-demand text model is selected from live AWS inventory.
+- A Bedrock Converse request artifact is emitted.
+- An AWS CLI command plan is emitted but marked prepared-not-executed.
+- Execution authorization is false.
+- No local model execution is used.
+- No remote inference is invoked.
+- No training job is launched.
+- No model release is allowed.
+- Private heldout remains aggregate-only and unused for prompt iteration.
+
+Recommended next step:
+
+Step 29.18 - Remote inference cost approval and candidate eval.

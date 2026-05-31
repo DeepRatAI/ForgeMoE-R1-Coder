@@ -1,0 +1,65 @@
+remote_code_model_candidate_smoke_eval_v1:
+  name: remote_code_model_candidate_smoke_eval_v1
+  status: scaffold_gate
+  date: 2026-05-31
+
+  purpose:
+    - prepare_remote_code_model_smoke_eval_request_without_invoking_inference
+    - create_public_executable_smoke_task
+    - build_bedrock_converse_request_artifact
+    - validate_blocked_candidate_package_against_model_candidate_eval_contract
+    - preserve_private_heldout_aggregate_only_boundary
+    - block_training_release_and_remote_inference_until_explicit_approval
+
+  source_contracts:
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    remote_candidate_smoke_preflight: step29_16_remote_candidate_smoke_preflight_v1
+    heldout_aware_eval_protocol: step29_13_heldout_aware_eval_protocol_v1
+
+  execution_policy:
+    local_model_execution_allowed: false
+    remote_inference_invoked: false
+    execution_authorized: false
+    training_job_launched: false
+    explicit_approval_required_before_remote_inference: true
+
+  remote_surface:
+    preferred_api: bedrock_converse
+    runtime_class: bedrock_on_demand
+    selected_model_source: bedrock_list_foundation_models
+    request_artifact_only: true
+
+  public_smoke_task:
+    task_id: public-remote-smoke-clamp-high-boundary
+    pretest_must_fail: true
+    prompt_contract_version: remote_code_smoke_prompt_v1
+    private_heldout_used: false
+
+  outputs:
+    - bedrock_converse_messages
+    - bedrock_converse_request
+    - bedrock_converse_command_plan
+    - execution_authorization
+    - public_smoke_pretest_result
+    - candidate_package
+    - candidate_validation_result
+    - remote_code_model_candidate_smoke_eval_gate_decision
+    - public_safe_remote_code_model_candidate_smoke_eval_report
+    - remote_code_model_candidate_smoke_eval_privacy_report
+
+  privacy_contract:
+    private_heldout_used_for_training: false
+    private_heldout_used_for_prompt_iteration: false
+    private_task_ids_in_public_report: false
+    private_patch_content_in_public_report: false
+    private_hidden_test_content_in_public_report: false
+    prompt_content_in_public_report: false
+    candidate_raw_outputs_in_public_report: false
+
+  cost_boundary:
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    remote_inference_invoked: false
+    requires_explicit_approval_before_remote_inference: true

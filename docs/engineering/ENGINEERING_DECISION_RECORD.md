@@ -1335,3 +1335,15 @@ The runner verifies AWS identity, S3 access, SageMaker inventory access and Bedr
 The package is not marked as an evaluated real model candidate because no inference was invoked. It remains release-blocked because there is no candidate quality evidence yet and remote inference requires explicit approval.
 
 The model candidate contract now recognizes `bedrock_on_demand` as a remote inference runtime while keeping release eligibility limited to the intended 7B/9B/14B target classes.
+
+---
+
+## Update - Step 29.17 Remote Code-Model Candidate Smoke Eval v1
+
+Step 29.17 prepares the first remote code-model candidate smoke eval request without invoking inference.
+
+The runner creates a public executable clamp bugfix task, verifies that public tests fail before a patch, builds the patch-generation prompt, selects an available Bedrock on-demand text model, writes a Bedrock Converse request artifact and records the exact command plan.
+
+Execution authorization is false. No Bedrock Runtime call is made, no local model is loaded, no training job is launched and no model release is allowed.
+
+This creates the reproducible request boundary needed before the first paid remote inference attempt.

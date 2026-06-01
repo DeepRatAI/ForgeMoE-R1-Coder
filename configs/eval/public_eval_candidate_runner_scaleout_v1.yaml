@@ -1,0 +1,39 @@
+public_eval_candidate_runner_scaleout_v1:
+  name: public_eval_candidate_runner_scaleout_v1
+  status: reference_candidate_eval_runner
+  date: 2026-06-01
+
+  purpose:
+    - aggregate_public_eval_suite_results_across_multiple_tasks
+    - prove_golden_reference_candidate_passes_public_eval_gate
+    - prove_rejected_reference_candidate_fails_hidden_oracle_and_regression_gate
+    - prove_public_overfit_reference_candidate_is_detected_by_hidden_oracle
+    - keep_model_candidate_contract_release_blocked_without_private_heldout_aggregate
+
+  source_contracts:
+    public_eval_suite_scaleout: step29_20_public_eval_suite_scaleout_v1
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    heldout_aware_eval_protocol: step29_13_heldout_aware_eval_protocol_v1
+
+  reference_candidates:
+    - public_eval_reference_golden
+    - public_eval_reference_rejected
+    - public_eval_reference_public_overfit
+
+  gates:
+    public_eval_gate:
+      golden_reference_must_pass: true
+      rejected_reference_must_fail_hidden_oracle: true
+      rejected_reference_must_fail_regression_free_check: true
+      public_overfit_reference_must_fail_hidden_oracle: true
+    release_gate:
+      real_model_candidate_required: true
+      private_heldout_aggregate_required: true
+      release_allowed_in_this_step: false
+
+  non_execution_policy:
+    real_model_candidate_evaluated: false
+    remote_inference_invoked: false
+    local_model_execution_used: false
+    training_job_launched: false
+    model_release_allowed: false

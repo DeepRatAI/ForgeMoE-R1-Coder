@@ -782,3 +782,29 @@ Current state:
 Recommended next step:
 
 Step 29.21 - public eval candidate runner scaleout, using the expanded suite while preserving the remote inference approval gate and aggregate-only private heldout policy.
+
+---
+
+## Step 29.21 Recap - Public Eval Candidate Runner Scaleout v1
+
+ForgeMoE now has a scaled public eval candidate-runner path that can aggregate multi-task reference candidate behavior without executing a local or remote model.
+
+Current state:
+
+- The runner consumes the six-task Step 29.20 public eval suite.
+- Three deterministic reference candidate families are scored: golden, rejected and public-overfit.
+- Golden reference patches pass public tests, hidden oracle checks and regression-free checks across the suite.
+- Rejected reference patches fail hidden-oracle and regression-free checks as expected, even when some weak patches pass public tests.
+- Public-overfit reference patches pass public tests while failing hidden oracle checks, proving the overfit detector catches weak public-only behavior.
+- Candidate packages are emitted through the Step 29.14 model candidate eval contract.
+- Reference packages remain intentionally contract-invalid and release-blocked because they are not real model candidates and no private-heldout aggregate candidate result exists.
+- Public-safe reports expose aggregate metrics only.
+- Private heldout ids, private patch content, hidden-test content, raw candidate output and prompt text are excluded from public outputs.
+- No local model execution is used.
+- No remote inference is invoked.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.22 - authorized remote candidate eval or public eval batch adapter, depending on whether explicit remote-inference approval and official pricing evidence are available.

@@ -1383,3 +1383,15 @@ The suite creates six deterministic public eval tasks across boundary condition,
 Each task is built as a real temporary repository. Golden, rejected and public-overfit patches are generated with `git diff` from committed baselines. The doctor requires pre-public failure, `git apply --check`, golden public and hidden pass, rejected oracle failure and public-overfit public pass plus hidden failure.
 
 This step does not run a model candidate. It strengthens the public evaluation gate that future candidates must satisfy before any release or training decision can be considered.
+
+---
+
+## Update - Step 29.21 Public Eval Candidate Runner Scaleout v1
+
+Step 29.21 consumes the Step 29.20 public eval suite and proves the scaled candidate-runner aggregation path without invoking local or remote model execution.
+
+The runner builds three deterministic reference candidate families from the public oracle artifacts: golden, rejected and public-overfit. It emits aggregate scorecards for public solve rate, hidden-oracle pass rate, public-overfit detection rate, parse validity and regression-free patch rate. Rejected candidates are judged by hidden-oracle and regression-free failure, not by assuming every weak patch must fail public tests.
+
+Each reference candidate is packaged through the Step 29.14 model candidate eval contract. The packages intentionally remain contract-invalid and release-blocked because they are not real model candidates and there is no aggregate private-heldout result for a real candidate.
+
+The public-safe report remains aggregate-only: no private heldout ids, patch content, hidden-test content, raw model outputs or prompt text are exposed. No local model is loaded, no remote inference is invoked, no training job is launched and no model release is allowed.

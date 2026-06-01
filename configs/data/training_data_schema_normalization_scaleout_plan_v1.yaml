@@ -1,0 +1,46 @@
+training_data_schema_normalization_scaleout_plan_v1:
+  name: training_data_schema_normalization_scaleout_plan_v1
+  status: fail_closed_schema_and_scaleout_gate
+  date: 2026-06-01
+
+  purpose:
+    - define_canonical_training_data_product_schemas
+    - map_current_internal_exports_to_canonical_schemas
+    - emit_manifest_ref_only_normalized_scaffold_rows
+    - define_generator_scaleout_phases_before_training_grade_release
+    - keep_training_launch_blocked_until_provenance_contamination_and_oracle_controls_pass
+
+  source_contracts:
+    training_data_governance_scaleout: step29_25_training_data_governance_scaleout_v1
+
+  canonical_data_products:
+    - patch_sft
+    - trajectory_sft
+    - preference_pair
+    - repair_trace
+    - executable_task_ref
+
+  normalization_policy:
+    normalized_rows_are_manifest_refs_only: true
+    raw_rows_in_public_reports: false
+    patch_content_in_public_reports: false
+    prompt_content_in_public_reports: false
+    withheld_eval_content_in_public_reports: false
+    private_identifiers_in_public_reports: false
+    current_training_grade_row_count: 0
+
+  scaleout_phases:
+    - schema_lock_v1
+    - provenance_and_license_registry
+    - contamination_and_dedup_scanners
+    - oracle_quality_certification
+    - bounded_generator_scaleout_dry_run
+
+  default_decision:
+    training_grade_data_release_allowed: false
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    local_model_execution_used: false
+    remote_inference_invoked: false

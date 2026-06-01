@@ -1443,3 +1443,13 @@ The gate inventories current internal dataset exports from the deterministic mic
 The current result is intentionally conservative: train-split rows may be used only as scaffold data for schema and tooling validation, while zero rows are admitted as training-grade. Eval and private heldout rows are rejected for training use. Public reports exclude raw rows, private identifiers, patch content, withheld-eval content, prompts and model outputs.
 
 Training remains blocked until license/provenance, contamination scanning, canonical schemas and row-level oracle-quality certification are complete.
+
+---
+
+## Update - Step 29.26 Training Data Schema Normalization and Scaleout Plan v1
+
+Step 29.26 defines the canonical data product schemas required before scaling internal data generation.
+
+The gate maps current source schemas into five canonical products: patch SFT, trajectory SFT, preference pairs, repair traces and executable task references. It emits normalized scaffold rows as manifest references only, not training payloads.
+
+All current source schemas are mapped, but zero rows are promoted to training-grade. Training remains blocked until provenance/license registry, contamination/dedup scanning and row-level oracle-quality certification are implemented.

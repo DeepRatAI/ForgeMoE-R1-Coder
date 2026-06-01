@@ -920,3 +920,28 @@ Current state:
 Recommended next step:
 
 Step 29.26 - Training data schema normalization and generator scaleout plan.
+
+---
+
+## Step 29.26 Recap - Training Data Schema Normalization and Scaleout Plan v1
+
+ForgeMoE now has a canonical schema contract before generator scaleout.
+
+Current state:
+
+- Five canonical data products are defined: patch SFT, trajectory SFT, preference pair, repair trace and executable task reference.
+- Ten current governed rows are mapped to canonical schemas.
+- Zero current source rows are unmapped.
+- Six train-split scaffold rows have normalized manifest references.
+- Zero rows are training-grade.
+- The scaleout plan defines schema lock, provenance/license registry, contamination/dedup scanners, oracle-quality certification and bounded generator scaleout dry run.
+- Public reports exclude raw rows, private identifiers, patch content, withheld-eval content, prompts and model outputs.
+- No local model execution is used.
+- No remote inference is invoked.
+- No large external dataset is downloaded.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.27 - provenance, license and contamination scanner implementation.

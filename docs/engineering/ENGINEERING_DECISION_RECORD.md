@@ -1359,3 +1359,15 @@ The runner consumes the Step 29.17 Bedrock Converse request, computes a conserva
 The approval record is intentionally unapproved. A future execution step must bind approval to the exact model id and request SHA-256, require an official pricing source or billing API quote, enforce one-call and token ceilings, and fail closed on drift.
 
 No Bedrock Runtime call is made, no local model is loaded, no training job is launched and no model release is allowed.
+
+---
+
+## Update - Step 29.19 Remote Inference Execution Candidate Eval v1
+
+Step 29.19 adds the fail-closed execution harness for the first remote code-model smoke candidate evaluation.
+
+The runner verifies the Step 29.17 request hash against the Step 29.18 approval gate, checks external approval evidence, pricing evidence, model id, request hash, call count, cost ceiling and token ceiling before allowing any Bedrock Runtime call.
+
+The default doctor runs with execution disabled and confirms that no remote inference is invoked, no local model is used, no raw response or patch exists, and the candidate package remains invalid/release-blocked.
+
+When explicit approval and official pricing evidence exist, the same harness can execute one Bedrock Converse call, parse a unified diff, validate it with `git apply --check`, run public post-patch tests and validate the package against the model candidate eval contract.

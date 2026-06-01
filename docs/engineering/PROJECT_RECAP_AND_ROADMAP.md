@@ -728,3 +728,30 @@ Current state:
 Recommended next step:
 
 Step 29.19 - Remote inference execution candidate eval, only after explicit cost approval for the selected model and request hash.
+
+---
+
+## Step 29.19 Recap - Remote Inference Execution Candidate Eval v1
+
+ForgeMoE now has a fail-closed execution harness for the first approved remote smoke candidate eval.
+
+Current state:
+
+- The Step 29.17 Bedrock Converse request is copied into an execution workspace.
+- The request SHA-256 is verified against the Step 29.18 cost approval gate.
+- Authorization checks cover execution flag, external approval evidence, model id, request hash, call count, cost ceiling, token ceiling and official pricing evidence.
+- The default doctor runs with `FORGEMOE_EXECUTE_REMOTE_INFERENCE=0`.
+- Execution authorization is false in the current state.
+- No Bedrock Runtime call is made.
+- No local model execution is used.
+- No response text is parsed.
+- No patch is extracted.
+- No `git apply --check` or post-patch public test is run because no patch exists.
+- The candidate package is present but invalid/release-blocked.
+- Public-safe reports exclude prompt text, raw responses, patch content, private ids, private patches and hidden tests.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Obtain explicit cost approval and official pricing evidence for the exact model id and request hash, then run one authorized remote inference smoke eval through Step 29.19.

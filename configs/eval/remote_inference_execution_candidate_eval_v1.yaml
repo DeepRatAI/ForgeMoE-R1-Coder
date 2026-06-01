@@ -1,0 +1,67 @@
+remote_inference_execution_candidate_eval_v1:
+  name: remote_inference_execution_candidate_eval_v1
+  status: fail_closed_execution_harness
+  date: 2026-06-01
+
+  purpose:
+    - provide_approved_remote_inference_execution_path
+    - fail_closed_without_explicit_approval
+    - fail_closed_without_official_pricing_evidence
+    - bind_execution_to_selected_model_and_request_hash
+    - parse_response_patch_and_validate_with_git_apply_check_when_authorized
+    - preserve_no_local_model_execution_policy
+
+  source_contracts:
+    remote_code_model_candidate_smoke_eval: step29_17_remote_code_model_candidate_smoke_eval_v1
+    remote_inference_cost_approval_gate: step29_18_remote_inference_cost_approval_gate_v1
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    heldout_aware_eval_protocol: step29_13_heldout_aware_eval_protocol_v1
+
+  default_policy:
+    execute_flag_required: FORGEMOE_EXECUTE_REMOTE_INFERENCE=1
+    current_doctor_execute_flag: FORGEMOE_EXECUTE_REMOTE_INFERENCE=0
+    approval_evidence_file: configs/eval/remote_inference_execution_approval_v1.json
+    pricing_evidence_file: configs/eval/remote_inference_pricing_evidence_v1.json
+    approval_record_required: true
+    official_pricing_evidence_required: true
+    bind_approval_to_request_sha256: true
+    max_remote_inference_calls: 1
+
+  execution_policy:
+    local_model_execution_allowed: false
+    remote_inference_invoked_by_default: false
+    training_job_launched: false
+    model_release_allowed: false
+    private_heldout_prompt_iteration_allowed: false
+
+  required_authorization_checks:
+    - execute_flag_set
+    - approval_record_approved
+    - approved_model_matches
+    - approved_request_hash_matches
+    - approved_call_count_positive
+    - approved_call_count_within_policy
+    - approved_cost_positive
+    - pricing_evidence_present
+    - pricing_model_matches
+    - pricing_request_hash_matches
+    - pricing_region_matches
+    - pricing_source_recorded
+    - pricing_cost_within_approval
+    - token_ceiling_within_policy
+
+  post_execution_checks:
+    - response_json_parse
+    - extract_text_response
+    - extract_unified_diff
+    - git_apply_check
+    - git_apply
+    - public_tests_post_patch
+    - candidate_package_contract_validation
+    - public_safe_report_privacy_scan
+
+  cost_boundary:
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false

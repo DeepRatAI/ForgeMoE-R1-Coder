@@ -808,3 +808,29 @@ Current state:
 Recommended next step:
 
 Step 29.22 - authorized remote candidate eval or public eval batch adapter, depending on whether explicit remote-inference approval and official pricing evidence are available.
+
+---
+
+## Step 29.22 Recap - Public Eval Remote Batch Adapter v1
+
+ForgeMoE now has a prepared remote batch adapter for the six-task public eval suite.
+
+Current state:
+
+- The adapter consumes Step 29.20 and Step 29.21 artifacts.
+- One Bedrock Converse request is prepared per public eval task.
+- Six public pre-test failures are verified before candidate generation.
+- Each request has a SHA-256 hash.
+- The batch has a batch request SHA-256.
+- A token ceiling, cost policy, unapproved approval record and pricing evidence requirement are emitted.
+- A future batch execution plan is emitted but marked unauthorized.
+- A candidate package is emitted through the model candidate eval contract.
+- The package remains intentionally invalid and release-blocked because no real model response or private-heldout aggregate result exists.
+- No local model execution is used.
+- No remote inference is invoked.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.23 - authorized public eval remote batch execution after explicit approval and official pricing evidence are bound to the exact selected model id, request hashes and batch request hash.

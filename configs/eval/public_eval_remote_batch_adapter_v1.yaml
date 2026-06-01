@@ -1,0 +1,39 @@
+public_eval_remote_batch_adapter_v1:
+  name: public_eval_remote_batch_adapter_v1
+  status: prepared_not_executed
+  date: 2026-06-01
+
+  purpose:
+    - prepare_one_remote_converse_request_per_public_eval_task
+    - bind_batch_execution_to_request_hashes
+    - require_explicit_batch_cost_approval_before_remote_inference
+    - require_official_pricing_evidence_before_remote_inference
+    - preserve_no_local_model_execution_constraint
+
+  source_contracts:
+    public_eval_suite_scaleout: step29_20_public_eval_suite_scaleout_v1
+    public_eval_candidate_runner_scaleout: step29_21_public_eval_candidate_runner_scaleout_v1
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    remote_inference_execution_harness: step29_19_remote_inference_execution_candidate_eval_v1
+
+  batch_policy:
+    public_eval_task_count: 6
+    request_per_task: true
+    request_hash_required: true
+    batch_request_hash_required: true
+    max_output_tokens_per_task: 1024
+    approval_required: true
+    official_pricing_evidence_required: true
+
+  non_execution_policy:
+    real_model_candidate_evaluated: false
+    remote_inference_invoked: false
+    local_model_execution_used: false
+    training_job_launched: false
+    model_release_allowed: false
+
+  release_policy:
+    release_allowed_in_this_step: false
+    real_model_candidate_required: true
+    public_eval_execution_required: true
+    private_heldout_aggregate_required: true

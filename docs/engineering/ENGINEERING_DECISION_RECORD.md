@@ -1395,3 +1395,15 @@ The runner builds three deterministic reference candidate families from the publ
 Each reference candidate is packaged through the Step 29.14 model candidate eval contract. The packages intentionally remain contract-invalid and release-blocked because they are not real model candidates and there is no aggregate private-heldout result for a real candidate.
 
 The public-safe report remains aggregate-only: no private heldout ids, patch content, hidden-test content, raw model outputs or prompt text are exposed. No local model is loaded, no remote inference is invoked, no training job is launched and no model release is allowed.
+
+---
+
+## Update - Step 29.22 Public Eval Remote Batch Adapter v1
+
+Step 29.22 prepares the remote model-candidate batch execution path for the expanded public eval suite without invoking inference.
+
+The adapter builds one Bedrock Converse request per public eval task, records per-task request hashes, records a batch request hash, emits public pre-test evidence, creates a cost policy and creates a batch execution plan.
+
+The execution plan is intentionally fail-closed. The generated approval record is unapproved, official pricing evidence is absent, execution authorization is false, no Bedrock Runtime call is made and no local model is loaded.
+
+The step also emits a blocked candidate package through the Step 29.14 model candidate eval contract. This preserves the future package shape while preventing any release claim before real candidate outputs, patch validation and aggregate-only private heldout evaluation exist.

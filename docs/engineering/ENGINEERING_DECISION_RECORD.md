@@ -1371,3 +1371,15 @@ The runner verifies the Step 29.17 request hash against the Step 29.18 approval 
 The default doctor runs with execution disabled and confirms that no remote inference is invoked, no local model is used, no raw response or patch exists, and the candidate package remains invalid/release-blocked.
 
 When explicit approval and official pricing evidence exist, the same harness can execute one Bedrock Converse call, parse a unified diff, validate it with `git apply --check`, run public post-patch tests and validate the package against the model candidate eval contract.
+
+---
+
+## Update - Step 29.20 Public Eval Suite Scaleout v1
+
+Step 29.20 expands the public executable evaluation surface beyond the single remote smoke task.
+
+The suite creates six deterministic public eval tasks across boundary condition, string normalization, collection semantics, collection order, parsing and iteration bug families.
+
+Each task is built as a real temporary repository. Golden, rejected and public-overfit patches are generated with `git diff` from committed baselines. The doctor requires pre-public failure, `git apply --check`, golden public and hidden pass, rejected oracle failure and public-overfit public pass plus hidden failure.
+
+This step does not run a model candidate. It strengthens the public evaluation gate that future candidates must satisfy before any release or training decision can be considered.

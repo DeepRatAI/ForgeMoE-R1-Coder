@@ -755,3 +755,30 @@ Current state:
 Recommended next step:
 
 Obtain explicit cost approval and official pricing evidence for the exact model id and request hash, then run one authorized remote inference smoke eval through Step 29.19.
+
+---
+
+## Step 29.20 Recap - Public Eval Suite Scaleout v1
+
+ForgeMoE now has a broader public executable eval suite for future candidate evaluation.
+
+Current state:
+
+- Six deterministic public eval tasks are generated.
+- The suite covers six task families and at least ten behavioral axes.
+- Every task is represented as a real temporary Python repository.
+- Golden, rejected and public-overfit patches are generated with Git-native diffs from committed baselines.
+- Public tests fail before patching for every task.
+- Golden patches pass `git apply --check`, public tests and hidden oracle tests.
+- Rejected patches fail the oracle.
+- Public-overfit patches pass public tests and fail hidden oracle tests.
+- Public-safe manifests export hashes and metadata only.
+- No model candidate is evaluated.
+- No local model execution is used.
+- No remote inference is invoked.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.21 - public eval candidate runner scaleout, using the expanded suite while preserving the remote inference approval gate and aggregate-only private heldout policy.

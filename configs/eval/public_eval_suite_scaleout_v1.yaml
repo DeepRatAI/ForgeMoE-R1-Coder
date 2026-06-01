@@ -1,0 +1,42 @@
+public_eval_suite_scaleout_v1:
+  name: public_eval_suite_scaleout_v1
+  status: executable_public_eval_gate
+  date: 2026-06-01
+
+  purpose:
+    - expand_public_executable_eval_coverage_beyond_single_smoke_task
+    - require_git_native_patches_from_real_temporary_repositories
+    - require_pre_public_failure_for_each_task
+    - require_golden_patch_public_and_hidden_pass
+    - require_rejected_patch_failure
+    - require_public_overfit_public_pass_hidden_fail
+    - preserve_private_heldout_separation
+
+  source_contracts:
+    remote_inference_execution_candidate_eval: step29_19_remote_inference_execution_candidate_eval_v1
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    heldout_aware_eval_protocol: step29_13_heldout_aware_eval_protocol_v1
+
+  suite_contract:
+    split: public_eval
+    minimum_task_count: 6
+    minimum_task_family_count: 6
+    minimum_behavioral_axis_count: 10
+    patch_generation: git_diff_from_committed_temporary_repositories
+    required_patch_challenges:
+      - golden
+      - rejected
+      - public_overfit
+
+  non_execution_policy:
+    candidate_eval_executed: false
+    remote_inference_invoked: false
+    local_model_execution_used: false
+    training_job_launched: false
+    model_release_allowed: false
+
+  privacy_policy:
+    public_safe_reports_include_test_content: false
+    public_safe_reports_include_hidden_test_content: false
+    public_safe_reports_include_patch_content: false
+    private_heldout_used_for_prompt_iteration: false

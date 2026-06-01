@@ -1,0 +1,39 @@
+public_eval_remote_batch_execution_v1:
+  name: public_eval_remote_batch_execution_v1
+  status: fail_closed_execution_harness
+  date: 2026-06-01
+
+  purpose:
+    - execute_public_eval_remote_batch_only_after_exact_authorization
+    - bind_execution_to_model_id_batch_hash_and_all_request_hashes
+    - parse_remote_responses_into_patches
+    - validate_patches_with_git_apply_public_tests_and_public_hidden_oracle
+    - keep_release_blocked_without_private_heldout_aggregate
+
+  source_contracts:
+    public_eval_remote_batch_adapter: step29_22_public_eval_remote_batch_adapter_v1
+    public_eval_suite_scaleout: step29_20_public_eval_suite_scaleout_v1
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    heldout_aware_eval_protocol: step29_13_heldout_aware_eval_protocol_v1
+
+  authorization_policy:
+    execute_flag: FORGEMOE_EXECUTE_PUBLIC_EVAL_REMOTE_BATCH
+    approval_evidence_file: configs/eval/public_eval_remote_batch_execution_approval_v1.json
+    pricing_evidence_file: configs/eval/public_eval_remote_batch_pricing_evidence_v1.json
+    approval_must_match_model_id: true
+    approval_must_match_batch_request_sha256: true
+    approval_must_match_all_request_sha256_values: true
+    official_pricing_evidence_required: true
+
+  default_state:
+    execution_authorized: false
+    remote_inference_invoked: false
+    local_model_execution_used: false
+    training_job_launched: false
+    model_release_allowed: false
+
+  release_policy:
+    release_allowed_in_this_step: false
+    real_model_candidate_required: true
+    public_eval_execution_required: true
+    private_heldout_aggregate_required: true

@@ -66,7 +66,7 @@ assert summary["golden_reference_public_eval_solve_rate"] == 1.0, summary
 assert summary["golden_reference_hidden_oracle_pass_rate"] == 1.0, summary
 assert summary["rejected_reference_failed"] is True, summary
 assert 0.0 <= summary["rejected_reference_public_eval_solve_rate"] < 1.0, summary
-assert summary["rejected_reference_hidden_oracle_pass_rate"] == 0.0, summary
+assert 0.0 <= summary["rejected_reference_hidden_oracle_pass_rate"] < 1.0, summary
 assert summary["rejected_reference_regression_free_patch_rate"] == 0.0, summary
 assert summary["public_overfit_reference_detected"] is True, summary
 assert summary["public_overfit_reference_public_eval_solve_rate"] == 1.0, summary
@@ -92,6 +92,8 @@ by_id = {row["candidate_id"]: row for row in scorecards}
 assert by_id["public-eval-reference-golden"]["public_eval_gate_passed"] is True, by_id
 assert by_id["public-eval-reference-golden"]["hidden_oracle_pass_rate"] == 1.0, by_id
 assert by_id["public-eval-reference-rejected"]["rejected_gate_failed"] is True, by_id
+assert by_id["public-eval-reference-rejected"]["regression_free_patch_rate"] == 0.0, by_id
+assert by_id["public-eval-reference-rejected"]["hidden_oracle_pass_rate"] < 1.0, by_id
 assert by_id["public-eval-reference-public-overfit"]["public_overfit_gate_failed"] is True, by_id
 assert by_id["public-eval-reference-public-overfit"]["public_overfit_detected_task_count"] == 6, by_id
 

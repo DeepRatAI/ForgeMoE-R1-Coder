@@ -834,3 +834,33 @@ Current state:
 Recommended next step:
 
 Step 29.23 - authorized public eval remote batch execution after explicit approval and official pricing evidence are bound to the exact selected model id, request hashes and batch request hash.
+
+---
+
+## Step 29.23 Recap - Public Eval Remote Batch Execution v1
+
+ForgeMoE now has a fail-closed public eval remote batch execution harness.
+
+Current state:
+
+- The harness consumes the Step 29.22 request manifest.
+- The selected model id is verified.
+- Six per-task request hashes are verified against request files.
+- The batch request hash is verified.
+- Approval evidence is required.
+- Official pricing evidence is required.
+- The execution flag is required.
+- In the default state, execution is unauthorized.
+- No Bedrock Runtime call is made.
+- No local model execution is used.
+- No raw remote response is present.
+- No patch is extracted.
+- No candidate public or hidden eval tests are run.
+- A candidate package is emitted through the model candidate eval contract.
+- The package remains invalid and release-blocked because no real model response or private-heldout aggregate result exists.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.24 - private heldout aggregate candidate eval gate, or execute Step 29.23 only after approval and official pricing evidence are bound to the exact batch.

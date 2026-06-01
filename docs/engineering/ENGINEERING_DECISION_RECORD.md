@@ -1407,3 +1407,15 @@ The adapter builds one Bedrock Converse request per public eval task, records pe
 The execution plan is intentionally fail-closed. The generated approval record is unapproved, official pricing evidence is absent, execution authorization is false, no Bedrock Runtime call is made and no local model is loaded.
 
 The step also emits a blocked candidate package through the Step 29.14 model candidate eval contract. This preserves the future package shape while preventing any release claim before real candidate outputs, patch validation and aggregate-only private heldout evaluation exist.
+
+---
+
+## Update - Step 29.23 Public Eval Remote Batch Execution v1
+
+Step 29.23 adds the fail-closed execution harness for the Step 29.22 public eval remote batch.
+
+The harness validates the selected model id, all per-task request hashes, the batch request hash, explicit execution flag, approval evidence, call limits, cost limits and official pricing evidence before allowing any Bedrock Runtime call.
+
+In the current state, execution is unauthorized. The doctor confirms no remote inference is invoked, no local model is loaded, no patch is extracted, no public or hidden eval tests are run against candidate patches and the candidate package remains invalid/release-blocked.
+
+The future authorized path is now explicit: execute six remote calls, extract unified diffs, validate `git apply --check`, run public tests, run public-suite hidden oracle checks, aggregate metrics and then pass through the model candidate eval contract.

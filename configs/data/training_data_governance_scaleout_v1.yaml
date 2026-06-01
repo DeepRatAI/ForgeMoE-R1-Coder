@@ -1,0 +1,53 @@
+training_data_governance_scaleout_v1:
+  name: training_data_governance_scaleout_v1
+  status: fail_closed_training_data_gate
+  date: 2026-06-01
+
+  purpose:
+    - inventory_all_current_internal_dataset_exports
+    - separate_scaffold_data_from_training_grade_data
+    - enforce_train_eval_private_heldout_split_boundaries
+    - require_license_provenance_and_contamination_evidence_before_training_grade_release
+    - keep_private_heldout_identifiers_and_content_out_of_public_reports
+    - block_training_until_rows_are_auditable_training_grade
+
+  input_contracts:
+    dataset_source_matrix_gate: step29_7_dataset_source_matrix_gate_v0
+    private_heldout_aggregate_gate: step29_24_private_heldout_aggregate_candidate_eval_gate_v1
+    internal_synthetic_micro_generator: step29_9_internal_synthetic_micro_generator_v0
+    agentic_trajectory_recorder: step29_11_agentic_trajectory_recorder_v1
+
+  admission_tiers:
+    scaffold_only:
+      allowed_use: schema_pipeline_and_tooling_validation
+      training_allowed: false
+      model_release_allowed: false
+    training_grade:
+      allowed_use: future_training_after_gate_pass
+      required_controls:
+        - split_is_train
+        - never_train_on_is_false
+        - no_private_heldout_identifier_or_content
+        - explicit_license_and_generator_provenance
+        - completed_public_benchmark_contamination_scan
+        - execution_oracle_quality_certified
+        - no_withheld_eval_content_exported
+        - no_secret_or_credential_findings
+
+  current_default_decision:
+    scaffold_data_release_allowed: true
+    training_grade_data_release_allowed: false
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    local_model_execution_used: false
+    remote_inference_invoked: false
+
+  public_report_policy:
+    raw_rows_included: false
+    private_identifiers_included: false
+    patch_content_included: false
+    withheld_eval_content_included: false
+    prompt_content_included: false
+    model_outputs_included: false

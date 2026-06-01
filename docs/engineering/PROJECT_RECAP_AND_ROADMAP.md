@@ -895,3 +895,28 @@ Current state:
 Recommended next step:
 
 Step 29.25 - authorized private heldout execution path after public candidate success, or training data governance scaleout if remote candidate execution remains unapproved.
+
+---
+
+## Step 29.25 Recap - Training Data Governance Scaleout v1
+
+ForgeMoE now has an auditable row-level training data admission gate.
+
+Current state:
+
+- Ten current internal dataset export files are inventoried.
+- Ten current rows are evaluated across split, privacy, provenance, contamination and oracle-quality controls.
+- Six train-split rows are admitted only as scaffold data for schema and tooling validation.
+- Zero rows are admitted as training-grade.
+- Eval rows are rejected for training use.
+- Private heldout rows are rejected for training use.
+- Public reports exclude raw rows, private identifiers, patch content, withheld-eval content, prompts and model outputs.
+- No local model execution is used.
+- No remote inference is invoked.
+- No large external dataset is downloaded.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.26 - Training data schema normalization and generator scaleout plan.

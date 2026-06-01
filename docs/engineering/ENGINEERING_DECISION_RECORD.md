@@ -1431,3 +1431,15 @@ The gate requires independent aggregate private-heldout evidence bound to the ex
 The gate rejects task-level private results, private task ids, patch content, hidden-test content, prompts and raw model outputs from public artifacts. In the current state, aggregate evidence is absent, the public candidate was not executed and release remains blocked.
 
 This creates the release boundary needed before any future real candidate can claim private heldout performance.
+
+---
+
+## Update - Step 29.25 Training Data Governance Scaleout v1
+
+Step 29.25 adds an operational row-level training data admission gate.
+
+The gate inventories current internal dataset exports from the deterministic micro-generator and agentic trajectory recorder, then classifies each row as rejected, scaffold-only or future training-grade.
+
+The current result is intentionally conservative: train-split rows may be used only as scaffold data for schema and tooling validation, while zero rows are admitted as training-grade. Eval and private heldout rows are rejected for training use. Public reports exclude raw rows, private identifiers, patch content, withheld-eval content, prompts and model outputs.
+
+Training remains blocked until license/provenance, contamination scanning, canonical schemas and row-level oracle-quality certification are complete.

@@ -997,3 +997,31 @@ Current state:
 Recommended next step:
 
 Step 29.29 - task-family bundle isolation and oracle-quality certification.
+
+---
+
+## Step 29.29 Recap - Task-Family Bundle and Oracle-Quality Gate v1
+
+ForgeMoE now has an executable task-family bundle policy and row-level oracle-quality certification gate.
+
+Current state:
+
+- Ten governed rows are grouped into three hash-only task bundles.
+- Same-task multi-product rows are allowed only inside single-split bundles.
+- No cross-split task bundle is present.
+- The train bundle is isolated from eval/private at high-similarity level.
+- Eval/private-heldout scaffolds remain too similar for strong private generalization claims.
+- Three task-level oracles are certified with observed oracle strength 1.0.
+- Ten rows map to certified task-level oracle evidence.
+- Four train rows are training-payload oracle certified.
+- Zero rows are training-grade after Step 29.29 because remaining governance blockers still apply.
+- Public reports exclude raw rows, raw text, private identifier values, patch content, withheld-eval content, prompts and model outputs.
+- No local model execution is used.
+- No remote inference is invoked.
+- No large external dataset is downloaded.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.30 - hardened task generation and public benchmark contamination registry.

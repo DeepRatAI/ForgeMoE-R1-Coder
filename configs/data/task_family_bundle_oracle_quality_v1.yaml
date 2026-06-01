@@ -1,0 +1,54 @@
+task_family_bundle_oracle_quality_v1:
+  name: task_family_bundle_oracle_quality_v1
+  status: fail_closed_bundle_and_oracle_gate
+  date: 2026-06-01
+
+  purpose:
+    - define_task_family_bundle_policy_for_same_task_multi_product_rows
+    - certify_rows_against_step29_10_oracle_quality_evidence
+    - separate_training_payload_oracle_certification_from_training_grade_release
+    - keep_private_generalization_claims_blocked_when_eval_private_similarity_is_high
+    - keep_training_launch_blocked_until_license_contamination_and_harder_eval_gates_pass
+
+  source_contracts:
+    training_data_governance_scaleout: step29_25_training_data_governance_scaleout_v1
+    dedup_near_duplicate_scanner: step29_28_dedup_near_duplicate_scanner_v1
+    oracle_hidden_test_gate: step29_10_oracle_hidden_test_gate_v0
+
+  policy:
+    same_task_multi_product_allowed_within_single_split_bundle: true
+    cross_split_task_bundle_allowed: false
+    train_eval_high_similarity_allowed: false
+    train_private_high_similarity_allowed: false
+    eval_private_high_similarity_blocks_private_generalization_claim: true
+    minimum_oracle_strength_score: 0.95
+
+  scanner_outputs:
+    - task_family_bundle_manifest
+    - split_bundle_isolation_report
+    - oracle_quality_certifications
+    - task_oracle_quality_report
+    - training_candidate_decisions
+    - public_safe_report
+    - privacy_report
+
+  current_policy:
+    task_family_bundle_policy_complete: true
+    oracle_quality_certification_complete: true
+    private_generalization_claim_allowed: false
+    training_grade_data_release_allowed: false
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    local_model_execution_used: false
+    remote_inference_invoked: false
+
+  public_report_policy:
+    raw_rows_included: false
+    raw_text_included: false
+    private_identifier_values_included: false
+    patch_content_included: false
+    prompt_content_included: false
+    withheld_eval_content_included: false
+    model_outputs_included: false

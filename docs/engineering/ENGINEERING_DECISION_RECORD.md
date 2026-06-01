@@ -1473,3 +1473,13 @@ Step 29.28 implements the executable deduplication and near-duplicate scanner th
 The scanner reads the current governed rows, computes hash-only row features, compares every row pair and emits exact duplicate groups, near-duplicate groups, split collision counts and row-level dedup decisions.
 
 The scanner marks near-duplicate scanning complete, but keeps deduplication failed and training-grade release blocked. Current rows contain same-task multi-product groups, which require a task-family bundle policy before any training-grade release. The current toy-scale eval and private-heldout scaffolds also have high-similarity pairs, so the private-eval story must be hardened before it can support frontier-level claims. Public benchmark contamination scanning, license approval and row-level oracle-quality certification also remain blocking gates.
+
+---
+
+## Update - Step 29.29 Task-Family Bundle and Oracle-Quality Gate v1
+
+Step 29.29 implements the task-family bundle policy and oracle-quality certification gate exposed by Step 29.28.
+
+The gate groups current rows into hash-only task bundles, allows same-task multi-product rows only inside a single split and certifies rows against Step 29.10 oracle evidence. It separates oracle certification from training-grade release.
+
+The bundle policy is now executable, and all current rows map to certified task-level oracle evidence. Training-grade release remains blocked because eval/private scaffolds are too similar, some train rows contain withheld references, license policy remains scaffold-only, public benchmark contamination scanning is incomplete and final contamination release policy is not integrated.

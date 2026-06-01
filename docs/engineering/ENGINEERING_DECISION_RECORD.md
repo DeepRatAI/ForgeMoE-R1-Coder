@@ -1463,3 +1463,13 @@ Step 29.27 adds executable scanners for the first provenance, license and contam
 The scanner reads current governed rows, emits provenance scan results, license scan results, contamination scan results, row-level scanner decisions and a hash-only fingerprint index.
 
 Current train rows show zero overlap with known eval and private heldout identifiers. Training-grade release remains blocked because the license policy is scaffold-only, public benchmark scanning is incomplete, near-duplicate scanning is incomplete and oracle-quality certification is not yet integrated into this promotion gate.
+
+---
+
+## Update - Step 29.28 Dedup and Near-Duplicate Scanner v1
+
+Step 29.28 implements the executable deduplication and near-duplicate scanner that Step 29.27 intentionally left as a blocker.
+
+The scanner reads the current governed rows, computes hash-only row features, compares every row pair and emits exact duplicate groups, near-duplicate groups, split collision counts and row-level dedup decisions.
+
+The scanner marks near-duplicate scanning complete, but keeps deduplication failed and training-grade release blocked. Current rows contain same-task multi-product groups, which require a task-family bundle policy before any training-grade release. The current toy-scale eval and private-heldout scaffolds also have high-similarity pairs, so the private-eval story must be hardened before it can support frontier-level claims. Public benchmark contamination scanning, license approval and row-level oracle-quality certification also remain blocking gates.

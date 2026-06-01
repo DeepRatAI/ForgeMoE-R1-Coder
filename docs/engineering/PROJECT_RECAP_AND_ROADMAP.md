@@ -971,3 +971,29 @@ Current state:
 Recommended next step:
 
 Step 29.28 - dedup and near-duplicate scanner implementation.
+
+---
+
+## Step 29.28 Recap - Dedup and Near-Duplicate Scanner v1
+
+ForgeMoE now has an executable deduplication and near-duplicate scanner for current governed internal scaffold rows.
+
+Current state:
+
+- Ten governed rows are represented as hash-only dedup features.
+- Forty-five row pairs are compared.
+- Exact row duplicate groups are absent.
+- Same-task multi-product groups are detected.
+- Current train rows are blocked from training-grade release because task-family bundle policy is not yet implemented.
+- High-similarity train/eval and train/private split collisions are not present in the current scaffold.
+- High-similarity eval/private-heldout scaffold pairs are present, which blocks any serious private generalization claim until task-family isolation and harder task generation are implemented.
+- Public reports exclude raw rows, raw text, private identifier values, patch content, withheld-eval content, prompts and model outputs.
+- No local model execution is used.
+- No remote inference is invoked.
+- No large external dataset is downloaded.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.29 - task-family bundle isolation and oracle-quality certification.

@@ -864,3 +864,34 @@ Current state:
 Recommended next step:
 
 Step 29.24 - private heldout aggregate candidate eval gate, or execute Step 29.23 only after approval and official pricing evidence are bound to the exact batch.
+
+---
+
+## Step 29.24 Recap - Private Heldout Aggregate Candidate Eval Gate v1
+
+ForgeMoE now has a fail-closed private heldout aggregate candidate eval gate.
+
+Current state:
+
+- The gate consumes the Step 29.23 candidate package.
+- The heldout-aware protocol is verified ready.
+- Private heldout isolation is verified before the gate runs.
+- Candidate package SHA-256 is computed and recorded.
+- Aggregate private-heldout evidence is required.
+- Evidence must match candidate id, candidate package SHA-256, public batch request SHA-256, heldout protocol version and private heldout task count.
+- Task-level results are disallowed.
+- Private task ids are disallowed.
+- Patch content is disallowed.
+- Hidden-test content is disallowed.
+- Prompts and raw model outputs are disallowed.
+- In the default state, aggregate evidence is absent.
+- No private heldout evaluation is claimed.
+- No local model execution is used.
+- No remote inference is invoked by this gate.
+- Candidate release remains blocked.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.25 - authorized private heldout execution path after public candidate success, or training data governance scaleout if remote candidate execution remains unapproved.

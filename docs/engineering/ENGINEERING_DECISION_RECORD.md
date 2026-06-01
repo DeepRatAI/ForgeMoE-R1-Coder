@@ -1419,3 +1419,15 @@ The harness validates the selected model id, all per-task request hashes, the ba
 In the current state, execution is unauthorized. The doctor confirms no remote inference is invoked, no local model is loaded, no patch is extracted, no public or hidden eval tests are run against candidate patches and the candidate package remains invalid/release-blocked.
 
 The future authorized path is now explicit: execute six remote calls, extract unified diffs, validate `git apply --check`, run public tests, run public-suite hidden oracle checks, aggregate metrics and then pass through the model candidate eval contract.
+
+---
+
+## Update - Step 29.24 Private Heldout Aggregate Candidate Eval Gate v1
+
+Step 29.24 adds the fail-closed private heldout aggregate gate after public eval candidate packaging.
+
+The gate requires independent aggregate private-heldout evidence bound to the exact candidate id, candidate package SHA-256, public batch request SHA-256, heldout protocol version and private heldout task count.
+
+The gate rejects task-level private results, private task ids, patch content, hidden-test content, prompts and raw model outputs from public artifacts. In the current state, aggregate evidence is absent, the public candidate was not executed and release remains blocked.
+
+This creates the release boundary needed before any future real candidate can claim private heldout performance.

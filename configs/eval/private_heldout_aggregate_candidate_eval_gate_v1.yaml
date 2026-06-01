@@ -1,0 +1,45 @@
+private_heldout_aggregate_candidate_eval_gate_v1:
+  name: private_heldout_aggregate_candidate_eval_gate_v1
+  status: fail_closed_private_aggregate_gate
+  date: 2026-06-01
+
+  purpose:
+    - require_private_heldout_aggregate_evidence_before_release
+    - bind_private_aggregate_evidence_to_candidate_package_sha256
+    - keep_private_task_ids_patch_content_and_hidden_tests_out_of_public_reports
+    - reject_candidate_self_attestation_without_independent_aggregate_evidence
+    - block_training_and_release_until_public_and_private_gates_pass
+
+  source_contracts:
+    public_eval_remote_batch_execution: step29_23_public_eval_remote_batch_execution_v1
+    heldout_aware_eval_protocol: step29_13_heldout_aware_eval_protocol_v1
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    private_heldout_seed_set: step29_12_private_heldout_seed_set_v1
+
+  evidence_policy:
+    evidence_file: configs/eval/private_heldout_aggregate_candidate_eval_evidence_v1.json
+    aggregate_only_required: true
+    task_ids_allowed: false
+    task_level_results_allowed: false
+    patch_content_allowed: false
+    hidden_test_content_allowed: false
+    raw_model_outputs_allowed: false
+    candidate_package_sha256_required: true
+    public_batch_request_sha256_required: true
+    heldout_protocol_version_required: true
+
+  default_state:
+    private_heldout_aggregate_evidence_present: false
+    private_heldout_evaluated: false
+    release_gate_passed: false
+    training_launch_allowed: false
+    model_release_allowed: false
+    remote_inference_invoked: false
+    local_model_execution_used: false
+
+  release_policy:
+    candidate_contract_valid_required: true
+    real_model_candidate_required: true
+    public_eval_pass_required: true
+    private_heldout_aggregate_pass_required: true
+    privacy_scan_required: true

@@ -1,0 +1,44 @@
+provenance_license_contamination_scanner_v1:
+  name: provenance_license_contamination_scanner_v1
+  status: fail_closed_scanner_gate
+  date: 2026-06-01
+
+  purpose:
+    - scan_current_governed_rows_for_provenance_evidence
+    - classify_license_status_under_a_scaffold_only_policy
+    - detect_train_overlap_with_eval_and_private_heldout_identifiers
+    - create_hash_only_fingerprint_index
+    - keep_training_grade_release_blocked_until_full_scanners_exist
+
+  source_contracts:
+    training_data_governance_scaleout: step29_25_training_data_governance_scaleout_v1
+    training_data_schema_normalization: step29_26_training_data_schema_normalization_scaleout_plan_v1
+
+  scanner_outputs:
+    - provenance_scan_results
+    - license_scan_results
+    - contamination_scan_results
+    - row_scanner_decisions
+    - fingerprint_index
+    - public_safe_report
+    - privacy_report
+
+  current_policy:
+    license_policy: scaffold_only
+    external_benchmark_corpus_available: false
+    near_duplicate_scanner_complete: false
+    training_grade_data_release_allowed: false
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    local_model_execution_used: false
+    remote_inference_invoked: false
+
+  public_report_policy:
+    raw_rows_included: false
+    private_identifier_values_included: false
+    patch_content_included: false
+    prompt_content_included: false
+    withheld_eval_content_included: false
+    model_outputs_included: false

@@ -1453,3 +1453,13 @@ Step 29.26 defines the canonical data product schemas required before scaling in
 The gate maps current source schemas into five canonical products: patch SFT, trajectory SFT, preference pairs, repair traces and executable task references. It emits normalized scaffold rows as manifest references only, not training payloads.
 
 All current source schemas are mapped, but zero rows are promoted to training-grade. Training remains blocked until provenance/license registry, contamination/dedup scanning and row-level oracle-quality certification are implemented.
+
+---
+
+## Update - Step 29.27 Provenance, License and Contamination Scanner v1
+
+Step 29.27 adds executable scanners for the first provenance, license and contamination layer.
+
+The scanner reads current governed rows, emits provenance scan results, license scan results, contamination scan results, row-level scanner decisions and a hash-only fingerprint index.
+
+Current train rows show zero overlap with known eval and private heldout identifiers. Training-grade release remains blocked because the license policy is scaffold-only, public benchmark scanning is incomplete, near-duplicate scanning is incomplete and oracle-quality certification is not yet integrated into this promotion gate.

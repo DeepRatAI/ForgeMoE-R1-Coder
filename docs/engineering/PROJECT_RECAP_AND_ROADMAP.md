@@ -945,3 +945,29 @@ Current state:
 Recommended next step:
 
 Step 29.27 - provenance, license and contamination scanner implementation.
+
+---
+
+## Step 29.27 Recap - Provenance, License and Contamination Scanner v1
+
+ForgeMoE now has executable scanner evidence for provenance, license and contamination boundaries.
+
+Current state:
+
+- Ten governed source rows are scanned.
+- Six train rows, two eval rows and two private heldout rows are classified.
+- Provenance, license and contamination scan outputs are emitted per row.
+- A hash-only fingerprint index is emitted.
+- Train rows show zero overlap with known eval identifiers.
+- Train rows show zero overlap with known private heldout identifiers.
+- Zero rows pass training-grade release.
+- Public reports exclude raw rows, private identifier values, patch content, withheld-eval content, prompts and model outputs.
+- No local model execution is used.
+- No remote inference is invoked.
+- No large external dataset is downloaded.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.28 - dedup and near-duplicate scanner implementation.

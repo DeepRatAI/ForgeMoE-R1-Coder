@@ -1,0 +1,56 @@
+remote_inference_cost_approval_gate_v1:
+  name: remote_inference_cost_approval_gate_v1
+  status: approval_gate
+  date: 2026-06-01
+
+  purpose:
+    - define_remote_inference_cost_approval_policy
+    - bind_approval_to_specific_model_and_request_hash
+    - set_token_and_call_limits_before_paid_inference
+    - preserve_no_local_model_execution_policy
+    - block_remote_inference_until_explicit_approval
+
+  source_contracts:
+    remote_code_model_candidate_smoke_eval: step29_17_remote_code_model_candidate_smoke_eval_v1
+    model_candidate_eval_contract: step29_14_model_candidate_eval_contract_v1
+    heldout_aware_eval_protocol: step29_13_heldout_aware_eval_protocol_v1
+
+  default_policy:
+    approval_status: not_approved
+    max_remote_inference_calls: 1
+    proposed_max_total_usd: 1.00
+    pricing_quote_required_before_execution: true
+    official_pricing_source_required: true
+    bind_approval_to_request_sha256: true
+
+  execution_policy:
+    local_model_execution_allowed: false
+    remote_inference_invoked: false
+    execution_authorized: false
+    training_job_launched: false
+    model_release_allowed: false
+
+  abort_conditions:
+    - approval_status_is_not_approved
+    - selected_model_id_differs_from_approved_model
+    - request_hash_differs_from_approved_request
+    - estimated_token_ceiling_exceeds_policy
+    - private_heldout_content_present_in_request
+    - local_model_runtime_detected
+
+  outputs:
+    - token_budget
+    - cost_approval_policy
+    - remote_inference_execution_plan
+    - approval_record
+    - remote_inference_cost_approval_gate_decision
+    - public_safe_remote_inference_cost_approval_report
+    - remote_inference_cost_approval_privacy_report
+
+  cost_boundary:
+    training_launch_allowed: false
+    model_release_allowed: false
+    downloads_large_dataset: false
+    gpu_required: false
+    remote_inference_invoked: false
+    requires_explicit_approval_before_remote_inference: true

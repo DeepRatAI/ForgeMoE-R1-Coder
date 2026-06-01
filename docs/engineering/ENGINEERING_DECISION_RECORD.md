@@ -1347,3 +1347,15 @@ The runner creates a public executable clamp bugfix task, verifies that public t
 Execution authorization is false. No Bedrock Runtime call is made, no local model is loaded, no training job is launched and no model release is allowed.
 
 This creates the reproducible request boundary needed before the first paid remote inference attempt.
+
+---
+
+## Update - Step 29.18 Remote Inference Cost Approval Gate v1
+
+Step 29.18 adds a cost and authorization gate before any paid remote inference is executed.
+
+The runner consumes the Step 29.17 Bedrock Converse request, computes a conservative token ceiling, records the selected model id, hashes the exact request body and writes an execution plan that remains blocked.
+
+The approval record is intentionally unapproved. A future execution step must bind approval to the exact model id and request SHA-256, require an official pricing source or billing API quote, enforce one-call and token ceilings, and fail closed on drift.
+
+No Bedrock Runtime call is made, no local model is loaded, no training job is launched and no model release is allowed.

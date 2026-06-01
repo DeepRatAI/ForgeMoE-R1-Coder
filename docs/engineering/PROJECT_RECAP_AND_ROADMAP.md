@@ -703,3 +703,28 @@ Current state:
 Recommended next step:
 
 Step 29.18 - Remote inference cost approval and candidate eval.
+
+---
+
+## Step 29.18 Recap - Remote Inference Cost Approval Gate v1
+
+ForgeMoE now has an explicit cost approval gate before any paid remote model call.
+
+Current state:
+
+- The Step 29.17 Bedrock Converse request is consumed as the source request.
+- A conservative token ceiling is computed from the prepared prompt and max output tokens.
+- The selected remote model id and exact request SHA-256 are recorded.
+- A cost approval policy is emitted with approval status `not_approved`.
+- The execution plan is written but blocked until explicit approval and official pricing evidence exist.
+- The approval record is present and intentionally unapproved.
+- No local model execution is used.
+- No remote inference is invoked.
+- No candidate evaluation is executed.
+- No training job is launched.
+- No model release is allowed.
+- Public-safe reports exclude private task ids, private patches, hidden-test contents and raw candidate outputs.
+
+Recommended next step:
+
+Step 29.19 - Remote inference execution candidate eval, only after explicit cost approval for the selected model and request hash.

@@ -422,7 +422,10 @@ class TestSafeGetHidden(unittest.TestCase):
     return result
 """,
             rejected_body="""def unique_preserve_order(items: list[str]) -> list[str]:
-    return list(set(items))
+    result = []
+    for item in sorted(set(items)):
+        result.append(item)
+    return result
 """,
             public_overfit_body="""def unique_preserve_order(items: list[str]) -> list[str]:
     if items == ["b", "a", "b"]:

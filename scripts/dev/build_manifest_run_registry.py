@@ -21,6 +21,9 @@ class RegistryEntry:
     gpu_required: bool | None
     h100_purchase_required: bool | None
     s3_artifact: str | None
+    artifact_sha256: str | None
+    artifact_bytes: int | None
+    component_snapshot_s3: str | None
     manifest_file: str
     local_test: dict[str, Any]
     components: list[str]
@@ -35,6 +38,9 @@ class RegistryEntry:
             "gpu_required": self.gpu_required,
             "h100_purchase_required": self.h100_purchase_required,
             "s3_artifact": self.s3_artifact,
+            "artifact_sha256": self.artifact_sha256,
+            "artifact_bytes": self.artifact_bytes,
+            "component_snapshot_s3": self.component_snapshot_s3,
             "manifest_file": self.manifest_file,
             "local_test": self.local_test,
             "components": self.components,
@@ -98,6 +104,9 @@ def manifest_to_entry(path: Path, data: dict[str, Any]) -> RegistryEntry:
         gpu_required=data.get("gpu_required"),
         h100_purchase_required=data.get("h100_purchase_required"),
         s3_artifact=data.get("s3_artifact"),
+        artifact_sha256=data.get("artifact_sha256"),
+        artifact_bytes=data.get("artifact_bytes"),
+        component_snapshot_s3=data.get("component_snapshot_s3"),
         manifest_file=str(path),
         local_test=local_test if isinstance(local_test, dict) else {},
         components=[str(item) for item in components],
@@ -161,6 +170,9 @@ def build_registry(manifest_dir: Path, output_dir: Path) -> dict[str, Any]:
                 f"- GPU required: {entry.gpu_required}",
                 f"- H100 purchase required: {entry.h100_purchase_required}",
                 f"- S3 artifact: {entry.s3_artifact}",
+                f"- Artifact SHA-256: {entry.artifact_sha256}",
+                f"- Artifact bytes: {entry.artifact_bytes}",
+                f"- Component snapshot S3: {entry.component_snapshot_s3}",
                 f"- Manifest file: {entry.manifest_file}",
                 "",
             ]

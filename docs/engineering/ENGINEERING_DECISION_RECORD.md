@@ -1525,3 +1525,13 @@ Step 29.33 adds the first official-source public benchmark metadata and license 
 The gate verifies official metadata for all twelve benchmark registry entries, records observed license evidence, keeps every public benchmark reference/eval-only and direct-training forbidden, and emits a bounded full-corpus snapshot fingerprinting plan for the next step.
 
 For Forge-native hardened train candidates, the gate records an internal generated synthetic-task license attestation: no raw public benchmark content, no external repository snapshot and no private heldout content are used. This resolves the scaffold-only license blocker for those candidates. Training-grade release remains blocked until full public benchmark snapshot fingerprinting and training payload materialization authorization are complete.
+
+---
+
+## Update - Step 29.34 Public Benchmark Snapshot Fingerprinting v1
+
+Step 29.34 adds bounded content-aware fingerprinting for the public benchmark registry.
+
+The gate refreshes official Hugging Face and GitHub source metadata, fingerprints dataset revisions, dataset file manifests, GitHub repository trees and capped content prefixes from selected official files. It stores only hashes and aggregate metadata; raw public benchmark file bodies are not persisted.
+
+The gate compares Forge-native oracle-certified train candidates against the public snapshot fingerprint set and observes zero exact hash collisions and zero high-similarity matches. Training-grade release remains blocked until full public benchmark corpus materialization/contamination scanning and training payload materialization authorization are complete.

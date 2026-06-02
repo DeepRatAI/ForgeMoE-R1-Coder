@@ -4,6 +4,7 @@ from collections import Counter
 from pathlib import Path
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -37,6 +38,9 @@ PUBLIC_REPORT_DISALLOWED_MARKERS = [
     "raw_model_output",
     "raw_outputs",
 ]
+
+_GITHUB_TOKEN: str | None = None
+_GITHUB_TOKEN_LOADED = False
 
 
 BENCHMARK_SOURCES: dict[str, dict[str, Any]] = {
@@ -164,8 +168,31 @@ def scan_secrets(text: str) -> list[dict[str, Any]]:
     return findings
 
 
+def github_token() -> str | None:
+    global _GITHUB_TOKEN, _GITHUB_TOKEN_LOADED
+    if _GITHUB_TOKEN_LOADED:
+        return _GITHUB_TOKEN
+    _GITHUB_TOKEN_LOADED = True
+    for env_name in ("GITHUB_TOKEN", "GH_TOKEN"):
+        value = os.environ.get(env_name)
+        if value:
+            _GITHUB_TOKEN = value.strip()
+            return _GITHUB_TOKEN
+    try:
+        value = subprocess.check_output(["gh", "auth", "token"], text=True, stderr=subprocess.DEVNULL).strip()
+    except Exception:
+        value = ""
+    _GITHUB_TOKEN = value or None
+    return _GITHUB_TOKEN
+
+
 def fetch_url(url: str) -> dict[str, Any]:
-    request = urllib.request.Request(url, headers={"User-Agent": "ForgeMoE-Coder-Step29.33/1.0"})
+    headers = {"User-Agent": "ForgeMoE-Coder-Step29.33/1.0"}
+    if url.startswith("https://api.github.com/"):
+        token = github_token()
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+    request = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(request, timeout=HTTP_TIMEOUT_SECONDS) as response:
             body = response.read(MAX_HTTP_BYTES + 1)

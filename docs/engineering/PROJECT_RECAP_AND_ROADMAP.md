@@ -1140,3 +1140,35 @@ Current state:
 Recommended next step:
 
 Step 29.34 - bounded public benchmark snapshot fingerprinting v1.
+
+---
+
+## Step 29.34 Recap - Bounded Public Benchmark Snapshot Fingerprinting v1
+
+ForgeMoE now has a bounded content-aware public benchmark snapshot fingerprinting gate.
+
+Current state:
+
+- Twelve public benchmark registry entries have bounded snapshot fingerprints.
+- Hugging Face dataset revisions and sibling manifests are fingerprinted where available.
+- GitHub repository trees are fingerprinted where repository sources exist.
+- Selected official files are read only as capped content prefixes.
+- Raw public benchmark content is not persisted.
+- Public benchmark corpora remain reference/eval-only and direct-training forbidden.
+- Forge-native train candidate hashes are compared against public snapshot fingerprints.
+- Zero exact public benchmark snapshot collisions are observed.
+- Zero high-similarity public benchmark snapshot matches are observed.
+- Full public benchmark corpus materialization is still incomplete.
+- Training payload materialization is still unauthorized.
+- Eight release-policy requirements pass.
+- Two release-policy requirements remain blocking.
+- Zero generated rows are training-grade.
+- Public-safe reporting excludes raw benchmark tasks, raw task IDs, raw rows, raw text, content-prefix hashes, path values, patch content, hidden tests, private identifiers and model outputs.
+- No local model execution is used.
+- No remote inference is required by this gate.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.35 - full public benchmark corpus materialization and contamination scan v1.

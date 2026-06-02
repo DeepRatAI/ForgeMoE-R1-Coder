@@ -1,0 +1,50 @@
+bounded_public_benchmark_snapshot_fingerprinting_v1:
+  name: bounded_public_benchmark_snapshot_fingerprinting_v1
+  step: "29.34"
+  source_step: step29_33_public_benchmark_corpus_scan_license_attestation_v1
+  objectives:
+    - fingerprint_official_public_benchmark_snapshots_under_budget_guardrails
+    - avoid_persisting_raw_public_benchmark_content
+    - compare_internal_train_candidate_hashes_against_public_snapshot_fingerprints
+    - preserve_public_benchmark_reference_only_policy
+    - produce_next_full_corpus_materialization_gate_plan
+  policy:
+    local_model_execution_allowed: false
+    remote_inference_allowed_when_needed: true
+    large_dataset_download_allowed_when_needed_and_cost_bounded: true
+    training_allowed_when_release_gates_pass_and_budget_is_approved: true
+    current_gate_requires_remote_inference: false
+    current_gate_requires_training: false
+    current_gate_downloads_large_dataset: false
+    current_gate_persists_raw_public_benchmark_content: false
+  budget_guardrails:
+    max_metadata_bytes_per_request: 1000000
+    max_content_prefix_bytes_per_file: 32768
+    max_content_files_per_benchmark: 4
+    max_bytes_per_benchmark: 131072
+    max_total_content_bytes: 2000000
+  expected_current_metrics:
+    benchmark_snapshot_count: 12
+    bounded_snapshot_complete_count: 12
+    bounded_snapshot_fingerprinting_complete: true
+    content_prefix_fingerprint_count_minimum: 12
+    successful_content_prefix_fingerprint_count_minimum: 12
+    content_prefix_bytes_persisted: 0
+    public_benchmark_direct_training_allowed_count: 0
+    snapshot_train_candidate_overlap_pair_count: 48
+    exact_public_benchmark_snapshot_collision_count: 0
+    high_public_benchmark_snapshot_similarity_count: 0
+    full_public_benchmark_corpus_scan_complete: false
+    training_payload_materialization_authorized: false
+    training_grade_data_release_allowed: false
+  artifacts:
+    - summary
+    - public_benchmark_snapshot_fingerprints
+    - public_benchmark_content_prefix_fingerprints
+    - benchmark_snapshot_train_candidate_overlap_results
+    - bounded_snapshot_fingerprinting_budget_report
+    - step29_34_training_release_policy_delta
+    - gate_decision
+    - public_safe_report
+    - privacy_report
+  next_step: step29_35_full_public_benchmark_corpus_materialization_and_contamination_scan_v1

@@ -1025,3 +1025,32 @@ Current state:
 Recommended next step:
 
 Step 29.30 - hardened task generation and public benchmark contamination registry.
+
+---
+
+## Step 29.30 Recap - Hardened Task Generation and Public Benchmark Registry v1
+
+ForgeMoE now has a fail-closed public benchmark contamination registry and hardened task-generation blueprint gate.
+
+Current state:
+
+- Public benchmark registry seed entries are marked reference/eval-only and never direct training sources.
+- Current public eval, private heldout, training and bundle references are indexed hash-only.
+- Twelve hardened task blueprints are defined across train, eval, private-heldout and public-eval splits.
+- Hardened blueprints require real temporary Git repos, `git diff`, `git apply --check`, pre-test failure, post-public pass, post-hidden pass and negative oracle checks.
+- No exact collision is present between hardened blueprints and current references.
+- No exact collision is present between hardened blueprints and the benchmark registry.
+- No high-similarity hardened blueprint matches current private/eval references.
+- No high-similarity hardened blueprint matches the public benchmark registry.
+- No high-similarity eval/private blueprint pair is present in the hardened plan.
+- Full public benchmark corpus scanning is not complete.
+- Zero rows are released as training-grade data.
+- No local model execution is used.
+- No remote inference is invoked.
+- No large external dataset is downloaded.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.31 - hardened executable task generator v1.

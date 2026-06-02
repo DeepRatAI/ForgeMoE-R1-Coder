@@ -1,0 +1,41 @@
+hardened_task_generation_public_benchmark_registry_v1:
+  name: hardened_task_generation_public_benchmark_registry_v1
+  step: "29.30"
+  source_step: step29_29_task_family_bundle_oracle_quality_v1
+  objectives:
+    - seed_public_benchmark_contamination_registry
+    - index_current_public_eval_private_and_training_references_hash_only
+    - define_hardened_task_generation_blueprints
+    - block_training_release_until_full_public_benchmark_corpus_scan_is_complete
+  policies:
+    public_benchmarks_are_reference_or_eval_only: true
+    benchmark_content_ingested_by_this_gate: false
+    large_dataset_download_required: false
+    local_model_execution_allowed: false
+    remote_inference_required: false
+    training_launch_allowed: false
+    hidden_or_private_content_export_allowed: false
+  expected_metrics:
+    benchmark_registry_entry_count_min: 10
+    hardened_blueprint_count: 12
+    hardened_train_blueprint_count: 4
+    hardened_eval_blueprint_count: 3
+    hardened_private_heldout_blueprint_count: 3
+    hardened_public_eval_blueprint_count: 2
+    exact_current_reference_collision_count: 0
+    exact_public_benchmark_registry_collision_count: 0
+    high_current_private_or_eval_reference_similarity_count: 0
+    high_public_benchmark_registry_similarity_count: 0
+    hardened_eval_private_high_similarity_pair_count: 0
+    full_public_benchmark_corpus_scan_complete: false
+    training_grade_data_release_allowed: false
+  artifacts:
+    - summary
+    - public_benchmark_registry
+    - current_public_eval_reference_index
+    - hardened_task_blueprints
+    - hardened_generation_similarity_report
+    - benchmark_contamination_gate_decision
+    - public_safe_report
+    - privacy_report
+  next_step: step29_31_hardened_executable_task_generator_v1

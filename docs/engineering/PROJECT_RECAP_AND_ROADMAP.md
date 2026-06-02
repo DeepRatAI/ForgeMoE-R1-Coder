@@ -1110,3 +1110,33 @@ Current state:
 Recommended next step:
 
 Step 29.33 - public benchmark corpus scan and license attestation v1.
+
+---
+
+## Step 29.33 Recap - Public Benchmark Corpus Scan and License Attestation v1
+
+ForgeMoE now has an official-source metadata and license attestation gate for the public benchmark registry.
+
+Current state:
+
+- Twelve benchmark registry entries have official metadata source checks.
+- Public benchmarks remain reference/eval-only and direct-training forbidden.
+- Observed license metadata is recorded from official Hugging Face dataset APIs and GitHub repository license APIs where available.
+- Ambiguous or unresolved dataset-license cases remain reference/eval-only.
+- Forge-native hardened train candidates are attested as internal generated synthetic tasks.
+- The scaffold-only license blocker is resolved for those internal candidates.
+- Full public benchmark corpus snapshotting and fingerprinting is still incomplete.
+- Training payload materialization is still unauthorized.
+- Eight release-policy requirements now pass.
+- Two release-policy requirements remain blocking.
+- Zero generated rows are training-grade.
+- Public-safe reporting excludes raw benchmark tasks, raw task ids, raw rows, patch content, hidden tests, private identifiers and model outputs.
+- No local model execution is used.
+- No remote inference is required by this gate.
+- No large external dataset is downloaded by this gate.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.34 - bounded public benchmark snapshot fingerprinting v1.

@@ -1,0 +1,57 @@
+public_benchmark_corpus_scan_license_attestation_v1:
+  name: public_benchmark_corpus_scan_license_attestation_v1
+  step: "29.33"
+  source_step: step29_32_hardened_oracle_quality_data_release_integration_v1
+  objectives:
+    - verify_official_public_benchmark_metadata_sources
+    - attest_public_benchmark_reference_only_policy
+    - attest_forge_internal_train_candidate_license_basis
+    - keep_public_benchmark_content_out_of_training_payloads
+    - produce_bounded_full_corpus_scan_plan_for_next_step
+  policy:
+    local_model_execution_allowed: false
+    remote_inference_allowed_when_needed: true
+    large_dataset_download_allowed_when_needed_and_cost_bounded: true
+    training_allowed_when_release_gates_pass_and_budget_is_approved: true
+    current_gate_requires_remote_inference: false
+    current_gate_requires_training: false
+    current_gate_requires_large_dataset_download: false
+    current_gate_downloads_raw_public_benchmark_tasks: false
+  official_metadata_sources:
+    - openai/openai_humaneval
+    - google-research-datasets/mbpp
+    - bigcode/bigcodebench
+    - LiveCodeBench/LiveCodeBench
+    - princeton-nlp/SWE-bench
+    - princeton-nlp/SWE-bench_Verified
+    - SWE-bench/SWE-bench_Multimodal
+    - codeparrot/apps
+    - deepmind/code_contests
+    - xlangai/DS-1000
+    - tianyang/repobench_python_v1.1
+    - cruxeval-org/cruxeval
+  expected_current_metrics:
+    benchmark_registry_entry_count: 12
+    metadata_fetch_success_count: 12
+    official_metadata_attestation_complete: true
+    explicit_dataset_license_count_minimum: 8
+    ambiguous_or_unresolved_dataset_license_count: 3
+    license_policy_upgraded_beyond_scaffold_only: true
+    public_benchmark_direct_training_allowed_count: 0
+    full_public_benchmark_corpus_scan_complete: false
+    full_corpus_downloaded_count: 0
+    full_corpus_fingerprinted_count: 0
+    updated_release_policy_passed_requirement_count: 8
+    updated_release_policy_failed_requirement_count: 2
+    training_grade_data_release_allowed: false
+  artifacts:
+    - summary
+    - public_benchmark_source_attestations
+    - benchmark_metadata_train_candidate_scan_results
+    - forge_internal_train_candidate_license_attestation
+    - public_benchmark_full_corpus_scan_plan
+    - step29_33_training_release_policy_delta
+    - gate_decision
+    - public_safe_report
+    - privacy_report
+  next_step: step29_34_bounded_public_benchmark_snapshot_fingerprinting_v1

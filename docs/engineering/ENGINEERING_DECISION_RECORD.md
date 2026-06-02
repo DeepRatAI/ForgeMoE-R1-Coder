@@ -1515,3 +1515,13 @@ Step 29.32 integrates the Step 29.31 hardened executable tasks into the data-rel
 The gate certifies all twelve hardened task oracles with a required oracle strength score of 1.0 and marks the four train-split tasks as oracle-certified train candidates. It also emits an executable training-release policy, split-isolation report, per-task release decisions, public-safe aggregate report and privacy report.
 
 This resolves the hardened-oracle-certification and final-release-policy-integration blockers, but does not promote any data to training-grade. Release remains blocked by incomplete full public benchmark corpus scanning, scaffold-only license policy and unauthorized training payload materialization.
+
+---
+
+## Update - Step 29.33 Public Benchmark Corpus Scan and License Attestation v1
+
+Step 29.33 adds the first official-source public benchmark metadata and license attestation gate.
+
+The gate verifies official metadata for all twelve benchmark registry entries, records observed license evidence, keeps every public benchmark reference/eval-only and direct-training forbidden, and emits a bounded full-corpus snapshot fingerprinting plan for the next step.
+
+For Forge-native hardened train candidates, the gate records an internal generated synthetic-task license attestation: no raw public benchmark content, no external repository snapshot and no private heldout content are used. This resolves the scaffold-only license blocker for those candidates. Training-grade release remains blocked until full public benchmark snapshot fingerprinting and training payload materialization authorization are complete.

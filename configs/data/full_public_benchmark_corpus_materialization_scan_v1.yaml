@@ -1,0 +1,42 @@
+full_public_benchmark_corpus_materialization_scan_v1:
+  name: full_public_benchmark_corpus_materialization_scan_v1
+  step: "29.35"
+  source_step: step29_34_bounded_public_benchmark_snapshot_fingerprinting_v1
+  objectives:
+    - stream_and_hash_full_official_public_benchmark_corpora
+    - persist_hashes_and_manifests_only
+    - compare_train_candidate_hashes_against_full_public_corpus_hashes
+    - resolve_full_public_benchmark_corpus_scan_blocker_when_complete
+    - keep_training_payload_materialization_blocked_until_explicit_authorization
+  budget_guardrails:
+    max_metadata_bytes_per_request: 5000000
+    max_total_stream_bytes: 15000000000
+    persist_raw_public_benchmark_content: false
+  policy:
+    local_model_execution_allowed: false
+    remote_inference_allowed_when_needed: true
+    large_dataset_download_allowed_when_needed_and_cost_bounded: true
+    training_allowed_when_release_gates_pass_and_budget_is_approved: true
+    current_gate_streams_large_public_benchmark_content: true
+    current_gate_persists_raw_public_benchmark_content: false
+    current_gate_launches_training: false
+  expected_current_metrics:
+    benchmark_registry_entry_count: 12
+    benchmark_complete_scan_count: 12
+    full_public_benchmark_corpus_scan_complete: true
+    content_bytes_persisted: 0
+    exact_full_public_benchmark_corpus_collision_count: 0
+    updated_release_policy_passed_requirement_count: 7
+    updated_release_policy_failed_requirement_count: 1
+    training_grade_data_release_allowed: false
+  artifacts:
+    - summary
+    - source_manifest
+    - file_fingerprints
+    - overlap_results
+    - budget_report
+    - step29_35_training_release_policy_delta
+    - gate_decision
+    - public_safe_report
+    - privacy_report
+  next_step: step29_36_training_payload_materialization_authorization_v1

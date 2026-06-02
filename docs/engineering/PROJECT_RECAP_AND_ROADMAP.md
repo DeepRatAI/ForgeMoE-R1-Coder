@@ -1172,3 +1172,33 @@ Current state:
 Recommended next step:
 
 Step 29.35 - full public benchmark corpus materialization and contamination scan v1.
+
+---
+
+## Step 29.35 Recap - Full Public Benchmark Corpus Materialization Scan v1
+
+ForgeMoE now has a full public benchmark corpus materialization scan.
+
+Current state:
+
+- Official Hugging Face dataset files and GitHub repository blobs are enumerated for the twelve public benchmark registry entries.
+- The scan hashes 2,328 enumerated official source files.
+- The observed full-corpus byte total is 9,679,147,849 bytes.
+- The full public benchmark corpus is streamed and hashed under an explicit byte budget.
+- Raw public benchmark content is not persisted.
+- Hash-only fingerprints are cached locally for repeatable post-commit doctors.
+- Forge-native train candidate hashes are compared against the full public benchmark corpus fingerprint set.
+- Zero exact full-corpus public benchmark collisions are observed.
+- The full public benchmark corpus scan blocker is resolved when the gate passes.
+- Training payload materialization is still unauthorized.
+- Seven release-policy requirements pass.
+- One release-policy requirement remains blocking.
+- Zero generated rows are training-grade.
+- No local model execution is used.
+- No remote inference is required by this gate.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.36 - training payload materialization authorization v1.

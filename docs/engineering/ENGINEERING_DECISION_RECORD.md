@@ -1535,3 +1535,13 @@ Step 29.34 adds bounded content-aware fingerprinting for the public benchmark re
 The gate refreshes official Hugging Face and GitHub source metadata, fingerprints dataset revisions, dataset file manifests, GitHub repository trees and capped content prefixes from selected official files. It stores only hashes and aggregate metadata; raw public benchmark file bodies are not persisted.
 
 The gate compares Forge-native oracle-certified train candidates against the public snapshot fingerprint set and observes zero exact hash collisions and zero high-similarity matches. Training-grade release remains blocked until full public benchmark corpus materialization/contamination scanning and training payload materialization authorization are complete.
+
+---
+
+## Update - Step 29.35 Full Public Benchmark Corpus Materialization Scan v1
+
+Step 29.35 streams and hashes the full official public benchmark corpora tracked by the public benchmark registry.
+
+The gate enumerates Hugging Face dataset files and GitHub repository blobs, streams their bytes under an explicit total-byte budget, computes full-file fingerprints and persists only hash/manifests. Raw public benchmark content remains outside ForgeMoE training payloads.
+
+The gate compares Forge-native oracle-certified train candidates against the full public benchmark corpus fingerprint set and observes zero exact collisions. This resolves the full public benchmark corpus scan blocker when every enumerated official source file hashes successfully. Training-grade release remains blocked until training payload materialization is explicitly authorized.

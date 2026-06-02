@@ -1505,3 +1505,13 @@ Step 29.31 instantiates the Step 29.30 hardened blueprints as executable tempora
 The generator creates twelve deterministic multi-file tasks across train, eval, private-heldout and public-eval splits. Each task emits patches from real temporary Git repositories using `git diff`, validates them with `git apply --check` and proves pre-public failure plus post-public and post-hidden success for the golden patch.
 
 The gate also verifies rejected, public-overfit, wrong-file and semantic-noop negative patches for every task. Training-grade release remains blocked until full public benchmark corpus scanning, upgraded license policy, hardened oracle-quality integration and final release policy are complete.
+
+---
+
+## Update - Step 29.32 Hardened Oracle Quality and Data Release Integration v1
+
+Step 29.32 integrates the Step 29.31 hardened executable tasks into the data-release gate.
+
+The gate certifies all twelve hardened task oracles with a required oracle strength score of 1.0 and marks the four train-split tasks as oracle-certified train candidates. It also emits an executable training-release policy, split-isolation report, per-task release decisions, public-safe aggregate report and privacy report.
+
+This resolves the hardened-oracle-certification and final-release-policy-integration blockers, but does not promote any data to training-grade. Release remains blocked by incomplete full public benchmark corpus scanning, scaffold-only license policy and unauthorized training payload materialization.

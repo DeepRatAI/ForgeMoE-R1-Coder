@@ -1,0 +1,56 @@
+hardened_oracle_quality_data_release_integration_v1:
+  name: hardened_oracle_quality_data_release_integration_v1
+  step: "29.32"
+  source_step: step29_31_hardened_executable_task_generator_v1
+  objectives:
+    - certify_all_hardened_executable_task_oracles
+    - integrate_hardened_tasks_into_data_release_policy
+    - separate_oracle_certified_train_candidates_from_training_grade_release
+    - resolve_hardened_oracle_certification_and_final_policy_integration_blockers
+    - keep_public_reporting_aggregate_and_hash_only
+  policy:
+    local_model_execution_allowed: false
+    remote_inference_allowed_when_needed: true
+    training_allowed_when_release_gates_pass_and_budget_is_approved: true
+    large_dataset_download_allowed_when_needed_and_cost_bounded: true
+    current_gate_requires_remote_inference: false
+    current_gate_requires_training: false
+    current_gate_requires_large_dataset_download: false
+  oracle_thresholds:
+    minimum_oracle_strength_score: 1.0
+    required_challenges:
+      - golden
+      - rejected
+      - public_overfit
+      - wrong_file
+      - semantic_noop
+  release_requirements:
+    - hardened_executable_tasks_verified
+    - train_split_oracle_certified
+    - train_split_isolated_from_eval_private_public_eval
+    - no_exact_current_reference_collision
+    - no_high_current_private_or_eval_reference_similarity
+    - no_exact_public_benchmark_registry_collision
+    - full_public_benchmark_corpus_scan_complete
+    - license_policy_upgraded_beyond_scaffold_only
+    - training_payload_materialization_authorized
+  expected_current_metrics:
+    task_count: 12
+    oracle_certified_task_count: 12
+    train_oracle_certified_task_count: 4
+    oracle_certified_train_candidate_count: 4
+    training_grade_candidate_after_step29_32_count: 0
+    release_policy_passed_requirement_count: 6
+    release_policy_failed_requirement_count: 3
+    training_grade_data_release_allowed: false
+  artifacts:
+    - summary
+    - hardened_oracle_quality_certifications
+    - hardened_data_release_decisions
+    - hardened_split_isolation_report
+    - hardened_training_release_policy
+    - hardened_oracle_quality_report
+    - hardened_oracle_quality_data_release_gate_decision
+    - public_safe_report
+    - privacy_report
+  next_step: step29_33_public_benchmark_corpus_scan_and_license_attestation_v1

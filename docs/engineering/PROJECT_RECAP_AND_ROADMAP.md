@@ -1083,3 +1083,30 @@ Current state:
 Recommended next step:
 
 Step 29.32 - hardened oracle quality and data release integration v1.
+
+---
+
+## Step 29.32 Recap - Hardened Oracle Quality and Data Release Integration v1
+
+ForgeMoE now has an executable release-policy integration gate for the hardened task generator.
+
+Current state:
+
+- Twelve hardened executable tasks are oracle certified.
+- Four train split tasks are oracle-certified train candidates.
+- Eval, private-heldout and public-eval tasks are explicitly marked never-train references.
+- The train split has zero task-hash overlap with eval, private-heldout and public-eval splits.
+- The release policy is integrated and auditable.
+- Six release requirements currently pass.
+- Three release requirements remain blocking: full public benchmark corpus scanning, upgraded license/provenance policy and training payload materialization authorization.
+- Zero generated rows are training-grade.
+- Public-safe reporting excludes raw task IDs, raw rows, patch content, hidden tests, private identifiers and model outputs.
+- No local model execution is used.
+- No remote inference is required by this gate.
+- No large external dataset is downloaded by this gate.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.33 - public benchmark corpus scan and license attestation v1.

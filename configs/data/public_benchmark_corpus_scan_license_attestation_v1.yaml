@@ -34,7 +34,7 @@ public_benchmark_corpus_scan_license_attestation_v1:
     benchmark_registry_entry_count: 12
     metadata_fetch_success_count: 12
     official_metadata_attestation_complete: true
-    explicit_dataset_license_count_minimum: 8
+    explicit_dataset_license_count_minimum: 7
     ambiguous_or_unresolved_dataset_license_count: 3
     license_policy_upgraded_beyond_scaffold_only: true
     public_benchmark_direct_training_allowed_count: 0

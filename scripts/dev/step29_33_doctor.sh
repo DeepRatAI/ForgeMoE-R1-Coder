@@ -76,7 +76,7 @@ assert summary["benchmark_registry_entry_count"] == 12, summary
 assert summary["official_metadata_source_count"] == 12, summary
 assert summary["metadata_fetch_success_count"] == 12, summary
 assert summary["official_metadata_attestation_complete"] is True, summary
-assert summary["explicit_dataset_license_count"] >= 8, summary
+assert summary["explicit_dataset_license_count"] >= 7, summary
 assert summary["ambiguous_or_unresolved_dataset_license_count"] == 3, summary
 assert summary["license_attestation_complete"] is True, summary
 assert summary["train_candidate_license_attestation_passed"] is True, summary

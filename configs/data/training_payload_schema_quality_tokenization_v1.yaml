@@ -1,0 +1,36 @@
+training_payload_schema_quality_tokenization_v1:
+  name: training_payload_schema_quality_tokenization_v1
+  step: "29.37"
+  source_step: step29_36_training_payload_materialization_authorization_v1
+  objectives:
+    - validate_patch_sft_training_payload_schema
+    - validate_payload_hashes_and_manifest_consistency
+    - validate_hidden_tests_and_negative_patches_remain_excluded
+    - render_canonical_sft_training_text
+    - estimate_token_budget_with_deterministic_conservative_proxy
+    - decide_training_readiness_fail_closed
+  tokenizer_policy:
+    preferred_model_family: qwen_coder
+    preferred_tokenizer_model_id: Qwen/Qwen2.5-Coder-0.5B-Instruct
+    model_specific_tokenizer_required_before_training_launch: true
+    fallback_estimator_allowed_for_schema_gate: true
+    fallback_estimator: max(regex_code_token_count, ceil(character_count / 3))
+  sequence_policy:
+    proxy_max_sequence_length: 4096
+    require_no_proxy_truncation: true
+    require_non_empty_prompt: true
+    require_non_empty_target_patch: true
+  expected_current_metrics:
+    source_payload_row_count: 4
+    schema_valid_row_count: 4
+    manifest_consistent_row_count: 4
+    token_budget_proxy_pass_count: 4
+    would_truncate_proxy_count: 0
+    hidden_test_content_leak_count: 0
+    negative_patch_content_leak_count: 0
+    training_payload_schema_quality_passed: true
+    token_budget_proxy_gate_passed: true
+    model_specific_tokenizer_validation_passed: false
+    training_launch_allowed: false
+    model_release_allowed: false
+  next_step: step29_38_model_specific_tokenizer_selection_and_remote_training_cost_gate_v1

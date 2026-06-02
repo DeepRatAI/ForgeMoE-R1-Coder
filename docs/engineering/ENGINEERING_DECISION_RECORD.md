@@ -1555,3 +1555,13 @@ Step 29.36 authorizes and materializes the first Forge-native training-grade pat
 The gate admits only internally generated, oracle-certified train split tasks after full public benchmark corpus scanning and license/provenance attestation have passed. It exports repo-before files, public tests, task instructions and target git diff patches for training, while excluding hidden tests, negative patches, eval tasks, private-heldout tasks and public-eval tasks from the payload.
 
 Training-grade data release becomes true for the four authorized Forge-native train payload rows. Training execution, candidate evaluation and model release remain separate auditable gates.
+
+---
+
+## Update - Step 29.37 Training Payload Schema Quality and Tokenization Gate v1
+
+Step 29.37 validates the authorized Step 29.36 patch SFT payload before any training job can consume it.
+
+The gate validates row schema, payload hashes, manifest consistency, hidden-test exclusion, negative-patch exclusion and canonical SFT rendering. It also computes deterministic conservative token-budget estimates with `max(regex_code_token_count, ceil(character_count / 3))` against a 4096-token proxy sequence limit.
+
+All four authorized train payload rows pass schema quality and proxy token-budget checks with zero proxy truncation. Because this host does not provide a model-specific tokenizer stack and local model execution is not part of the operating plan, model-specific tokenizer validation remains a separate fail-closed gate. Training launch and model release remain false until that gate passes.

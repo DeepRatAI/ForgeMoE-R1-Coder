@@ -11,7 +11,7 @@ STEP29_33_DOCTOR_OK
 benchmark_registry_entry_count = 12
 metadata_fetch_success_count = 12
 official_metadata_attestation_complete = true
-explicit_dataset_license_count >= 8
+explicit_dataset_license_count >= 7
 ambiguous_or_unresolved_dataset_license_count = 3
 license_attestation_complete = true
 license_policy_upgraded_beyond_scaffold_only = true

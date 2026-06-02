@@ -1233,3 +1233,36 @@ Current state:
 Recommended next step:
 
 Step 29.37 - training payload schema quality and tokenization gate v1.
+
+---
+
+## Step 29.37 Recap - Training Payload Schema Quality and Tokenization Gate v1
+
+ForgeMoE now has an executable schema-quality and token-budget gate for the first authorized patch SFT payload.
+
+Current state:
+
+- Four Step 29.36 patch SFT training payload rows are validated.
+- Four rows pass JSON schema validation.
+- Four rows pass payload hash and manifest consistency checks.
+- Four rows pass repo-file and public-test content hash checks.
+- Four rows are rendered into canonical SFT training text.
+- The rendered training text remains in a training artifact, not in the public-safe report.
+- Hidden tests remain excluded from training payload rows and rendered payload rows.
+- Negative patches remain excluded from training payload rows and rendered payload rows.
+- Eval, private-heldout and public-eval rows remain excluded from training.
+- Deterministic proxy token estimates are computed for every row.
+- Zero rows would truncate under the 4096-token proxy sequence limit.
+- The training payload schema-quality gate passes.
+- The deterministic proxy token-budget gate passes.
+- Model-specific tokenizer validation is not yet complete.
+- Training payload is ready for the model-specific tokenizer gate.
+- Training launch remains false.
+- Model release remains false.
+- No local model execution is used.
+- No remote inference is required by this gate.
+- No training job is launched by this gate.
+
+Recommended next step:
+
+Step 29.38 - model-specific tokenizer selection and remote training cost gate v1.

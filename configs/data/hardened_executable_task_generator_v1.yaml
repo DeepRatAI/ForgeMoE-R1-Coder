@@ -1,0 +1,46 @@
+hardened_executable_task_generator_v1:
+  name: hardened_executable_task_generator_v1
+  step: "29.31"
+  source_step: step29_30_hardened_task_generation_public_benchmark_registry_v1
+  objectives:
+    - instantiate_all_step29_30_hardened_blueprints_as_executable_tasks
+    - generate_git_diff_patches_from_real_temporary_git_repositories
+    - verify_pre_public_fail_and_post_public_hidden_pass
+    - verify_rejected_public_overfit_wrong_file_and_semantic_noop_negatives
+  policies:
+    local_model_execution_allowed: false
+    remote_inference_required: false
+    training_launch_allowed: false
+    large_dataset_download_required: false
+    training_grade_data_release_allowed: false
+    public_safe_reports_must_exclude_raw_tasks_patches_hidden_tests_and_private_ids: true
+  expected_metrics:
+    task_count: 12
+    verified_task_count: 12
+    train_task_count: 4
+    eval_task_count: 3
+    private_heldout_task_count: 3
+    public_eval_task_count: 2
+    challenge_result_count: 60
+    patch_build_temp_git_repo_count: 60
+    verification_temp_git_repo_count: 60
+    multi_file_task_count: 12
+    pre_public_fail_count: 12
+    git_apply_check_pass_count: 12
+    post_public_pass_count: 12
+    post_hidden_pass_count: 12
+    public_overfit_hidden_catch_count: 12
+    wrong_file_negative_fail_count: 12
+    semantic_noop_negative_fail_count: 12
+    training_grade_candidate_count: 0
+  artifacts:
+    - summary
+    - task_results
+    - patch_challenge_results
+    - hardened_executable_task_manifest
+    - patch_sft_train_scaffold_manifest
+    - gate_decision
+    - public_safe_report
+    - privacy_report
+    - task_directories
+  next_step: step29_32_hardened_oracle_quality_and_data_release_integration_v1

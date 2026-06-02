@@ -1495,3 +1495,13 @@ The gate seeds a registry of public benchmark families as reference/eval-only, i
 The hardened blueprint set has zero exact collisions with current references or registry entries, zero high-similarity matches against current private/eval references, zero high-similarity matches against the public benchmark registry and zero high-similarity eval/private blueprint pairs.
 
 Training-grade release remains blocked because full public benchmark corpora have not been downloaded and scanned, license policy is still scaffold-only, executable hardened task repositories have not been generated yet and final release policy is not integrated.
+
+---
+
+## Update - Step 29.31 Hardened Executable Task Generator v1
+
+Step 29.31 instantiates the Step 29.30 hardened blueprints as executable temporary-repository tasks.
+
+The generator creates twelve deterministic multi-file tasks across train, eval, private-heldout and public-eval splits. Each task emits patches from real temporary Git repositories using `git diff`, validates them with `git apply --check` and proves pre-public failure plus post-public and post-hidden success for the golden patch.
+
+The gate also verifies rejected, public-overfit, wrong-file and semantic-noop negative patches for every task. Training-grade release remains blocked until full public benchmark corpus scanning, upgraded license policy, hardened oracle-quality integration and final release policy are complete.

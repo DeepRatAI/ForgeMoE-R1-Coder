@@ -1054,3 +1054,32 @@ Current state:
 Recommended next step:
 
 Step 29.31 - hardened executable task generator v1.
+
+---
+
+## Step 29.31 Recap - Hardened Executable Task Generator v1
+
+ForgeMoE now has a deterministic hardened executable task generator.
+
+Current state:
+
+- Twelve Step 29.30 blueprints are instantiated as executable tasks.
+- Split coverage is four train, three eval, three private-heldout and two public-eval tasks.
+- Every generated task uses a real temporary Git repository.
+- Every golden patch is emitted with `git diff`.
+- Every golden patch passes `git apply --check`.
+- Every task fails public tests before the patch.
+- Every golden patch passes public and hidden tests after application.
+- Every golden patch edits multiple files.
+- Rejected, public-overfit, wrong-file and semantic-noop negatives are verified for every task.
+- Public-safe reporting excludes raw task IDs, raw rows, patch content, hidden tests, private identifiers and model outputs.
+- Zero generated rows are training-grade.
+- No local model execution is used.
+- No remote inference is invoked.
+- No large external dataset is downloaded.
+- No training job is launched.
+- No model release is allowed.
+
+Recommended next step:
+
+Step 29.32 - hardened oracle quality and data release integration v1.

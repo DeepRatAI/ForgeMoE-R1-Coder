@@ -1545,3 +1545,13 @@ Step 29.35 streams and hashes the full official public benchmark corpora tracked
 The gate enumerates Hugging Face dataset files and GitHub repository blobs, streams their bytes under an explicit total-byte budget, computes full-file fingerprints and persists only hash/manifests. Raw public benchmark content remains outside ForgeMoE training payloads.
 
 The gate compares Forge-native oracle-certified train candidates against the full public benchmark corpus fingerprint set and observes zero exact collisions. This resolves the full public benchmark corpus scan blocker when every enumerated official source file hashes successfully. Training-grade release remains blocked until training payload materialization is explicitly authorized.
+
+---
+
+## Update - Step 29.36 Training Payload Materialization Authorization v1
+
+Step 29.36 authorizes and materializes the first Forge-native training-grade patch SFT payload.
+
+The gate admits only internally generated, oracle-certified train split tasks after full public benchmark corpus scanning and license/provenance attestation have passed. It exports repo-before files, public tests, task instructions and target git diff patches for training, while excluding hidden tests, negative patches, eval tasks, private-heldout tasks and public-eval tasks from the payload.
+
+Training-grade data release becomes true for the four authorized Forge-native train payload rows. Training execution, candidate evaluation and model release remain separate auditable gates.

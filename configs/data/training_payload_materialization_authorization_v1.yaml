@@ -1,0 +1,39 @@
+training_payload_materialization_authorization_v1:
+  name: training_payload_materialization_authorization_v1
+  step: "29.36"
+  source_step: step29_35_full_public_benchmark_corpus_materialization_scan_v1
+  objectives:
+    - authorize_forge_internal_oracle_certified_train_candidates
+    - materialize_patch_sft_payload_rows
+    - exclude_eval_private_heldout_and_public_eval_rows_from_training
+    - exclude_hidden_tests_and_negative_patches_from_training_payload
+    - preserve_hidden_tests_as_validation_only_evidence
+    - keep_training_execution_and_model_release_as_separate_gates
+  policy:
+    local_model_execution_allowed: false
+    remote_inference_allowed_when_needed: true
+    training_payload_materialization_allowed: true
+    training_execution_allowed_when_training_gate_and_budget_pass: true
+    model_release_allowed_only_after_candidate_eval_and_heldout_gates: true
+  payload:
+    format: patch_sft_messages_jsonl
+    training_split: train
+    authorized_train_payload_row_count: 4
+    include_repo_before_files: true
+    include_public_tests: true
+    include_target_git_diff_patch: true
+    include_hidden_tests: false
+    include_negative_patches: false
+    include_eval_private_or_public_eval_rows: false
+  expected_current_metrics:
+    authorized_train_candidate_count: 4
+    materialized_training_payload_row_count: 4
+    excluded_non_train_task_count: 8
+    payload_hidden_test_export_count: 0
+    payload_negative_patch_export_count: 0
+    payload_validation_pass_count: 4
+    training_payload_materialization_authorized: true
+    training_grade_data_release_allowed: true
+    training_launch_allowed: false
+    model_release_allowed: false
+  next_step: step29_37_training_payload_schema_quality_and_tokenization_gate_v1

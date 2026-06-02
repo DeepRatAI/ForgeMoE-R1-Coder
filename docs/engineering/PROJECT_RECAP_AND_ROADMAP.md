@@ -1202,3 +1202,34 @@ Current state:
 Recommended next step:
 
 Step 29.36 - training payload materialization authorization v1.
+
+---
+
+## Step 29.36 Recap - Training Payload Materialization Authorization v1
+
+ForgeMoE now has a first authorized Forge-native training-grade patch SFT payload.
+
+Current state:
+
+- Four oracle-certified train candidates are authorized for payload materialization.
+- Four patch SFT training payload rows are materialized.
+- Eight non-train tasks are excluded from training payload materialization.
+- Eval, private-heldout and public-eval rows are not exported into training.
+- Hidden tests remain validation-only evidence and are not exported into training rows.
+- Negative patches are not exported into training rows.
+- Each materialized row is validated in a real temporary Git repository.
+- Each materialized target patch passes `git apply --check`.
+- Each materialized row fails public tests before the patch.
+- Each materialized row passes public tests after the patch.
+- Each materialized row passes hidden tests after the patch, with hidden content withheld from the training payload.
+- Training payload materialization is authorized.
+- Training-grade data release is allowed for these four rows.
+- Training launch remains a separate gate.
+- Model release remains a separate gate.
+- No local model execution is used.
+- No remote inference is required by this gate.
+- No training job is launched by this gate.
+
+Recommended next step:
+
+Step 29.37 - training payload schema quality and tokenization gate v1.
